@@ -618,19 +618,20 @@ cursed = {
         # these are copied from normal. need to be edited for cursed still
             "food":"""
     You lean in to one of the platters and take a deep whiff...
-    You detect notes of rotting fruits and meats.
+    The smell of the rotting food entices you as if it were a free breakfast buffet.
             """,
             "tables":"""
-
+    The smell of rot and death fills your nostrils.
+    Your stomach growls...
+    WHy did you ever used to think this was bad?
             """,
             "tome":"""
-    It smells like death.
-    You reflexively gag and recoil away.
+    It smells just like you.
             """,
             "door1":"""
     The air wafting through the door smells like static electricity and ozone.
     The hair stands up on the back of your neck.
-    You're not sure what that means...
+    It feels powerful...
             """,
             "door2":"""
     That doesn't smell like anything.
@@ -640,7 +641,8 @@ cursed = {
             """,
             "other":"""
     You take a few good whiffs...
-    The coppery scent of BLOOD hits your nostrils, followed by the smell of rotten FOOD.
+    The coppery scent of BLOOD hits your nostrils, overwhelming all else.
+    If only it was fresher...
             """
         },
         "look": {
