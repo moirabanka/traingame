@@ -24,39 +24,53 @@ import json
 #        sys.stdout.flush()
 #        time.sleep(delay)
 
-#this function handles starting a new game,
+# this function handles starting the game, and checks if you want to load a save
 def start_game():
-    from narration import help_text
+    from narration import main_menu, help_text, intro, load_prompt, name_load_prompt, loaded_character, identity
+    global name, status, background, location
     #eventually replace all instances of print with the speak() function
-    print(help_text)
-    saveload = input('\nWould you like to load a saved character? (y/n)\n')
-    if 'y' in saveload:
-        premade_character = input('\nEnter the name of the character to be loaded\n > ') + '.json'
-        load_character(premade_character)
-    else:
-        create_character()
+    menu_action = input(main_menu)
+    match menu_action:
+        case '1' | 'n' | 'new game':
+            create_character()
+            print(help_text)
+            print(identity.format(name, status, background))
+            print(intro.format(name))
+            start_turn()
+        case '2' | 'l' | 'load game':
+            filename = input(name_load_prompt) + '.json'
+            load_character(filename)
+            print(loaded_character.format(name, status, background, location))
+            start_turn()
+        case '3' | 'q' | 'quit game':
+            exit()
         
 
 def create_character():
-    from narration import backgrounds, background_info
+    from narration import backgrounds, background_info, name_prompt, background_prompt
     global name, background, filename
-    name = input("\nEnter your character's name\n > name: ")
+
+    # choosing your character's name and background
+    name = input(name_prompt)
     background = None
+    print(backgrounds)
     while background is None:
-        print(backgrounds)
-        background_choice = input("\nChoose your character's background.\nFor more detail, type 'info'\n > background: ")
-        if '1' in background_choice:
-            background = 'malcontent'
-        elif '2' in background_choice:
-            background = 'utilitarian'
-        elif '3' in background_choice:
-            background = 'gourmond'
-        elif '4' in background_choice:
-            background = 'reactionary'
-        elif 'info' in background_choice:
-            print(background_info)
-        else:
-            print('please try again')
+        background_choice = input(background_prompt)
+        match background_choice:
+            case '1' | 'malcontent':
+                background = 'malcontent'
+            case '2' | 'utilitarian':
+                background = 'utilitarian'
+            case '3' | 'gourmond':
+                background = 'gourmond'
+            case '4' | 'reactionary':
+                background = 'reactionary'
+            case 'info':
+                print(background_info)
+            case _:
+                print('\nplease try again')
+
+    # assembling a library of initial character data and dumping it to a .json file
     filename = name + '.json'
     character_info = {'name': name, 
                       'background': background, 
@@ -73,11 +87,14 @@ def create_character():
                       'anticipation': 0}
     with open(filename, 'w') as character_file:
         json.dump(character_info, character_file, indent=4)
+
+    # loading the newly made save file into global variables and returning to the start_game() function
     load_character(filename)
 
 
+# this function is now configured to ONLY load the character's saved state into global variables
+# this no longer starts the game
 def load_character(file):
-    from narration import loaded_character
     global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation
     with open(file) as character_file:
         character_data = json.load(character_file)
@@ -94,8 +111,7 @@ def load_character(file):
         disgust = character_data['disgust']
         anger = character_data['anger']
         anticipation = character_data['anticipation']
-        print(loaded_character.format(name, status, background, location))
-        start_turn()
+        
 
 
 def save_game():
@@ -118,18 +134,34 @@ def save_game():
 
 def emotion_change(emotion, value):
     global joy, trust, fear, surprise, sadness, disgust, anger, anticipation
+    match emotion:
+        case 'joy':
+            joy = joy + value
+        case 'trust':
+            trust = trust + value
+        case 'fear':
+            fear = fear + value
+        case 'surprise':
+            surprise = surprise + value
+        case 'sadness':
+            sadness = sadness + value
+        case 'disgust':
+            disgust = disgust + value
+        case 'anger':
+            anger = anger + value
+        case 'anticipation':
+            anticipation = anticipation + value
+    
+
+
 
 
 def acquire(item):
-    placeholder = True
+    from narration import item_acquired
+    inventory.append(item)
+    print(item_acquired)
 
 
-
-    
-    
-
-        
-    
 
 
 def start_turn():

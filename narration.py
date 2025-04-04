@@ -1,5 +1,43 @@
+main_menu = r"""
 
 
+                  Welcome to...
+
+      ______    _____    ______    ______
+     / /  \_\  / / \ \  | |__) \  | |__) \
+    ( (  ____ ( (   ) ) |  _  _/  |  ____/
+     \ \__/ /  \ \_/ /  | | \ \   | |
+      \____/    \___/   |_|  \_\  |_|
+
+      
+       1) New game
+       2) Load game
+       3) Quit
+
+> """
+
+
+load_prompt = """
+    Would you like to load a saved character? (y/n)
+
+> """
+
+name_load_prompt = """
+    Enter the name of the character to be loaded.
+
+> """
+
+
+name_prompt = """
+    Enter your character's name.
+
+> """
+
+background_prompt = """
+    Choose your character's background.
+    For more detail, type 'info'
+
+> """
 help_text = """
 ------------------------------------------------
 Call on your character's five senses to help you understand the environment!
@@ -21,6 +59,9 @@ Good luck!
 ------------------------------------------------
 
 """
+identity = """
+    You are playing as {}, a {} {}.
+"""
 
 intro = """
     {} is standing in a darkened train car.
@@ -29,10 +70,10 @@ intro = """
 """
 
 backgrounds = """
-1) Malcontent
-2) Utilitarian
-3) Gourmond
-4) Reactionary
+    1) Malcontent
+    2) Utilitarian
+    3) Gourmond
+    4) Reactionary
 """
 
 background_info = """
@@ -41,6 +82,10 @@ INSERT DETAIL ON BACKGROUNDS HERE
 
 loaded_character = """
     {} is a {} {}, currently located in the {}.
+"""
+
+item_acquired = """
+    {} pockets {}
 """
 
 
@@ -67,12 +112,12 @@ state_change = {
 }
 
 valid_targets = {
-    'car1': ['switch', 'light switch', 'blood', 'food', 'tables', 'tome', 'door1', 'door2', 'window', 'other']
+    'dining_car': ['switch', 'light switch', 'blood', 'food', 'tables', 'tome', 'door1', 'door2', 'window', 'other']
     }
 
 
 normal = {
-    "car1": {
+    "dining car": {
         "touch": {
             "switch":"""
     You find a LIGHT SWITCH!
@@ -335,7 +380,7 @@ wizard = {
         
         }
     },
-    "car1": {
+    "dining car": {
         "touch": {
             "switch":"""
     {} has no need for such contrivances of simpler beings.
@@ -573,7 +618,7 @@ cursed = {
         
         }
     },
-    "car1": {
+    "dining car": {
         "touch": {
             'other':"""
     You try to touch the {}, but your hands are still frozen to the tome!
