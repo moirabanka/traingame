@@ -39,13 +39,10 @@ background_info = """
 INSERT DETAIL ON BACKGROUNDS HERE
 """
 
-savegame_format = """
-{}
-{}
-{}
-{}
-{}
+loaded_character = """
+    {} is a {} {}, currently located in the {}.
 """
+
 
 error = "\nInvalid entry! please try again.\n"
 

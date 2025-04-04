@@ -1,3 +1,7 @@
+Game presentation
+- [ ] main menu
+    should be able to choose whether to start a new game, load a save, or quit. Ideally, should also have a way to delete characters and a developer menu with commands that can help debug the game
+
 Zones
 - [ ] Car 0 (caboose): locked car with secrets
 - [ ] Car 1: murder mystery dining car
