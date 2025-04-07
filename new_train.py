@@ -15,7 +15,7 @@ from sys import exit
 # function for starting the game
 # resets status, location, and name, and prints all introductory and help texts
 def start():
-    from narration import help_text, intro
+    from game_data import help_text, intro
     print(help_text)
     global status, name
     status = 'normal'
@@ -27,7 +27,7 @@ def start():
 # displays a given reason for death, the game over text, and asks if the player would like to try again
 # if they do, run the start function. if they don't, exit the program without indicating an error
 def die(why):
-    from narration import game_over, error
+    from game_data import game_over, error
     print(why)
     print(game_over[0].format(name))
     while True:
@@ -53,7 +53,7 @@ def state_checker(checked_state, active_state, inactive_state):
 def command_checker(checked_command):
     valid_commands = ['touch', 'taste', 'sniff', 'look', 'listen', 'go']
     if checked_command not in valid_commands:
-        from narration import error
+        from game_data import error
         print(error)
         return False
     else:
@@ -61,10 +61,10 @@ def command_checker(checked_command):
 
 # function for checking if a target is valid
 def target_checker(checked_target):
-    from narration import valid_targets
+    from game_data import valid_targets
     local_targets = valid_targets[location]
     if checked_target not in local_targets:
-        from narration import error
+        from game_data import error
         print(error)
         return False
     else:
@@ -78,7 +78,7 @@ def interpreter():
 
 # function for interactions with targets with single outcomes
 def simple_narrate(command, target):
-    from narration import normal, wizard, cursed
+    from game_data import normal, wizard, cursed
     global location, name
     if status == 'normal':
         print(normal[location][command][target])
@@ -94,7 +94,7 @@ def simple_narrate(command, target):
 
 # function for governing interactions with targets that have multiple outcomes
 def conditional_narrate(command, target, condition):
-    from narration import normal, wizard, cursed
+    from game_data import normal, wizard, cursed
     global location, name
     if status == 'normal':
         print(normal[location][command][target][condition])
@@ -185,7 +185,7 @@ def car1():
                 status = 'cursed'
                 continue
         elif command == 'touch' and status == 'cursed':
-            from narration import cursed
+            from game_data import cursed
             print(cursed['car1']['touch']['other'].format(target))
             continue
 

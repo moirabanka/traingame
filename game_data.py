@@ -16,6 +16,19 @@ main_menu = r"""
 
 > """
 
+invalid_command= """
+    This is not a recognized command.
+"""
+
+invalid_target= """
+    This is not a valid target.
+"""
+
+too_many_words = """
+    Your command has too many terms!
+    A valid command should only have two terms.
+    E.G: 'sniff glue' or 'get item'
+"""
 
 load_prompt = """
     Would you like to load a saved character? (y/n)
@@ -38,6 +51,8 @@ background_prompt = """
     For more detail, type 'info'
 
 > """
+
+# needs to be updated!
 help_text = """
 ------------------------------------------------
 Call on your character's five senses to help you understand the environment!
@@ -51,7 +66,7 @@ if you don't want to interact with a specific thing, just press RETURN.
 However, keep in mind that it may affect your character.
 You may not always like what you find...
 
-To move between areas, simply type the  of the exit you wish to use.
+To move between areas, simply type the name of the exit you wish to use.
 
 There are also other hidden commands...
 
@@ -59,6 +74,10 @@ Good luck!
 ------------------------------------------------
 
 """
+
+prompt = """
+> """
+
 identity = """
     You are playing as {}, a {} {}.
 """
@@ -84,9 +103,23 @@ loaded_character = """
     {} is a {} {}, currently located in the {}.
 """
 
-item_acquired = """
-    {} pockets {}
+stat_changed = """
+    {} {} to {} 
 """
+
+item_acquired = """
+    You pocket the {}
+"""
+
+item_expended = """
+    {} removed from inventory
+"""
+
+valid_commands = ['touch', 'taste', 'sniff', 'look', 'listen', 'go', 'remember']
+
+default_worldstate = {
+    'dining_car': 'dark'
+}
 
 
 error = "\nInvalid entry! please try again.\n"
@@ -111,9 +144,567 @@ state_change = {
 """
 }
 
+# should be changed to:
+# valid_targets[location][environment_state][target]
 valid_targets = {
     'dining_car': ['switch', 'light switch', 'blood', 'food', 'tables', 'tome', 'door1', 'door2', 'window', 'other']
     }
+
+# I need to change the way these narration trees are organized.
+# player actions will result in consequences, which will take several forms:
+# narration (N:''), stat changes (stat and value. SC:[stat, value]), location changes (LC:''), inventory changes (IC:[item, T/F])
+# checks on stats (CS:[stat, DC, check name]), inventory items (CI:''), or knowledge (CK:[prompt, answer])
+# local environment changes (EC:[element, change])
+# Death (D:'reason')
+# not every action will have every type of consequence, so types of consequences should be checked for by flag
+
+# current library structure
+# status[location][command][target][condition]
+
+# library structure to be implemented:
+# narration_library[location][command][target][status][condition][consequences]
+
+# here is an example of the new dialigue structure, complete with flags for additional consequences.
+narration_library = {
+    'dining_car': {
+        'touch': {
+            'switch': {
+                'normal': {
+                    'light': {
+                        'dark': """
+        You flip the LIGHT SWITCH!
+
+        The train car is flooded with darkness.
+        You can't see the blood anymore...
+        But if anything, that's even scarier!
+        
+        +1 Fear
+                        """,
+                        'SC':['fear', 1],
+                        'EC':['dining_car', 'dark']
+                    },
+                    'off': {
+                        'N': """
+        You find a LIGHT SWITCH!
+
+        You flick it on, bathing the train car in light.
+        There's blood everywhere, and I mean *everywhere*.
+
+        +2 Fear
+                        """,
+                        'SC':['fear', 2],
+                        'EC':['dining_car', 'light']
+                    }
+                },
+                'wizard': {
+                    'light': {},
+                    'dark': {}
+                },
+                'cursed': {
+                    'light': {},
+                    'dark': {}
+                }
+            },
+            'blood': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'food': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'tables': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'tome': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'door1': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'door2': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'window': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'other': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+        },
+        'taste': {
+            'switch': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'blood': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'food': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'tables': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'tome': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'door1': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'door2': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'window': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'other': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+        },
+        'sniff': {
+            'switch': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'blood': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'food': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'tables': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'tome': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'door1': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'door2': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'window': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'other': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+        },
+        'look': {
+            'switch': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'blood': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'food': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'tables': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'tome': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'door1': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'door2': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'window': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'other': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+        },
+        'listen': {
+            'switch': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'blood': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'food': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'tables': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'tome': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'door1': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'door2': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'window': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+            'other': {
+                'normal': {
+                    
+                },
+                'wizard': {
+                    
+                },
+                'cursed': {
+                    
+                }
+            },
+        },
+        'go': {
+            'door1':[],
+            'door2':[]
+        }
+
+    }
+}
 
 
 normal = {
