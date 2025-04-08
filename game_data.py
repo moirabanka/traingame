@@ -118,7 +118,7 @@ item_expended = """
 valid_commands = ['touch', 'taste', 'sniff', 'look', 'listen', 'go', 'remember']
 
 default_worldstate = {
-    'dining_car': 'dark'
+    'dining car': 'dark'
 }
 
 
@@ -147,14 +147,13 @@ state_change = {
 # should be changed to:
 # valid_targets[location][environment_state][target]
 valid_targets = {
-    'dining_car': ['switch', 'light switch', 'blood', 'food', 'tables', 'tome', 'door1', 'door2', 'window', 'other']
+    'dining car': ['switch', 'light switch', 'blood', 'food', 'tables', 'tome', 'door1', 'door2', 'window', 'other']
     }
 
 # I need to change the way these narration trees are organized.
 # player actions will result in consequences, which will take several forms:
-# narration (N:''), stat changes (stat and value. SC:[stat, value]), location changes (LC:''), inventory changes (IC:[item, T/F])
-# checks on stats (CS:[stat, DC, check name]), inventory items (CI:''), or knowledge (CK:[prompt, answer])
-# local environment changes (EC:[element, change])
+# narration:'', stat change:[stat, value], location change:'', inventory change:[item, T/F]), condition change:[location, new condition]
+# check stat:[stat, DC, check name], check inventory:''), or check knowledge:[prompt, answer]
 # Death (D:'reason')
 # not every action will have every type of consequence, so types of consequences should be checked for by flag
 
@@ -166,12 +165,13 @@ valid_targets = {
 
 # here is an example of the new dialigue structure, complete with flags for additional consequences.
 narration_library = {
-    'dining_car': {
+    'dining car': {
         'touch': {
             'switch': {
                 'normal': {
                     'light': {
-                        'dark': """
+                        'narration': 
+                        """
         You flip the LIGHT SWITCH!
 
         The train car is flooded with darkness.
@@ -180,11 +180,11 @@ narration_library = {
         
         +1 Fear
                         """,
-                        'SC':['fear', 1],
-                        'EC':['dining_car', 'dark']
+                        'stat change':['fear', 1],
+                        'condition change':['dining_car', 'dark']
                     },
-                    'off': {
-                        'N': """
+                    'dark': {
+                        'narration': """
         You find a LIGHT SWITCH!
 
         You flick it on, bathing the train car in light.
@@ -192,8 +192,8 @@ narration_library = {
 
         +2 Fear
                         """,
-                        'SC':['fear', 2],
-                        'EC':['dining_car', 'light']
+                        'stat change':['fear', 2],
+                        'condition change':['dining car', 'light']
                     }
                 },
                 'wizard': {

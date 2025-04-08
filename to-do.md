@@ -1,5 +1,17 @@
+Immediate Goals
+- [ ] change how player commands are processed
+    one-word commands should be valid, and invalid targets need to default to 'other'
+- [ ] implement system commands that can be used while in game, such as 'save' or 'load'
+- [ ] find a way to display special narration based on conditions, backgrounds, emotions, or stances
+    I'm probably just going to add another consequence flag 'SN' with a sub-dictionary of special narration referenced by keys named after backgrounds, conditions, emotions, or stances
+- [ ] add a game cycle function that loops through the player turn, threat turns, and performs necessary checks and upkeep
+- [ ] loop the player turn so that the player can retry faulty commands
+- [ ] change the resolve function so it is more readable
+- [ ] add a time counter that can be used to trigger threat turns
+
+
 Game presentation
-- [ ] main menu
+- [x] main menu
     should be able to choose whether to start a new game, load a save, or quit. Ideally, should also have a way to delete characters and a developer menu with commands that can help debug the game
 
 Zones
@@ -13,23 +25,29 @@ Zones
 
 
 Character state
-- [ ] saved character file and loadable worldstate
+- [x] saved character file and loadable worldstate
 - [ ] hunger counter
     this ticks up as your character acts, ticking up faster for physically/mentally exerting actions. Your character's statuses determine the kind of food they find palatable (e.g: cursed characters want meat/rotten food, wizards want fancy or esoteric foods). The palatability of the food you consume will determine its effects on your character's emotions. Your character won't need to eat too often (kept realistic to time passing), but the food you eat will provide bonuses and maluses
 - [ ] character creation step
     The player chooses a number of personality traits for their character that create synergies between emotions and stances. (e.g: the "malcontent" personality trait gives bonuses to happiness while in the aggro stance, the "utilitarian" trait gives bonuses to happiness when consuming simple foods or performing efficacious actions, and the "melacholic" trait allows you to increase your sadness level at any time using the special "contemplate" move)
     The player also selects a background that determines their character's initial emotional state along with some semi-hidden values that effect how your character reacts to certain events.
-- [ ] emotional state tracking
+- [x] emotional state tracking
     As the player directs their character to interact with their world, the character will be emotionally affected by the things they experience
 - [ ] emotional stances
     The game tallies up your character's emotion values and uses them to determine your current "stance"
+    current stance list:
+        ebullient
+        aggressive
+        defensive
+        repulsed
+        
 
 - [ ] mutually exlusive statuses
 - [ ] inter-compatible statuses
-- [ ] tracked inventory system
+- [x] tracked inventory system
 
 Mechanics
-- [ ] character actions change emotional state
+- [x] character actions change emotional state
 - [ ] current emotional state effects narration
 - [ ] emotional spiralling
 - [ ] character rebellion

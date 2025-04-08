@@ -1,9 +1,6 @@
 from sys import exit
 import json
 
-#at some point, move strings used for prompts into narration.py to be imported
-
-
 #text printing functions
 #def speak(text, speed):
 #    #choose narration speed
@@ -110,9 +107,9 @@ def load_character(file):
         worldstate = character_data['worldstate']
         
 # saves current character values held in global variables to a file
-def save_game():
-    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation
-    with open(filename, 'w') as character_file:
+def save_game(save_file):
+    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate
+    with open(save_file, 'w') as character_file:
         character_info = {'name': name, 
                       'background': background, 
                       'status': status, 
@@ -125,10 +122,11 @@ def save_game():
                       'sadness': sadness,
                       'disgust': disgust,
                       'anger': anger,
-                      'anticipation': anticipation}
+                      'anticipation': anticipation,
+                      'worldstate': worldstate}
         json.dump(character_info, character_file, indent=4)
 
-# this function should be called into play whenever the character's emotions are changed
+# this function should be called into play whenever the character's stats are changed
 # called in the 'resolve' function
 # this can probably be refactored
 def stat_change(stat, value):
@@ -161,19 +159,6 @@ def stat_change(stat, value):
             new_value = anticipation
     if value >= 0:
         print(stat_changed.format(stat, 'increased', new_value))
-    
-# this function adds an item to the current character's inventory
-def acquire(item):
-    from game_data import item_acquired
-    global inventory
-    inventory.append(item)
-    print(item_acquired)
-
-def expend(item):
-    from game_data import item_expended
-    global inventory
-    inventory.remove(item)
-    print(item_expended)
 
 def condition_change(environment, new_condition):
     global worldstate, location
@@ -189,8 +174,8 @@ def start_turn():
     from game_data import valid_targets, prompt
     global location, status, name, time_passed, current_turn
     action_validated = act()
-    if action_validated:
-        player_action = action_validated.split
+    if action_validated != False:
+        player_action = action_validated
         resolve(player_action)
 
 
@@ -200,12 +185,15 @@ def act():
     from game_data import prompt, invalid_command, invalid_target, too_many_words
     action = input(prompt)
     interpreted_input = action.split()
-    command = interpreted_input[1]
+    print(interpreted_input)
+    command = interpreted_input[0]
+    print(command)
     command_validity = command_checker(command)
+    print(command_validity)
     if command_validity:
         match len(interpreted_input):
             case 2:
-                target = interpreted_input[2]
+                target = interpreted_input[1]
                 target_validity = target_checker(target)
                 if target_validity:
                     return [command, target]
@@ -225,24 +213,25 @@ def act():
 # function for checking if a user command is valid (returns True/False)
 def command_checker(checked_command):
     from game_data import valid_commands
-    if checked_command not in valid_commands:
+    if checked_command in valid_commands:
+        return True
+    else:
         from game_data import error
         print(error)
         return False
-    else:
-        return True
+
 
 # function for checking if a target is valid (returns True/False)
 def target_checker(checked_target):
     from game_data import valid_targets
     global location
     local_targets = valid_targets[location]
-    if checked_target not in local_targets:
+    if checked_target in local_targets:
+        return True
+    else:
         from game_data import error
         print(error)
         return False
-    else:
-        return True
 
 
 
@@ -252,53 +241,49 @@ def target_checker(checked_target):
 # if it is, check if the condition is fulfilled.
 # if the condition is fulfilled or no condition is needed, retrieve the corresponding value in the form of a list.
 # after retrieving the value, this function will check which flags are present, then carry out the indicated consequences.
-# flags: N, SC, LC, IC, EC, CS, CI, CK, D
+# flags: N, SN, SC, location change, inventory change, condition change, check stat, check inventory, check knowledge, D
 
 #CURRENT ISSUE: I NEED TO PASS THIS FUNCTION A LOCAL CONDITION FOR THE LOCATION THE PLAYER IS IN.
-#HOW DOES THE PROGRAM DECIDE WHAT CONDITION IT NEEDS.
+#HOW DOES THE PROGRAM DEcheck inventoryDE WHAT CONDITION IT NEEDS.
 #   working compromise: only one local condition can be active at once.
 #   the current local condition for each area can be stored in a global variable that holds the current worldstate
-def resolve(action):
-    if action:
+def resolve(player_input):
+    if player_input != False:
         from game_data import narration_library, item_acquired, item_expended
         global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate
-        command = input[1]
-        target = input[2]
+        command = player_input[0]
+        target = player_input[1]
         condition = worldstate[location]
         consequences = narration_library[location][command][target][status][condition]
-        if 'N' in consequences:
-            print(consequences['N'])
-        if 'SC' in consequences:
-            stat = consequences['SC'][1]
-            value = consequences['SC'][2]
+        if 'narration' in consequences:
+            print(consequences['narration'])
+        if 'stat change' in consequences:
+            stat = consequences['stat change'][0]
+            value = consequences['stat change'][1]
             stat_change(stat, value)
-        if 'LC' in consequences:
-            location = consequences['LC']
-        if 'IC' in consequences:
-            if consequences['IC'][2]:
-                inventory.append(consequences['IC'][1])
+        if 'location change' in consequences:
+            location = consequences['location change']
+        if 'inventory change' in consequences:
+            if consequences['inventory change'][1]:
+                inventory.append(consequences['inventory change'][0])
                 print(item_acquired)
             else:
-                inventory.remove(consequences['IC'][1])
+                inventory.remove(consequences['inventory change'][0])
                 print(item_expended)
-        if 'EC' in consequences:
-            target_location = consequences['EC'][1]
-            worldstate[target_location] = consequences['EC'][2]
+        if 'condition change' in consequences:
+            target_location = consequences['condition change'][0]
+            worldstate[target_location] = consequences['condition change'][1]
         # Need to work out how contextual narration works for checks to function
-        if 'CS' in consequences:
-                worldstate[consequences['CS'][3]] = check_stat(consequences['CS'][1], consequences['CS'][2])
-
-
-        if 'CK' in consequences:
-            knowledge = input(consequences['CI'][1])
-            if knowledge == consequences['CI'][2]:
-                worldstate
-
-
-
-
-
-
+        if 'check stat' in consequences:
+            worldstate[consequences['check stat'][2]] = check_stat(consequences['check stat'][0], consequences['check stat'][1])
+        if 'check inventory' in consequences:
+            worldstate[consequences['check inventory'][2]] = check_inventory(consequences['check inventory'][0], consequences['check inventory'][1])
+        if 'check knowledge' in consequences:
+            player_knowledge = input(consequences['check knowledge'][0])
+            if player_knowledge == consequences['check knowledge'][1]:
+                worldstate[consequences['check knowledge'][2]] = True
+            else:
+                worldstate[consequences['check knowledge'][2]] = False
 
 
 # this function checks a stat and determines if it meets the DC
@@ -309,7 +294,7 @@ def check_stat(stat, dc):
         return False
 
 # this function checks the inventory for an item
-def item_checker(item):
+def check_inventory(item):
     global inventory
     if item in inventory:
         return True
@@ -319,3 +304,4 @@ def item_checker(item):
         
 
 start_game()
+save_game('moira.json')
