@@ -154,7 +154,7 @@ valid_targets = {
 # player actions will result in consequences, which will take several forms:
 # narration:'', stat change:[stat, value], location change:'', inventory change:[item, T/F]), condition change:[location, new condition]
 # check stat:[stat, DC, check name], check inventory:''), or check knowledge:[prompt, answer]
-# Death (D:'reason')
+# special consequences:{trigger:{consequence sublibrary}}, Death:'reason'
 # not every action will have every type of consequence, so types of consequences should be checked for by flag
 
 # current library structure

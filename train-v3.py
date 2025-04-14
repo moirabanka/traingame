@@ -160,6 +160,7 @@ def stat_change(stat, value):
     if value >= 0:
         print(stat_changed.format(stat, 'increased', new_value))
 
+# does this really need to be its own function?
 def condition_change(environment, new_condition):
     global worldstate, location
     worldstate[location] = new_condition
@@ -169,29 +170,34 @@ def condition_change(environment, new_condition):
 # this function handles the process of the player turn.
 # this should eventually be looped in a different function also handling threat turns
 
-# this funciton also needs to loop itself so that players can retry a command after failing
+# this function now loops itself to account for incorrect input
 def start_turn():
     from game_data import valid_targets, prompt
     global location, status, name, time_passed, current_turn
-    action_validated = act()
-    if action_validated != False:
-        player_action = action_validated
-        resolve(player_action)
+    while True:
+        player_action = act()
+        if player_action is True:
+            resolve(player_action)
+            break
 
 
 # this function will handle asking for player input, checking its validity,
 # and will pass a value to the 'resolve' function
+# can now handle single word input and reset on empty input
 def act():
     from game_data import prompt, invalid_command, invalid_target, too_many_words
     action = input(prompt)
-    interpreted_input = action.split()
-    print(interpreted_input)
-    command = interpreted_input[0]
-    print(command)
-    command_validity = command_checker(command)
-    print(command_validity)
+    if action:
+        interpreted_input = action.split()
+        command = interpreted_input[0]
+        command_validity = command_checker(command)
+    else:
+        command_validity = False
     if command_validity:
         match len(interpreted_input):
+            case 1:
+                target = 'other'
+                return [command, target]
             case 2:
                 target = interpreted_input[1]
                 target_validity = target_checker(target)
@@ -201,7 +207,7 @@ def act():
                     print(invalid_target)
                     return False
             # this needs to be written better, the whole game crashes if you input even more words.
-            case 3 | 4 | 5:
+            case _ if len(interpreted_input) > 2:
                 print(too_many_words)
                 return False
     else:
@@ -304,4 +310,3 @@ def check_inventory(item):
         
 
 start_game()
-save_game('moira.json')
