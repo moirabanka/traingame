@@ -22,7 +22,7 @@ Immediate Goals
     should take note of all interactions that can have an effect on the character that shouldn't be repeatable.
     also requires a system that checks when a command has been used before and changes the consequences as a result
 - [ ] flesh out the backgrounds
-    Malcontent
+    Malcontent (madcap?)
         Wants to break things. better at aggression. cruel streak.
     Utilitarian
         Wants to use and repurpose items.
