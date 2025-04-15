@@ -111,7 +111,7 @@ def save_game(save_file):
         json.dump(character_info, character_file, indent=4)
 
 
-# this function manages the overall continuity of ganeplay, looping until the game is quit.
+# this function manages the overall continuity of ganeplay, looping until the player quits the game.
 # eventually should also contain a time counter and ways to trigger events and possibly the actions of other characters
 def turn_cycle():
     while True:
@@ -226,6 +226,8 @@ def resolve(player_input):
             else:
                 worldstate[consequences['check knowledge'][2]] = False
 
+
+# UTILITY FUNCTIONS
 
 # this function should be called into play whenever the character's stats are changed
 # called in the 'resolve' function
