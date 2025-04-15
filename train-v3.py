@@ -33,7 +33,7 @@ def start_game():
             print(help_text)
             print(identity.format(name, status, background))
             print(intro.format(name))
-            start_turn()
+            turn_cycle()
         case '2' | 'l' | 'load game':
             filename = input(name_load_prompt) + '.json'
             load_character(filename)
@@ -165,18 +165,19 @@ def condition_change(environment, new_condition):
     global worldstate, location
     worldstate[location] = new_condition
 
-
+def turn_cycle():
+    while True:
+        start_turn()
 
 # this function handles the process of the player turn.
 # this should eventually be looped in a different function also handling threat turns
 
 # this function now loops itself to account for incorrect input
 def start_turn():
-    from game_data import valid_targets, prompt
     global location, status, name, time_passed, current_turn
     while True:
         player_action = act()
-        if player_action is True:
+        if player_action:
             resolve(player_action)
             break
 
@@ -193,7 +194,7 @@ def act():
         command_validity = command_checker(command)
     else:
         command_validity = False
-    if command_validity:
+    if 'valid' in command_validity:
         match len(interpreted_input):
             case 1:
                 target = 'other'
@@ -201,15 +202,23 @@ def act():
             case 2:
                 target = interpreted_input[1]
                 target_validity = target_checker(target)
-                if target_validity:
+                if target_validity is True:
                     return [command, target]
                 else:
                     print(invalid_target)
                     return False
-            # this needs to be written better, the whole game crashes if you input even more words.
             case _ if len(interpreted_input) > 2:
                 print(too_many_words)
                 return False
+    elif 'system' in command_validity:
+        if 'save' in command:
+            filename = name + '.json'
+            save_game(filename)
+            return False
+        elif 'quit' or 'exit' in command:
+            from game_data import quit_message
+            print(quit_message)
+            exit()
     else:
         print(invalid_command)
         return False
@@ -218,13 +227,15 @@ def act():
 
 # function for checking if a user command is valid (returns True/False)
 def command_checker(checked_command):
-    from game_data import valid_commands
+    from game_data import valid_commands, system_commands
     if checked_command in valid_commands:
-        return True
+        return 'valid'
+    elif checked_command in system_commands:
+        return 'system'
     else:
         from game_data import error
         print(error)
-        return False
+        return 'invalid'
 
 
 # function for checking if a target is valid (returns True/False)
@@ -247,10 +258,10 @@ def target_checker(checked_target):
 # if it is, check if the condition is fulfilled.
 # if the condition is fulfilled or no condition is needed, retrieve the corresponding value in the form of a list.
 # after retrieving the value, this function will check which flags are present, then carry out the indicated consequences.
-# flags: N, SN, SC, location change, inventory change, condition change, check stat, check inventory, check knowledge, D
+# flags: narration, special narration, stat change, location change, inventory change, condition change, check stat, check inventory, check knowledge, death
 
 #CURRENT ISSUE: I NEED TO PASS THIS FUNCTION A LOCAL CONDITION FOR THE LOCATION THE PLAYER IS IN.
-#HOW DOES THE PROGRAM DEcheck inventoryDE WHAT CONDITION IT NEEDS.
+#HOW DOES THE PROGRAM DECIDE WHAT CONDITION IT NEEDS.
 #   working compromise: only one local condition can be active at once.
 #   the current local condition for each area can be stored in a global variable that holds the current worldstate
 def resolve(player_input):

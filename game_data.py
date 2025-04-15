@@ -117,6 +117,8 @@ item_expended = """
 
 valid_commands = ['touch', 'taste', 'sniff', 'look', 'listen', 'go', 'remember']
 
+system_commands = ['save', 'quit', 'exit']
+
 default_worldstate = {
     'dining car': 'dark'
 }
@@ -130,6 +132,10 @@ game_over = ["""
 """, """
     Thanks for playing!
 """]
+
+quit_message = """
+    Thanks for playing!
+"""
 
 
 state_change = {
