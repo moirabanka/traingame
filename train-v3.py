@@ -1,44 +1,28 @@
 from sys import exit
 import json
 
-#text printing functions
-#def speak(text, speed):
-#    #choose narration speed
-#    if 'fast' in speed:
-#        delay = .01
-#    elif 'med' in speed:
-#        delay = .05
-#    elif 'slow' in speed:
-    #     delay = .1
-    # elif 'slower' in speed:
-    #     delay = .25
-    # elif 'slowest' in speed:
-    #     delay = .5
-    
-    #not sure if this is good or not
-#    for char in text:
-#        sys.stdout.write(char)
-#        sys.stdout.flush()
-#        time.sleep(delay)
 
-# this function handles starting the game, and checks if you want to load a save
+# this function handles starting the game, and checks if you want to load a save before starting the turn cycle
 def start_game():
     from game_data import main_menu, help_text, intro, name_load_prompt, loaded_character, identity
-    global name, status, background, location
-    #eventually replace all instances of print with the speak() function
+    global name, status, background, location, worldstate
     menu_action = input(main_menu)
     match menu_action:
         case '1' | 'n' | 'new game':
             create_character()
             print(help_text)
             print(identity.format(name, status, background))
-            print(intro.format(name))
+            context = intro['dining car']['dark']
+            print(context.format(name))
             turn_cycle()
         case '2' | 'l' | 'load game':
             filename = input(name_load_prompt) + '.json'
             load_character(filename)
             print(loaded_character.format(name, status, background, location))
-            start_turn()
+            condition = worldstate[location]
+            context = intro[location][condition]
+            print(context.format(name))
+            turn_cycle()
         case '3' | 'q' | 'quit game':
             exit()
         
@@ -126,55 +110,20 @@ def save_game(save_file):
                       'worldstate': worldstate}
         json.dump(character_info, character_file, indent=4)
 
-# this function should be called into play whenever the character's stats are changed
-# called in the 'resolve' function
-# this can probably be refactored
-def stat_change(stat, value):
-    from game_data import stat_changed
-    global joy, trust, fear, surprise, sadness, disgust, anger, anticipation
-    match stat:
-        case 'joy':
-            joy = joy + value
-            new_value = joy
-        case 'trust':
-            trust = trust + value
-            new_value = trust
-        case 'fear':
-            fear = fear + value
-            new_value = fear
-        case 'surprise':
-            surprise = surprise + value
-            new_value = surprise
-        case 'sadness':
-            sadness = sadness + value
-            new_value = sadness
-        case 'disgust':
-            disgust = disgust + value
-            new_value = disgust
-        case 'anger':
-            anger = anger + value
-            new_value = anger
-        case 'anticipation':
-            anticipation = anticipation + value
-            new_value = anticipation
-    if value >= 0:
-        print(stat_changed.format(stat, 'increased', new_value))
 
-# does this really need to be its own function?
-def condition_change(environment, new_condition):
-    global worldstate, location
-    worldstate[location] = new_condition
-
+# this function manages the overall continuity of ganeplay, looping until the game is quit.
+# eventually should also contain a time counter and ways to trigger events and possibly the actions of other characters
 def turn_cycle():
     while True:
         start_turn()
+
 
 # this function handles the process of the player turn.
 # this should eventually be looped in a different function also handling threat turns
 
 # this function now loops itself to account for incorrect input
 def start_turn():
-    global location, status, name, time_passed, current_turn
+    global location, status, name
     while True:
         player_action = act()
         if player_action:
@@ -193,7 +142,7 @@ def act():
         command = interpreted_input[0]
         command_validity = command_checker(command)
     else:
-        command_validity = False
+        command_validity = 'invalid'
     if 'valid' in command_validity:
         match len(interpreted_input):
             case 1:
@@ -212,8 +161,10 @@ def act():
                 return False
     elif 'system' in command_validity:
         if 'save' in command:
+            from game_data import saved_game
             filename = name + '.json'
             save_game(filename)
+            print(saved_game)
             return False
         elif 'quit' or 'exit' in command:
             from game_data import quit_message
@@ -225,34 +176,7 @@ def act():
 
 
 
-# function for checking if a user command is valid (returns True/False)
-def command_checker(checked_command):
-    from game_data import valid_commands, system_commands
-    if checked_command in valid_commands:
-        return 'valid'
-    elif checked_command in system_commands:
-        return 'system'
-    else:
-        from game_data import error
-        print(error)
-        return 'invalid'
-
-
-# function for checking if a target is valid (returns True/False)
-def target_checker(checked_target):
-    from game_data import valid_targets
-    global location
-    local_targets = valid_targets[location]
-    if checked_target in local_targets:
-        return True
-    else:
-        from game_data import error
-        print(error)
-        return False
-
-
-
-# this function will take the validated command from the 'act' function,
+# this function will take the validated gameplay command from the 'act' function,
 # then it will retrieve all the player action's consequences and carry them out.
 # the 'resolve' function will check if a condition is needed.
 # if it is, check if the condition is fulfilled.
@@ -303,6 +227,47 @@ def resolve(player_input):
                 worldstate[consequences['check knowledge'][2]] = False
 
 
+# this function should be called into play whenever the character's stats are changed
+# called in the 'resolve' function
+# this can probably be refactored
+def stat_change(stat, value):
+    from game_data import stat_changed
+    global joy, trust, fear, surprise, sadness, disgust, anger, anticipation
+    match stat:
+        case 'joy':
+            joy = joy + value
+            new_value = joy
+        case 'trust':
+            trust = trust + value
+            new_value = trust
+        case 'fear':
+            fear = fear + value
+            new_value = fear
+        case 'surprise':
+            surprise = surprise + value
+            new_value = surprise
+        case 'sadness':
+            sadness = sadness + value
+            new_value = sadness
+        case 'disgust':
+            disgust = disgust + value
+            new_value = disgust
+        case 'anger':
+            anger = anger + value
+            new_value = anger
+        case 'anticipation':
+            anticipation = anticipation + value
+            new_value = anticipation
+    if value >= 0:
+        print(stat_changed.format(stat, 'increased', new_value))
+    elif value <= 0:
+        print(stat_changed.format(stat, 'decreased', new_value))
+
+# does this really need to be its own function?
+def condition_change(environment, new_condition):
+    global worldstate, location
+    worldstate[environment] = new_condition
+
 # this function checks a stat and determines if it meets the DC
 def check_stat(stat, dc):
     if stat >= dc:
@@ -318,6 +283,30 @@ def check_inventory(item):
     else:
         return False
 
-        
+# function for checking if a user command is a valid, invalid, or system command
+def command_checker(checked_command):
+    from game_data import valid_commands, system_commands
+    if checked_command in valid_commands:
+        return 'valid'
+    elif checked_command in system_commands:
+        return 'system'
+    else:
+        from game_data import error
+        print(error)
+        return 'invalid'
+
+
+# function for checking if a target is valid (returns True/False)
+def target_checker(checked_target):
+    from game_data import valid_targets
+    global location
+    local_targets = valid_targets[location]
+    if checked_target in local_targets:
+        return True
+    else:
+        from game_data import error
+        print(error)
+        return False
+
 
 start_game()

@@ -76,17 +76,27 @@ Good luck!
 """
 
 prompt = """
-> """
+ > """
 
 identity = """
     You are playing as {}, a {} {}.
 """
 
-intro = """
+intro = {
+    'dining car': {
+        'dark':"""
     {} is standing in a darkened train car.
     The carriage bumps and rattles.
     What do you do?
-"""
+    """,
+        'light':"""
+    {} is standing in the dining car.
+    The walls are covered in blood.
+    The carriage bumps and rattles.
+    What do you do?
+    """
+    }
+}
 
 backgrounds = """
     1) Malcontent
@@ -125,6 +135,10 @@ default_worldstate = {
 
 
 error = "\nInvalid entry! please try again.\n"
+
+saved_game= """
+    Game saved successfully!
+"""
 
 game_over = ["""
     {} cannot continue like this.
@@ -187,7 +201,7 @@ narration_library = {
         +1 Fear
                         """,
                         'stat change':['fear', 1],
-                        'condition change':['dining_car', 'dark']
+                        'condition change':['dining car', 'dark']
                     },
                     'dark': {
                         'narration': """
