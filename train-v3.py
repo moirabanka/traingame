@@ -137,13 +137,13 @@ def start_turn():
 def act():
     from game_data import prompt, invalid_command, invalid_target, too_many_words
     action = input(prompt)
-    if action:
+    if len(action) != 0:
         interpreted_input = action.split()
         command = interpreted_input[0]
         command_validity = command_checker(command)
     else:
         command_validity = 'invalid'
-    if 'valid' in command_validity:
+    if command_validity == 'valid':
         match len(interpreted_input):
             case 1:
                 target = 'other'
@@ -228,6 +228,12 @@ def resolve(player_input):
 
 
 # UTILITY FUNCTIONS
+
+def condition_wildcard(condition_tree):
+    if len(condition_tree) is 1 and any in condition_tree:
+        return True
+    else:
+        return False
 
 # this function should be called into play whenever the character's stats are changed
 # called in the 'resolve' function
