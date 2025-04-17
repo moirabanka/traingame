@@ -136,7 +136,7 @@ def start_turn():
 # can now handle single word input and reset on empty input
 def act():
     from game_data import prompt, invalid_command, invalid_target, too_many_words, command_aliases, target_aliases
-    global location
+    global location, command, target
     action = input(prompt)
     if len(action) != 0:
         interpreted_input = action.split()
@@ -195,46 +195,67 @@ def act():
 #   the current local condition for each area can be stored in a global variable that holds the current worldstate
 def resolve(player_input):
     if player_input != False:
-        from game_data import narration_library, item_acquired, item_expended
-        global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate
-        command = player_input[0]
-        target = player_input[1]
-        consequences = condition_handler(command, target)
-        if consequences == False:
-            target = 'other'
-            consequences = condition_handler(command, target)
-        if 'narration' in consequences:
-            print(consequences['narration'])
-        if 'stat change' in consequences:
-            stat = consequences['stat change'][0]
-            value = consequences['stat change'][1]
-            stat_change(stat, value)
-        if 'location change' in consequences:
-            location = consequences['location change']
-        if 'inventory change' in consequences:
-            if consequences['inventory change'][1]:
-                inventory.append(consequences['inventory change'][0])
-                print(item_acquired)
-            else:
-                inventory.remove(consequences['inventory change'][0])
-                print(item_expended)
-        if 'condition change' in consequences:
-            target_location = consequences['condition change'][0]
-            worldstate[target_location] = consequences['condition change'][1]
-        # Need to work out how contextual narration works for checks to function
-        if 'check stat' in consequences:
-            worldstate[consequences['check stat'][2]] = check_stat(consequences['check stat'][0], consequences['check stat'][1])
-        if 'check inventory' in consequences:
-            worldstate[consequences['check inventory'][2]] = check_inventory(consequences['check inventory'][0], consequences['check inventory'][1])
-        if 'check knowledge' in consequences:
-            player_knowledge = input(consequences['check knowledge'][0])
-            if player_knowledge == consequences['check knowledge'][1]:
-                worldstate[consequences['check knowledge'][2]] = True
-            else:
-                worldstate[consequences['check knowledge'][2]] = False
+        global command, target, name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate
+        consequence_library = condition_handler(command, target)
+        consequence_handler(consequence_library)
+
+
 
 
 # UTILITY FUNCTIONS
+
+# this function carries out the consequences contained in the consequence library it is supplied with.
+# it calls itself recursively when circumstances call for additional branching consequences.
+def consequence_handler(consequences):
+    from game_data import narration_library, item_acquired, item_expended
+    global command, target, location, inventory, worldstate
+    if consequences == False:
+        target = 'other'
+        consequences = condition_handler(command, target)
+    # Immediate consequences
+    if 'narration' in consequences:
+        print(consequences['narration'])
+    if 'stat change' in consequences:
+        stat = consequences['stat change']['stat']
+        value = consequences['stat change']['value']
+        stat_change(stat, value)
+    if 'location change' in consequences:
+        location = consequences['location change']
+    if 'inventory change' in consequences:
+        if consequences['inventory change']['add/subtract']:
+            inventory.append(consequences['inventory change']['item'])
+            print(item_acquired)
+        else:
+            inventory.remove(consequences['inventory change']['item'])
+            print(item_expended)
+    if 'condition change' in consequences:
+        target_location = consequences['condition change']['target location']
+        worldstate[target_location] = consequences['condition change']['new condition']
+    # Checks
+    if 'check consent' in consequences:
+        player_yesno = check_consent(consequences['check consent']['prompt'])
+        if player_yesno:
+            consequence_handler(consequences['check consent']['yes'])
+        else:
+            consequence_handler(consequences['check consent']['no'])
+    if 'check stat' in consequences:
+        result = check_stat(consequences['check stat']['stat'], consequences['check stat']['dc'])
+        if result:
+            consequence_handler(consequences['check stat']['success'])
+        else:
+            consequence_handler(consequences['check stat']['failure'])
+    if 'check inventory' in consequences:
+        result = check_inventory(consequences['check inventory']['item'])
+        if result:
+            consequence_handler(consequences['check inventory']['success'])
+        else:
+            consequence_handler(consequences['check inventory']['failure'])
+    if 'check knowledge' in consequences:
+        result = check_knowledge(consequences['check knowledge']['prompt'], consequences['check knowledge']['answer'])
+        if result:
+            consequence_handler(consequences['check knowledge']['success'])
+        else:
+            consequence_handler(consequences['check knowledge']['failure'])
 
 # this function handles condition-agnostic consequences 
 def condition_handler(current_command, current_target):
@@ -252,7 +273,7 @@ def condition_handler(current_command, current_target):
 # this can probably be refactored
 def stat_change(stat, value):
     from game_data import stat_changed
-    global joy, trust, fear, surprise, sadness, disgust, anger, anticipation
+    global joy, trust, fear, surprise, sadness, disgust, anger, anticipation, status
     match stat:
         case 'joy':
             joy = joy + value
@@ -278,10 +299,16 @@ def stat_change(stat, value):
         case 'anticipation':
             anticipation = anticipation + value
             new_value = anticipation
-    if value >= 0:
-        print(stat_changed.format(stat, 'increased', new_value))
-    elif value <= 0:
-        print(stat_changed.format(stat, 'decreased', new_value))
+        case 'status':
+            status = value
+    match value:
+        case int():
+            if value >= 0:
+                print(stat_changed.format(stat, 'increased', new_value))
+            elif value <= 0:
+                print(stat_changed.format(stat, 'decreased', new_value))
+        case str():
+            print(stat_changed.format(stat, 'changed', value))
 
 # does this really need to be its own function?
 def condition_change(environment, new_condition):
@@ -302,6 +329,31 @@ def check_inventory(item):
         return True
     else:
         return False
+
+# this function checks if the player wants to perform a subsequent action (Y/n)
+def check_consent(prompt):
+    while True:
+        response = input(prompt)
+        if 'y' in response:
+            return True
+        elif 'n' in response:
+            return False
+        else:
+            from game_data import error
+            print(error)
+            continue
+
+def check_knowledge(prompt, answer):
+    from game_data import confirmation_prompt
+    while True:
+        response = input(prompt)
+        confirmation = check_consent(confirmation_prompt)
+        if confirmation:
+            if response == answer:
+                return True
+            else:
+                return False
+
 
 # function for checking if a user command is a valid, invalid, or system command
 def command_checker(checked_command):

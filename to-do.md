@@ -6,16 +6,15 @@ Immediate Goals
     e.g: 'lick blood' needs to return the same consequences as 'taste blood'
 - [x] target-agnostic consequences
     in cases where performing an action on a target does not have any unique consequences (e.g: sniffing the lightswitch), this should return the same consequences as if the 'other' target was used
-- [ ] create a new consequence type that checks if the player wants to perform an additional action with a Y/n prompt
+- [x] create a new consequence type that checks if the player wants to perform an additional action with a Y/n prompt
     e.g: player enters 'touch door' when cursed. the game asks the player if they want to smash the door, and lets them type yes or no
     maybe accomplish these with a flag put on any narration. straightforward narration can be stored as a string in a dictionary key, but this kind of special narration is stored as a list that also contains an extra flag that triggers this prompt along with other strings for follow-up narration
     if i'm doing this, i might as well also make a flag that lets the player choose from a list of options. it would be cool if the options could be contextual and based on the player's current emotions or stance. This could be the basis of the dialogue system.
 - [x] change how player commands are processed
     one-word commands should be valid, and invalid targets need to default to 'other'
 - [x] implement system commands that can be used while in game, such as 'save' or 'load'
-- [ ] find a way to display special narration based on conditions, backgrounds, emotions, or stances
-    I'm probably just going to add another consequence flag 'SN' with a sub-dictionary of special narration referenced by keys named after backgrounds, conditions, emotions, or stances
-    now I'm thinking thay this special narration should always be associated with a check. However, I also want to have an alternate mechanic for replacing the original status-based narration, though this should be done only rarely.
+- [x] find a way to display special narration based on conditions, backgrounds, emotions, or stances
+    I'm thinking thay this special narration should always be associated with a check. However, I also want to have an alternate mechanic for replacing the original status-based narration, though this should be done only rarely.
 - [ ] add a game cycle function that loops through the player turn, threat turns, and performs necessary checks and upkeep
 - [x] loop the player turn so that the player can retry faulty commands
 - [x] change the resolve function so it is more readable

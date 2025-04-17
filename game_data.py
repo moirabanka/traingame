@@ -14,7 +14,7 @@ main_menu = r"""
        2) Load game
        3) Quit
 
-> """
+ > """
 
 invalid_command= """
     This is not a recognized command.
@@ -33,24 +33,30 @@ too_many_words = """
 load_prompt = """
     Would you like to load a saved character? (y/n)
 
-> """
+ > """
 
 name_load_prompt = """
     Enter the name of the character to be loaded.
 
-> """
+ > """
 
 
 name_prompt = """
     Enter your character's name.
 
-> """
+ > """
 
 background_prompt = """
     Choose your character's background.
     For more detail, type 'info'
 
-> """
+ > """
+
+confirmation_prompt = """
+    Are you sure?
+    (y/n)
+
+ > """
 
 # needs to be updated!
 help_text = """
@@ -189,8 +195,9 @@ target_aliases = {
 
 # narration tree has been reorganized on the following principles:
 # player actions will result in consequences, which will take several forms:
-# narration:'', stat change:[stat, value], location change:'', inventory change:[item, T/F]), condition change:[location, new condition]
-# check stat:[stat, DC, check name], check inventory:''), or check knowledge:[prompt, answer]
+# narration:'', stat change:{stat, value}, location change:'', inventory change:{item, T/F}), condition change:{location, new condition}
+# check stat:{stat, dc, check name, success, failure}, check inventory:{item, success, failure},
+# check knowledge:{prompt, answer, success, failure}, check consent:{prompt, success, failure}
 # special consequences:{trigger:{consequence sublibrary}}, Death:'reason'
 # not every action will have every type of consequence, so types of consequences should be checked for by flag
 # condition-agnostic consequences are marked with 'any', and target-agnostic consequences return False
@@ -211,8 +218,8 @@ narration_library = {
         
         +1 Fear
                         """,
-                        'stat change':['fear', 1],
-                        'condition change':['dining car', 'dark']
+                        'stat change':{'stat':'fear', 'value':1},
+                        'condition change':{'target location':'dining car', 'new condition':'dark'}
                     },
                     'dark': {
                         'narration': """
@@ -223,8 +230,8 @@ narration_library = {
 
         +2 Fear
                         """,
-                        'stat change':['fear', 2],
-                        'condition change':['dining car', 'light']
+                        'stat change':{'stat':'fear', 'value':2},
+                        'condition change':{'target location':'dining car', 'new condition':'light'}
                     }
                 },
                 'wizard': {
@@ -287,9 +294,53 @@ narration_library = {
             },
             'tome': {
                 'normal': {
-                    'light': {
+                    'any': {
+                        'narration':"""
+    You grab the TOME.
+    It seems to compel you to open it...
+                """,
+                        'check consent':{
+                            'prompt':"""
+    Are you sure you want to open the TOME?
+    (answer y/n)
+    
+ > """,
+                            'yes':{
+                                'narration':"""
+    Your fate is sealed.
+    """,
+                                'check knowledge':{
+                                    'prompt':"""
+    Can you resist the TOME's influence?
+
+ > """,
+                                    'answer':'xoglfotz',
+                                    'success':{
+                                        'narration':"""
+    You speak the TOME's word of power!
+    The TOME has no more power over you. It goes limp in your hands.
+    Your skin begins to emit a soft glow...
+    """,
+                                        'stat change':{'stat':'status', 'value':'wizard'}
+                            },
+                                    'failure':{
+                                        'narration':"""
+    You are unable to resist the TOME's influence!
+    The TOME chills your hands, freezing them in place!
+    You can't tell if the book contains pictures or words, but the ink writhes ceaselessly...
+            """,
+                                        'stat change':{'stat':'status', 'value':'cursed'}
+                            }
+                        }
+                            },
+                            'no':{
+                                'narration':"""
+    You withdraw from the TOME.
+    """
+                            },
                     },
-                    'dark': {}
+                        
+                    }
                 },
                 'wizard': {
                     
