@@ -195,6 +195,9 @@ def resolve(player_input):
         command = player_input[0]
         target = player_input[1]
         consequences = condition_handler(command, target)
+        if consequences == False:
+            target = 'other'
+            consequences = condition_handler(command, target)
         if 'narration' in consequences:
             print(consequences['narration'])
         if 'stat change' in consequences:

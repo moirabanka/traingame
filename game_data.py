@@ -125,9 +125,17 @@ item_expended = """
     {} removed from inventory
 """
 
-valid_commands = ['touch', 'taste', 'sniff', 'look', 'listen', 'go', 'remember']
+valid_commands = ['touch', 'taste', 'sniff', 'look', 'listen', 'go', 'get']
 
-system_commands = ['save', 'quit', 'exit']
+command_aliases = {
+    'touch': 'feel',
+    'taste': 'lick',
+    'sniff': 'smell',
+    'look': 'see',
+    'listen': 'hear'
+}
+
+system_commands = ['save', 'quit', 'exit', 'status']
 
 default_worldstate = {
     'dining car': 'dark'
@@ -167,8 +175,17 @@ state_change = {
 # should be changed to:
 # valid_targets[location][environment_state][target]
 valid_targets = {
-    'dining car': ['switch', 'light switch', 'blood', 'food', 'tables', 'tome', 'door1', 'door2', 'window', 'other']
+    'dining car': ['switch', 'blood', 'food', 'tables', 'tome', 'door1', 'door2', 'window', 'other']
     }
+
+target_aliases = {
+    'dining car':{
+        'switch': 'lightswitch',
+        'blood': 'puddles',
+        'tome': 'thing'
+
+    }
+}
 
 # narration tree has been reorganized on the following principles:
 # player actions will result in consequences, which will take several forms:
@@ -513,11 +530,7 @@ narration_library = {
         'sniff': {
             'switch': {
                 'normal': {
-                    'any': {
-                        'narration':"""
-    That doesn't smell like anything.
-            """
-                    }
+                    'any': False
                 },
                 'wizard': {
                     
@@ -612,7 +625,8 @@ narration_library = {
                 'normal': {
                     'any': {
                         'narration':"""
-    That doesn't smell like anything.
+    Smells smokey.
+    Damn, you could really go for some marshmallows right now.
             """
                     }
                 },
@@ -625,11 +639,7 @@ narration_library = {
             },
             'window': {
                 'normal': {
-                    'any': {
-                        'narration':"""
-    That doesn't smell like anything.
-            """
-                    }
+                    'any': False 
                 },
                 'wizard': {
                     
@@ -664,7 +674,7 @@ narration_library = {
     You toggled it not long ago.
             """
                     },
-                    'dark': {}
+                    'dark': False
                 },
                 'wizard': {
                     
@@ -682,7 +692,7 @@ narration_library = {
     Gleams of bright crimson reside among the flaking rusty brown
             """
                     },
-                    'dark': {}
+                    'dark': False
                 },
                 'wizard': {
                     
@@ -699,7 +709,7 @@ narration_library = {
     The flies are having a goddamn field day...
             """
                     },
-                    'dark': {}
+                    'dark': False
                 },
                 'wizard': {
                     
@@ -741,7 +751,7 @@ narration_library = {
     For some strange reason, it seems rather tasty...
             """
                     },
-                    'dark': {}
+                    'dark': False
                 },
                 'wizard': {
                     
@@ -758,7 +768,7 @@ narration_library = {
     What seems to be a breeze disturbs it now and then, revealing nothing but darkness.
             """
                     },
-                    'dark': {}
+                    'dark': False
                 },
                 'wizard': {
                     
@@ -775,7 +785,7 @@ narration_library = {
     It seems someone doesn't want people going back there...
             """
                     },
-                    'dark': {}
+                    'dark': False
                 },
                 'wizard': {
                     
@@ -844,8 +854,7 @@ narration_library = {
         'listen': {
             'switch': {
                 'normal': {
-                    'any': {
-                    }
+                    'any': False
                 },
                 'wizard': {
                     
@@ -856,8 +865,7 @@ narration_library = {
             },
             'blood': {
                 'normal': {
-                    'any': {
-                    }
+                    'any': False
                 },
                 'wizard': {
                     
@@ -947,8 +955,7 @@ narration_library = {
             },
             'window': {
                 'normal': {
-                    'any': {
-                    }
+                    'any': False
                 },
                 'wizard': {
                     
