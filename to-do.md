@@ -1,4 +1,11 @@
 Immediate Goals
+- [x] condition-agnostic consequences
+- [ ] target aliases
+    e.g: 'taste puddle' needs to return the same consequences as 'taste blood'
+- [ ] command aliases
+    e.g: 'lick blood' needs to return the same consequences as 'taste blood'
+- [ ] target-agnostic consequences
+    in cases where performing an action on a target does not have any unique consequences (e.g: sniffing the lightswitch), this should return the same consequences as if the 'other' target was used
 - [ ] create a new consequence type that checks if the player wants to perform an additional action with a Y/n prompt
     e.g: player enters 'touch door' when cursed. the game asks the player if they want to smash the door, and lets them type yes or no
     maybe accomplish these with a flag put on any narration. straightforward narration can be stored as a string in a dictionary key, but this kind of special narration is stored as a list that also contains an extra flag that triggers this prompt along with other strings for follow-up narration
