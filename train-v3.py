@@ -70,7 +70,7 @@ def create_character():
     # loading the newly made save file into global variables and returning to the start_game() function
     load_character(filename)
 
-# this function is loads a character file into global variables, preparing the character for play.
+# this function loads a character file into global variables, preparing the character for play.
 def load_character(file):
     global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate
     with open(file) as character_file:
@@ -135,11 +135,14 @@ def start_turn():
 # and will pass a value to the 'resolve' function
 # can now handle single word input and reset on empty input
 def act():
-    from game_data import prompt, invalid_command, invalid_target, too_many_words
+    from game_data import prompt, invalid_command, invalid_target, too_many_words, command_aliases, target_aliases
+    global location
     action = input(prompt)
     if len(action) != 0:
         interpreted_input = action.split()
         command = interpreted_input[0]
+        if command in command_aliases:
+            command = command_aliases[command]
         command_validity = command_checker(command)
     else:
         command_validity = 'invalid'
@@ -150,6 +153,8 @@ def act():
                 return [command, target]
             case 2:
                 target = interpreted_input[1]
+                if target in target_aliases[location]:
+                    target = target_aliases[location][target]
                 target_validity = target_checker(target)
                 if target_validity is True:
                     return [command, target]

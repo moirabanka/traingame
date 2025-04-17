@@ -128,11 +128,11 @@ item_expended = """
 valid_commands = ['touch', 'taste', 'sniff', 'look', 'listen', 'go', 'get']
 
 command_aliases = {
-    'touch': 'feel',
-    'taste': 'lick',
-    'sniff': 'smell',
-    'look': 'see',
-    'listen': 'hear'
+    'feel':'touch',
+    'lick':'taste',
+    'smell':'sniff',
+    'see':'look',
+    'hear':'listen'
 }
 
 system_commands = ['save', 'quit', 'exit', 'status']
@@ -180,9 +180,9 @@ valid_targets = {
 
 target_aliases = {
     'dining car':{
-        'switch': 'lightswitch',
-        'blood': 'puddles',
-        'tome': 'thing'
+        'lightswitch':'switch',
+        'puddles':'blood',
+        'thing': 'tome'
 
     }
 }
@@ -193,16 +193,8 @@ target_aliases = {
 # check stat:[stat, DC, check name], check inventory:''), or check knowledge:[prompt, answer]
 # special consequences:{trigger:{consequence sublibrary}}, Death:'reason'
 # not every action will have every type of consequence, so types of consequences should be checked for by flag
+# condition-agnostic consequences are marked with 'any', and target-agnostic consequences return False
 
-# current library structure
-# status[location][command][target][condition]
-
-# library structure to be implemented:
-# narration_library[location][command][target][status][condition][consequences]
-
-# here is an example of the new dialogue structure, complete with flags for additional consequences.
-
-# I need to edit this so that condition-agnostic consequences are under the 'any' condition with no other conditions listed
 narration_library = {
     'dining car': {
         'touch': {
