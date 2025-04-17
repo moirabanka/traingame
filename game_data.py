@@ -170,7 +170,7 @@ valid_targets = {
     'dining car': ['switch', 'light switch', 'blood', 'food', 'tables', 'tome', 'door1', 'door2', 'window', 'other']
     }
 
-# I need to change the way these narration trees are organized.
+# narration tree has been reorganized on the following principles:
 # player actions will result in consequences, which will take several forms:
 # narration:'', stat change:[stat, value], location change:'', inventory change:[item, T/F]), condition change:[location, new condition]
 # check stat:[stat, DC, check name], check inventory:''), or check knowledge:[prompt, answer]
@@ -183,7 +183,9 @@ valid_targets = {
 # library structure to be implemented:
 # narration_library[location][command][target][status][condition][consequences]
 
-# here is an example of the new dialigue structure, complete with flags for additional consequences.
+# here is an example of the new dialogue structure, complete with flags for additional consequences.
+
+# I need to edit this so that condition-agnostic consequences are under the 'any' condition with no other conditions listed
 narration_library = {
     'dining car': {
         'touch': {
@@ -227,12 +229,11 @@ narration_library = {
             },
             'blood': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     It's a viscous, dark fluid. Tacky in places, and partially dried.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -243,15 +244,14 @@ narration_library = {
             },
             'food': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     You sift through the plates of rotten FOOD...
     Eventually, you have to face the truth. there's nothing edible here.
     You accidentally poke your finger through the soft exterior of a decaying fruit.
     Gross...
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -262,13 +262,12 @@ narration_library = {
             },
             'tables': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
-    You feel a number of objects here.
-    Some sort of squarish THING, and what seems to be heaping plates of FOOD
+    You feel a number of objects on the tables.
+    There is a large TOME bound in some sort of leather, and heaping plates of FOOD.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -292,13 +291,12 @@ narration_library = {
             },
             'door1': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     You feel all around the door.
     It feels like a normal door on a train.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -309,13 +307,12 @@ narration_library = {
             },
             'door2': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     You feel all around the door.
     The handle feels warm.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -326,14 +323,13 @@ narration_library = {
             },
             'window': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     You touch the glass of the window.
     It's cool, like the night outside.
     You feel the vibrations of the train car as it rattles along the rails.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -344,7 +340,7 @@ narration_library = {
             },
             'other': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     Unsure of what you're looking for, you grope around the carriage.
     On the walls and floor, you find a number of PUDDLES and WET SURFACES, 
@@ -352,8 +348,7 @@ narration_library = {
     You feel the cool glass of a WINDOW inset into each wall.
     There are doors (DOOR 1 and DOOR 2) at the front and rear of the carriage.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -366,13 +361,12 @@ narration_library = {
         'taste': {
             'switch': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     You lean in and lick the LIGHT SWITCH.
     After a few seconds of fumbling, you manage to turn on the lights!
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -383,13 +377,12 @@ narration_library = {
             },
             'blood': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     It tastes metallic...
     Yep, that's definitely BLOOD.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -400,15 +393,14 @@ narration_library = {
             },
             'food': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     You attempt to peel a rotting banana before you eat it,
     but the stem sloughs off in your grasp.
     You take a small bite, peel and all.
     You feel gross...
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -419,14 +411,13 @@ narration_library = {
             },
             'tables': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     Ouch! You get a huge splinter in your tongue!
     However, the sliver is so big you kinda look like one of those cool guys with toothpicks.
     You decide to keep it.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -437,7 +428,7 @@ narration_library = {
             },
             'tome': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     You lick the tome...
     Ouch! You got a papercut on your tongue!
@@ -446,8 +437,7 @@ narration_library = {
 
     "XOGLFOTZ"
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -458,12 +448,11 @@ narration_library = {
             },
             'door1': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     Yep, it tastes like door.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -474,12 +463,11 @@ narration_library = {
             },
             'door2': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     Yep, it tastes like door.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -490,14 +478,13 @@ narration_library = {
             },
             'window': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     You put your mouth on the window, breathing out to cause your cheeks to inflate.
     If any four-year-olds were on the other side of the glass, they'd be cracking up.
     Kinda unsanitary, though...
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -508,13 +495,12 @@ narration_library = {
             },
             'other': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     You lick the wall.
     It tastes like BLOOD.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -527,12 +513,11 @@ narration_library = {
         'sniff': {
             'switch': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     That doesn't smell like anything.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -543,13 +528,12 @@ narration_library = {
             },
             'blood': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     A metallic, rich aroma...
     Yep, that smells like BLOOD.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -560,13 +544,12 @@ narration_library = {
             },
             'food': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     You lean in to one of the platters and take a deep whiff...
     You detect notes of rotting fruits and meats.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -577,13 +560,12 @@ narration_library = {
             },
             'tables': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     The smell of rot and death fills your nostrils.
     You stop smelling it before it makes you retch.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -594,13 +576,13 @@ narration_library = {
             },
             'tome': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     It smells like death.
     You reflexively gag and recoil away.
+    Despite everything, somehow the TOME seems... tasty.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -611,14 +593,13 @@ narration_library = {
             },
             'door1': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     The air wafting through the door smells like static electricity and ozone.
     The hair stands up on the back of your neck.
     You're not sure what that means...
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -629,12 +610,11 @@ narration_library = {
             },
             'door2': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     That doesn't smell like anything.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -645,12 +625,11 @@ narration_library = {
             },
             'window': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     That doesn't smell like anything.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -661,13 +640,12 @@ narration_library = {
             },
             'other': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     You take a few good whiffs...
     The coppery scent of BLOOD hits your nostrils, followed by the smell of rotten FOOD.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -866,9 +844,8 @@ narration_library = {
         'listen': {
             'switch': {
                 'normal': {
-                    'light': {
-                    },
-                    'dark': {}
+                    'any': {
+                    }
                 },
                 'wizard': {
                     
@@ -879,9 +856,8 @@ narration_library = {
             },
             'blood': {
                 'normal': {
-                    'light': {
-                    },
-                    'dark': {}
+                    'any': {
+                    }
                 },
                 'wizard': {
                     
@@ -892,13 +868,12 @@ narration_library = {
             },
             'food': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     You hear the buzzing of the flies overhead.
     There are a LOT of them.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -909,13 +884,12 @@ narration_library = {
             },
             'tables': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     You hear the buzzing of the flies overhead.
     There are a LOT of them.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -926,14 +900,13 @@ narration_library = {
             },
             'tome': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     You hear otherworldly whispers enticing you.
     This books seems quite powerful.
     Perhaps that power can be yours...
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -944,12 +917,11 @@ narration_library = {
             },
             'door1': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     You can't quite make it out, but you hear something rhythmic...
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -960,12 +932,11 @@ narration_library = {
             },
             'door2': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     No other sound comes from the rear car but the clattering of the rails.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     
@@ -976,9 +947,8 @@ narration_library = {
             },
             'window': {
                 'normal': {
-                    'light': {
-                    },
-                    'dark': {}
+                    'any': {
+                    }
                 },
                 'wizard': {
                     
@@ -989,13 +959,12 @@ narration_library = {
             },
             'other': {
                 'normal': {
-                    'light': {
+                    'any': {
                         'narration':"""
     You listen to the intermittent clunk of the train passing over the rough railway.
     You seem to be traveling quite fast.
             """
-                    },
-                    'dark': {}
+                    }
                 },
                 'wizard': {
                     

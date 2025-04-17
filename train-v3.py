@@ -194,8 +194,7 @@ def resolve(player_input):
         global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate
         command = player_input[0]
         target = player_input[1]
-        condition = worldstate[location]
-        consequences = narration_library[location][command][target][status][condition]
+        consequences = condition_handler(command, target)
         if 'narration' in consequences:
             print(consequences['narration'])
         if 'stat change' in consequences:
@@ -229,11 +228,16 @@ def resolve(player_input):
 
 # UTILITY FUNCTIONS
 
-def condition_wildcard(condition_tree):
-    if len(condition_tree) is 1 and any in condition_tree:
-        return True
+# this function handles condition-agnostic consequences 
+def condition_handler(current_command, current_target):
+    from game_data import narration_library
+    global location, status, worldstate
+    condition = worldstate[location]
+    condition_tree = narration_library[location][current_command][current_target][status]
+    if len(condition_tree) is 1 and 'any' in condition_tree:
+        return narration_library[location][current_command][current_target][status]['any']
     else:
-        return False
+        return narration_library[location][current_command][current_target][status][condition]
 
 # this function should be called into play whenever the character's stats are changed
 # called in the 'resolve' function
