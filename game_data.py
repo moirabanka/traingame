@@ -195,7 +195,7 @@ target_aliases = {
 
 # narration tree has been reorganized on the following principles:
 # player actions will result in consequences, which will take several forms:
-# narration:'', stat change:{stat, value}, location change:'', inventory change:{item, T/F}), condition change:{location, new condition}
+# narration:'', stat change:{stat, value}, location change:'', inventory change:{item, T/F}), condition change:{target location, new condition}
 # check stat:{stat, dc, check name, success, failure}, check inventory:{item, success, failure},
 # check knowledge:{prompt, answer, success, failure}, check consent:{prompt, success, failure}
 # special consequences:{trigger:{consequence sublibrary}}, Death:'reason'
@@ -210,7 +210,7 @@ narration_library = {
                     'light': {
                         'narration': 
                         """
-        You flip the LIGHT SWITCH!
+        You flip the light SWITCH!
 
         The train car is flooded with darkness.
         You can't see the blood anymore...
@@ -223,7 +223,7 @@ narration_library = {
                     },
                     'dark': {
                         'narration': """
-        You find a LIGHT SWITCH!
+        You find a light SWITCH!
 
         You flick it on, bathing the train car in light.
         There's blood everywhere, and I mean *everywhere*.
@@ -235,12 +235,19 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    'light': {},
-                    'dark': {}
+                    'any': {
+                        'narration':"""
+    {} has no need for such contrivances of simpler beings.
+    The luminousity of their skin should suffice.
+            """,
+                        'condition change':{
+                            'target location':'dining car',
+                            'new condition':'dark'
+                        }
+                    }
                 },
                 'cursed': {
-                    'light': {},
-                    'dark': {}
+                    'any':False
                 }
             },
             'blood': {
@@ -252,11 +259,15 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    Somweone has left their life's blood behind.
+    Too far degraded for any use. A pity...
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':False
             },
             'food': {
                 'normal': {
@@ -270,11 +281,16 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} refuses to touch the rotten food.
+    Let the dead decompose in peace...
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':False
+            }
             },
             'tables': {
                 'normal': {
@@ -286,11 +302,17 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    The tables are constructed with plastic paneling printed to look like wood.
+    It's incredibly tacky. {} is somewhaty insulted by your suggestion to touch it.
+    Out of the overwhelming kindness of their heart, they forgive you.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':False
+            }
             },
             'tome': {
                 'normal': {
@@ -343,11 +365,23 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} picks up the tome. It hangs limply in their grasp, defeated.
+    They and the tome now share the source of their powers.
+    For one to hurt the other is to hurt themselves.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    Yeah, you're doing that.
+    Can't stop doing that, actually.
+    Your hands are starting to go numb...
+            """
+                    }
+            }
             },
             'door1': {
                 'normal': {
@@ -359,11 +393,16 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    Behind this door lies something the likes of which {} has never perceived, not even with their mind's eye.
+    They are compelled by the allure of the unknown... They must see it, now!
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':False
+            }
             },
             'door2': {
                 'normal': {
@@ -375,11 +414,16 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} already knows what a door feels like.
+    It feels like a normal door on a normal train.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':False
+            }
             },
             'window': {
                 'normal': {
@@ -392,11 +436,16 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} touches the window. It feels like cool glass
+    It reminds them of what they think a crystal ball might feel like.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':False
+            }
             },
             'other': {
                 'normal': {
@@ -404,18 +453,27 @@ narration_library = {
                         'narration':"""
     Unsure of what you're looking for, you grope around the carriage.
     On the walls and floor, you find a number of PUDDLES and WET SURFACES, 
-    what seems to be a LIGHT SWITCH, and a number of TABLES laden with ITEMS.
+    what seems to be a light SWITCH, and a number of TABLES laden with ITEMS.
     You feel the cool glass of a WINDOW inset into each wall.
     There are doors (DOOR 1 and DOOR 2) at the front and rear of the carriage.
             """
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} refuses to grope around like a fool.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    You try to touch the {}, but your hands are still frozen to the tome!
+    They're starting to go numb...
+            """
+                    }
+            }
             },
         },
         'taste': {
@@ -423,17 +481,22 @@ narration_library = {
                 'normal': {
                     'any': {
                         'narration':"""
-    You lean in and lick the LIGHT SWITCH.
+    You lean in and lick the light SWITCH.
     After a few seconds of fumbling, you manage to turn on the lights!
             """
                     }
                 },
                 'wizard': {
-                    
+                    'any':False
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    Arms still frozen in place by the cursed TOME, you crane your neck towards the LIGHT SWITCH.
+    After a few seconds of fumbling, you manage to turn on the lights!
+            """
+                    }
+            }
             },
             'blood': {
                 'normal': {
@@ -445,11 +508,24 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} doesn't need to taste the blood to know it tastes like blood.
+    They taste it anyway...
+    The bloodstains range from 30 minutes to 2 hours in age, from at least 5 people.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    It tastes metallic, tangy, and almost sweet.
+    Yep, that's definitely BLOOD.
+    You wish it was fresher...
+    You're quite hungry.
+            """
+                    }
+            }
             },
             'food': {
                 'normal': {
@@ -463,11 +539,22 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    Unnecessary. {} has already calculated the original flavor of the fresh food in their head.
+    Hmm... Maybe some more Sodium Chloride next time...
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    Leaning over the table with your upper body, you use your mouth to seize a scrap of spoiled meat.
+    After a few short minutes of crunching and slurping, it's gone.
+    You're still hungry...
+            """
+                    }
+            }
             },
             'tables': {
                 'normal': {
@@ -480,11 +567,17 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':False
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    The bare imitation-wood vinyl turns your stomach.
+    However, you manage to find a spot of BLOOD while licking the table.
+    It's not enough, though...
+            """
+                    }
+            }
             },
             'tome': {
                 'normal': {
@@ -500,11 +593,21 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    Been there, done that.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    You try to lick the tome...
+    However, your arms are paralyzed too far forward.
+    You cannot reach its pages with your tongue.
+            """
+                    }
+            }
             },
             'door1': {
                 'normal': {
@@ -515,11 +618,19 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any': """
+    {} gives the door a long lick...
+    There's magic on the other side of this mundane barrier...
+            """
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    This door tastes like promise.
+    Like power.
+            """
+                    }
+            }
             },
             'door2': {
                 'normal': {
@@ -530,11 +641,16 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':False
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    This door tastes like freedom...
+    And death.
+            """
+                    }
+            }
             },
             'window': {
                 'normal': {
@@ -547,11 +663,18 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':False
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    You lick the window.
+    It's a cold night, and something strange is on the air.
+    You keep licking until you find a spot of blood.
+    Not bad.
+            """
+                    }
+            }
             },
             'other': {
                 'normal': {
@@ -563,11 +686,21 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} refuses.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    You lick the wall.
+    It tastes like BLOOD.
+    You're quite hungry.
+            """
+                    }
+            }
             },
         },
         'sniff': {
@@ -576,11 +709,11 @@ narration_library = {
                     'any': False
                 },
                 'wizard': {
-                    
+                    'any':False
                 },
                 'cursed': {
-                    
-                }
+                    'any':False
+            }
             },
             'blood': {
                 'normal': {
@@ -592,11 +725,22 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                   'any':{
+                        'narration':"""
+    A metallic, rich aroma...
+    Weak blood, drained of the little life essence it once carried.
+            """
+                    } 
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    A metallic, rich aroma...
+    Yep, that smells like BLOOD.
+    It's drying, though. Not fresh enough.
+            """
+                    }
+            }
             },
             'food': {
                 'normal': {
@@ -608,11 +752,16 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':False
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    You lean in to one of the platters and take a deep whiff...
+    The smell of the rotting food entices you as if it were a free breakfast buffet.
+            """
+                    }
+            }
             },
             'tables': {
                 'normal': {
@@ -624,11 +773,17 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':False
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    The smell of rot and death fills your nostrils.
+    Your stomach growls...
+    Why did you ever used to think this was bad?
+            """
+                    }
+            }
             },
             'tome': {
                 'normal': {
@@ -641,11 +796,20 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    It smells like powerful magic...
+    The same magic {} feels coursing through their body.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    It smells just like you.
+            """
+                    }
+            }
             },
             'door1': {
                 'normal': {
@@ -658,11 +822,23 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    The air wafting through the door smells like static electricity and ozone.
+    The hair stands up on the back of {}'s neck.
+    A potent spirit dwells in the next car...
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    The air wafting through the door smells like static electricity and ozone.
+    The hair stands up on the back of your neck.
+    It feels powerful...
+            """,
+                    }
+            }
             },
             'door2': {
                 'normal': {
@@ -674,22 +850,29 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} smells nothing but base, mundane odours here.
+    """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    Smells like smoke and desperation.
+            """
+                    }
+            }
             },
             'window': {
                 'normal': {
                     'any': False 
                 },
                 'wizard': {
-                    
+                    'any':False
                 },
-                'cursed': {
-                    
-                }
+                'cursed': False
+            }
             },
             'other': {
                 'normal': {
@@ -701,11 +884,22 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} takes a few good whiffs...
+    The train car is ripe with odours most foul.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':"""
+    You take a few good whiffs...
+    The coppery scent of BLOOD hits your nostrils, overwhelming all else.
+    If only it was fresher...
+            """
+                    }
+            }
             },
         },
         'look': {
@@ -713,18 +907,30 @@ narration_library = {
                 'normal': {
                     'light': {
                         'narration':"""
-    It's a LIGHT SWITCH, toggled on.
+    It's a light SWITCH, toggled on.
     You toggled it not long ago.
             """
                     },
                     'dark': False
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    A pitiful contraption for lesser beings unable to project light from their very skin.
+    It's beneath {} to make use of it.
+    They turn it off, because it's too bright in here.
+                """,
+                        'condition change':{
+                            'target location':'dining car',
+                            'new condition':'dark'
+                        }
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
             'blood': {
                 'normal': {
@@ -738,11 +944,18 @@ narration_library = {
                     'dark': False
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    Somweone has left their life's blood behind.
+    Too far degraded for any use. A pity...
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
             'food': {
                 'normal': {
@@ -755,33 +968,48 @@ narration_library = {
                     'dark': False
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    Disgusting. {} will not pollute their mind with such unclean images.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
             'tables': {
                 'normal': {
                     'light': {
                         'narration':"""
-    You see five circular tables. On them sits many platters of rotten FOOD.
+    You see five circular TABLES. On them sits many platters of rotten FOOD.
     Also present on the table is what seems to be an ancient TOME.
     It looks quite valuable...
                 """
                     },
                     'dark': {
                         'narration':"""
-    You see the silhoutte of TABLES laden with ITEMS.
-    Too dark to make out what the ITEMS are...
+    You see the silhoutte of TABLES laden with FOOD.
+    There is also a squarish THING sitting on one of the TABLES.
+    Too dark to make out what it is...
                 """}
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} sees five circular tables laden with rotten FOOD.
+    Also present on the tables is the TOME.
+    It sits, exhausted of malice.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
             'tome': {
                 'normal': {
@@ -797,11 +1025,19 @@ narration_library = {
                     'dark': False
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} looks over the tome, an ornate book bound in human skin.
+    It exudes magic from the same source as your own...
+    They kind of feel like they are bathing in their own sweat.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
             'door1': {
                 'normal': {
@@ -814,11 +1050,19 @@ narration_library = {
                     'dark': False
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    The curtain is drawn on the other side of the door's window.
+    What seems to be a breeze disturbs it now and then, revealing nothing but darkness.
+    The allure of the unknown calls...
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
             'door2': {
                 'normal': {
@@ -831,11 +1075,18 @@ narration_library = {
                     'dark': False
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    This door's window seems to be covered with a large piece of plywood. How uncouth.
+    Flickering light from the other side of the door shines through small gaps in the wood.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
             'window': {
                 'normal': {
@@ -858,11 +1109,20 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} looks out the window...
+    But it's too bright in the train car to see anything outside.
+    Instead, {} sees themself, a magnifiscent figure wreathed in the glowing blue light that suffuses the room.
+    {} gives a wizardly wink at you through the mirrored window.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
             'other': {
                 'normal': {
@@ -887,11 +1147,25 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} looks around...
+    The train car is covered in about three gallons of rapidly expiring life's BLOOD.
+    Tacky, partially drying PUDDLES of the stuff are scattered across the floor.
+    Despite the obvious carnage that took place here, there doesn't seem to be any bodies.
+    This seems to be a dining car, the walls lined with TABLES holding a variety of ITEMS.
+    Platters of rotten FOOD are arrayed throughout the car, an unpleasant tableau of decay and death.
+    On the wall is the light SWITCH, rendered unnecessary.
+    There is a WINDOW on each side of the carriage, made mirror-like by the brightness inside the train car.
+    There are two DOORS (DOOR1 and DOOR2) to the front and rear of the train car, respectively.
+                """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
         },
         'listen': {
@@ -900,22 +1174,30 @@ narration_library = {
                     'any': False
                 },
                 'wizard': {
-                    
+                    'any':False
                 },
                 'cursed': {
-                    
-                }
+                    'any':False
+            }
             },
             'blood': {
                 'normal': {
                     'any': False
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} imagines the BLOOD gurgling softly.
+    It whispers...
+    "I was once in the veins of a guy named Abrahand Lickin'. Hell of a thing, ain't it?"
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
             'food': {
                 'normal': {
@@ -927,11 +1209,13 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':False
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
             'tables': {
                 'normal': {
@@ -943,11 +1227,13 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':False
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
             'tome': {
                 'normal': {
@@ -960,11 +1246,18 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} hears otherworldly whispers emanating from the tome.
+    They say: "Warning! This tome is cursed!".
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
             'door1': {
                 'normal': {
@@ -975,11 +1268,18 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} hears something rhythmic...
+    It sounds like the chanting of an incantation.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
             'door2': {
                 'normal': {
@@ -990,22 +1290,32 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':False
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
             'window': {
                 'normal': {
                     'any': False
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} cups their ear against the window.
+    Maybe they hear a bird outside. 
+    I don't know, it's hard to tell.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
             'other': {
                 'normal': {
@@ -1017,11 +1327,18 @@ narration_library = {
                     }
                 },
                 'wizard': {
-                    
+                    'any':{
+                        'narration':"""
+    {} listens to the intermittent clunk of the train passing over the rough railway.
+    The train seems to be traveling quite fast, about 90 miles per hour.
+            """
+                    }
                 },
                 'cursed': {
-                    
-                }
+                    'any':{
+                        'narration':
+                    }
+            }
             },
         },
         'go': {
