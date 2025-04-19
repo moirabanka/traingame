@@ -269,6 +269,7 @@ narration_library = {
                 'cursed': {
                     'any':False
             },
+            },
             'food': {
                 'normal': {
                     'any': {
@@ -872,7 +873,6 @@ narration_library = {
                     'any':False
                 },
                 'cursed': False
-            }
             },
             'other': {
                 'normal': {
