@@ -927,8 +927,12 @@ narration_library = {
                     }
                 },
                 'cursed': {
-                    'any':{
-                        'narration':
+                    'light':{
+                        'narration':"""
+    It's a light SWITCH, toggled on.
+    You wish your hands were free so that you could toggle it once again.
+    It's too bright in here.
+    """
                     }
             }
             },
@@ -936,7 +940,7 @@ narration_library = {
                 'normal': {
                     'light': {
                         'narration':"""
-    Smears and spatters of blood cover the inside of the train car.
+    Smears and spatters of BLOOD cover the inside of the train car.
     It seems to be drying, but still somewhat fresh.
     Gleams of bright crimson reside among the flaking rusty brown
             """
@@ -946,14 +950,18 @@ narration_library = {
                 'wizard': {
                     'any':{
                         'narration':"""
-    Somweone has left their life's blood behind.
+    Somweone has left their life's BLOOD behind.
     Too far degraded for any use. A pity...
             """
                     }
                 },
                 'cursed': {
                     'any':{
-                        'narration':
+                        'narration':"""
+    Both bright red and rusty red-brown splashes of BLOOD cover the inside of the train car.
+    Some spatters are almost fresh, while others have been dried for some time.
+    You wish the bodies were here, too.
+    """
                     }
             }
             },
@@ -976,7 +984,11 @@ narration_library = {
                 },
                 'cursed': {
                     'any':{
-                        'narration':
+                        'narration':"""
+    Wow, someone left all this FOOD here.
+    It would be a shame to just... leave it here. Wouldn't it?
+    There can't be many people left on this train who could stop you...
+    """
                     }
             }
             },
@@ -991,7 +1003,7 @@ narration_library = {
                     },
                     'dark': {
                         'narration':"""
-    You see the silhoutte of TABLES laden with FOOD.
+    You see the silhoutte of TABLES laden with STUFF.
     There is also a squarish THING sitting on one of the TABLES.
     Too dark to make out what it is...
                 """}
@@ -1007,7 +1019,10 @@ narration_library = {
                 },
                 'cursed': {
                     'any':{
-                        'narration':
+                        'narration':"""
+    There are five circular TABLES strewn across the carriage.
+    They are laden with platters of ripe FOOD, aged to perfection.
+    """
                     }
             }
             },
@@ -1035,7 +1050,13 @@ narration_library = {
                 },
                 'cursed': {
                     'any':{
-                        'narration':
+                        'narration':"""
+    You can't really help but look at it...
+    The TOME is still right here in your hands.
+    At first you thought the pages were blank, but there's a trick to reading them...
+    
+    Wait, how long have you been reading, anyway?
+    """
                     }
             }
             },
@@ -1060,7 +1081,10 @@ narration_library = {
                 },
                 'cursed': {
                     'any':{
-                        'narration':
+                        'narration':"""
+    It's a door...
+    Maybe there's something to eat in there?
+    """
                     }
             }
             },
@@ -1084,7 +1108,10 @@ narration_library = {
                 },
                 'cursed': {
                     'any':{
-                        'narration':
+                        'narration':"""
+    It's a door.
+    It's boarded up.
+    Maybe that's where they keep the good stuff on this train."""
                     }
             }
             },
@@ -1119,10 +1146,18 @@ narration_library = {
                     }
                 },
                 'cursed': {
-                    'any':{
-                        'narration':
+                    'light':{
+                        'narration':"""
+    You see yourself reflected in the window...
+    Your shirt is stained.
+    Wait, if you can't put down the TOME...
+    How will you ever change into a fresh shirt?
+    """
+                    },
+                    'dark':{
+                        'narration':""""""
                     }
-            }
+                }
             },
             'other': {
                 'normal': {
@@ -1163,7 +1198,7 @@ narration_library = {
                 },
                 'cursed': {
                     'any':{
-                        'narration':
+                        'narration':""""""
                     }
             }
             },
@@ -1195,7 +1230,7 @@ narration_library = {
                 },
                 'cursed': {
                     'any':{
-                        'narration':
+                        'narration':""""""
                     }
             }
             },
@@ -1213,7 +1248,7 @@ narration_library = {
                 },
                 'cursed': {
                     'any':{
-                        'narration':
+                        'narration':""""""
                     }
             }
             },
@@ -1231,7 +1266,7 @@ narration_library = {
                 },
                 'cursed': {
                     'any':{
-                        'narration':
+                        'narration':""""""
                     }
             }
             },
@@ -1255,7 +1290,7 @@ narration_library = {
                 },
                 'cursed': {
                     'any':{
-                        'narration':
+                        'narration':""""""
                     }
             }
             },
@@ -1277,7 +1312,7 @@ narration_library = {
                 },
                 'cursed': {
                     'any':{
-                        'narration':
+                        'narration':""""""
                     }
             }
             },
@@ -1294,7 +1329,7 @@ narration_library = {
                 },
                 'cursed': {
                     'any':{
-                        'narration':
+                        'narration':""""""
                     }
             }
             },
@@ -1313,7 +1348,7 @@ narration_library = {
                 },
                 'cursed': {
                     'any':{
-                        'narration':
+                        'narration':""""""
                     }
             }
             },
@@ -1336,7 +1371,7 @@ narration_library = {
                 },
                 'cursed': {
                     'any':{
-                        'narration':
+                        'narration':""""""
                     }
             }
             },

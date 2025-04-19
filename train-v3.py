@@ -214,7 +214,7 @@ def consequence_handler(consequences):
         consequences = condition_handler(command, target)
     # Immediate consequences
     if 'narration' in consequences:
-        print(consequences['narration'])
+        print(consequences['narration'].format(name))
     if 'stat change' in consequences:
         stat = consequences['stat change']['stat']
         value = consequences['stat change']['value']
