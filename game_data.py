@@ -210,28 +210,44 @@ narration_library = {
                     'light': {
                         'narration': 
                         """
-        You flip the light SWITCH!
+    You flip the light SWITCH!
 
-        The train car is flooded with darkness.
-        You can't see the blood anymore...
-        But if anything, that's even scarier!
+    The train car is flooded with darkness.
+    You can't see the blood anymore...
+    But if anything, that's even scarier!
         
-        +1 Fear
+    +1 Fear
                         """,
                         'stat change':{'stat':'fear', 'value':1},
-                        'condition change':{'target location':'dining car', 'new condition':'dark'}
+                        'condition change':{'target location':'dining car', 'new condition':'dark'},
+                        'check history': {
+                            1:{
+                                'narration':"""
+    You flip the light SWITCH off again.
+    """,
+                                'condition change':{'target location':'dining car', 'new condition':'dark'}
+                            }
+                        }
                     },
                     'dark': {
                         'narration': """
-        You find a light SWITCH!
+    You find a light SWITCH!
 
-        You flick it on, bathing the train car in light.
-        There's blood everywhere, and I mean *everywhere*.
+    You flick it on, bathing the train car in light.
+    There's blood everywhere, and I mean *everywhere*.
 
-        +2 Fear
+    +2 Fear
                         """,
                         'stat change':{'stat':'fear', 'value':2},
-                        'condition change':{'target location':'dining car', 'new condition':'light'}
+                        'condition change':{'target location':'dining car', 'new condition':'light'},
+                        'check history': {
+                            1:{
+                                'narration':"""
+    You flip the light SWITCH on again.
+    """,
+                                'condition change':{'target location':'dining car', 'new condition':'light'}
+                            }
+                        }
                     }
                 },
                 'wizard': {
@@ -261,7 +277,7 @@ narration_library = {
                 'wizard': {
                     'any':{
                         'narration':"""
-    Somweone has left their life's blood behind.
+    Someone has left their life's blood behind.
     Too far degraded for any use. A pity...
             """
                     }

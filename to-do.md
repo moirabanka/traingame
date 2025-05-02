@@ -46,6 +46,7 @@ Immediate Goals
         Can transmute fear to anger, and back. Gets different bonuses when fear or anger is dominant. Resistance to cognitive dissonance
     Connoisseur
         Enjoys the finer things in life. Can also afford them. Hedonist. 
+- [ ] create a tutorial for the game
 
 
 Game presentation

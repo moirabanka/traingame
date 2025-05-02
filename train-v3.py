@@ -135,7 +135,6 @@ def start_turn():
         player_action = act()
         if player_action:
             resolve(player_action)
-            history_recorder(player_action)
             break
 
 
@@ -205,7 +204,7 @@ def resolve(player_input):
     if player_input != False:
         global command, target, name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate
         consequence_library = condition_handler(command, target)
-        consequence_handler(consequence_library)
+        consequence_handler(consequence_library, False)
 
 
 
@@ -214,12 +213,25 @@ def resolve(player_input):
 
 # this function carries out the consequences contained in the consequence library it is supplied with.
 # it now calls itself recursively when circumstances call for additional branching consequences.
-def consequence_handler(consequences):
+def consequence_handler(consequences, recursive_mode):
     from game_data import narration_library, item_acquired, item_expended
     global command, target, location, inventory, worldstate
     if consequences == False:
         target = 'other'
         consequences = condition_handler(command, target)
+    # History management
+    if 'check history' in consequences:
+        condition = worldstate[location]
+        result = check_history([command, target, condition])
+        if result:
+            if len(consequences['check history']) > 1:
+                consequence_handler(consequences['check history'][result], True)
+                return
+            elif len(consequences['check history']) == 1:
+                consequence_handler(consequences['check history'][1], True)
+                return
+    if not recursive_mode:
+        history_recorder([command, target])
     # Immediate consequences
     if 'narration' in consequences:
         print(consequences['narration'].format(name))
@@ -243,29 +255,29 @@ def consequence_handler(consequences):
     if 'check consent' in consequences:
         player_yesno = check_consent(consequences['check consent']['prompt'])
         if player_yesno:
-            consequence_handler(consequences['check consent']['yes'])
+            consequence_handler(consequences['check consent']['yes'], True)
         else:
-            consequence_handler(consequences['check consent']['no'])
+            consequence_handler(consequences['check consent']['no'], True)
     if 'check stat' in consequences:
         result = check_stat(consequences['check stat']['stat'], consequences['check stat']['dc'])
         if result:
-            consequence_handler(consequences['check stat']['success'])
+            consequence_handler(consequences['check stat']['success'], True)
         else:
-            consequence_handler(consequences['check stat']['failure'])
+            consequence_handler(consequences['check stat']['failure'], True)
     if 'check inventory' in consequences:
-        result = check_inventory(consequences['check inventory']['item'])
+        result = check_inventory(consequences['check inventory']['item'], True)
         if result:
-            consequence_handler(consequences['check inventory']['success'])
+            consequence_handler(consequences['check inventory']['success'], True)
         else:
-            consequence_handler(consequences['check inventory']['failure'])
+            consequence_handler(consequences['check inventory']['failure'], True)
     if 'check knowledge' in consequences:
         result = check_knowledge(consequences['check knowledge']['prompt'], consequences['check knowledge']['answer'])
         if result:
-            consequence_handler(consequences['check knowledge']['success'])
+            consequence_handler(consequences['check knowledge']['success'], True)
         else:
-            consequence_handler(consequences['check knowledge']['failure'])
-    if 'check history' in consequences:
-        result = check_history([command, target])
+            consequence_handler(consequences['check knowledge']['failure'], True)
+
+            
 
 # this function handles condition-agnostic consequences 
 def condition_handler(current_command, current_target):
@@ -279,21 +291,30 @@ def condition_handler(current_command, current_target):
         return narration_library[location][current_command][current_target][status][condition]
 
 def history_recorder(event):
+    #DEBUGGING
+    print(event)
     global history, worldstate, location
     condition = worldstate[location]
     event.append(condition)
     recorded_event = ' '.join(event)
-    if check_history(recorded_event):
-        
-        
-    history.update({recorded_event:condition})
+    #DEBUGGING
+    print(recorded_event)
+    if check_history(event):
+        occurrences = history[recorded_event]
+        occurrences += 1
+    else:
+        occurrences = 1
+    history.update({recorded_event:occurrences})
 
 def check_history(event):
     global history, worldstate, location
-    recorded_event = ' '.join(event)
-    condition = worldstate[location]
-    if recorded_event in history and history[recorded_event] == condition:
-        return True
+    #DEBUGGING
+    print((event))
+    checked_event = ' '.join(event)
+    #DEBUGGING
+    print(checked_event)
+    if checked_event in history and history[checked_event] >= 1:
+        return history[checked_event]
     else:
         return False
     
