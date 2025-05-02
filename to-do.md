@@ -18,25 +18,15 @@ Immediate Goals
 - [x] add a game cycle function that loops through the player turn, threat turns, and performs necessary checks and upkeep
 - [x] loop the player turn so that the player can retry faulty commands
 - [x] change the resolve function so it is more readable
-- [ ] add a time counter that can be used to trigger threat turns
+- [x] add a time counter that can be used to trigger threat turns
 - [x] migrate narration to new consequence dictionary
 - [ ] add additional consequences for the migrated narration
 - [ ] system command that shows all commands the player can use right now
     including contextual commands and those drawn from the character's background and status
 - [ ] system command that shows the character's current emotional state and stance
-- [ ] tracked character history
+- [x] tracked character history
     should take note of all interactions that can have an effect on the character that shouldn't be repeatable.
     also requires a system that checks when a command has been used before and changes the consequences as a result
-- [ ] flesh out the backgrounds
-    Malcontent (madcap?)
-        Wants to break things. better at aggression. cruel streak.
-    Utilitarian
-        Wants to use and repurpose items.
-    Gourmond
-        Appreciative of life's beauties. indulgent. loves food. has a good time.
-    Reactionary
-        Ruled by fear. hateful can transmute fear to anger and disgust at will. good reaction time. resistant to cognitive dissonance
-        So far, this is by far the most interesting class
 - [ ] implement Revised Backgrounds
     Madcap
         Gains joy from daredevil feats and unpredictable, chaotic action. Resistances to fear. Likes to break things. Possible murderhobo.
@@ -47,6 +37,9 @@ Immediate Goals
     Connoisseur
         Enjoys the finer things in life. Can also afford them. Hedonist. 
 - [ ] create a tutorial for the game
+- [ ] create an objective system
+    the player should be able to use a command that shows their current objectives. Most objectives are background- or status-specific. The completion or failure of an objective should lead to special consequences.
+
 
 
 Game presentation
@@ -93,6 +86,8 @@ Character state
 
 Mechanics
 - [x] character actions change emotional state
+- [ ] character traits
+    Minor modifiers for your character. Traits should be acquirable through gameplay (e.g: licking the table will give you the 'toothpick' trait), possibly with some that can be chosen at character creation. A character's current traits should be stored as a list in their save file, and may be referenced in special circumstances or used when describing your character
 - [ ] current emotional state effects narration
 - [ ] emotional spiralling
 - [ ] character rebellion

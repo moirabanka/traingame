@@ -291,14 +291,10 @@ def condition_handler(current_command, current_target):
         return narration_library[location][current_command][current_target][status][condition]
 
 def history_recorder(event):
-    #DEBUGGING
-    print(event)
     global history, worldstate, location
     condition = worldstate[location]
     event.append(condition)
     recorded_event = ' '.join(event)
-    #DEBUGGING
-    print(recorded_event)
     if check_history(event):
         occurrences = history[recorded_event]
         occurrences += 1
@@ -308,11 +304,7 @@ def history_recorder(event):
 
 def check_history(event):
     global history, worldstate, location
-    #DEBUGGING
-    print((event))
     checked_event = ' '.join(event)
-    #DEBUGGING
-    print(checked_event)
     if checked_event in history and history[checked_event] >= 1:
         return history[checked_event]
     else:
