@@ -205,7 +205,7 @@ def resolve(player_input):
 # UTILITY FUNCTIONS
 
 # this function carries out the consequences contained in the consequence library it is supplied with.
-# it calls itself recursively when circumstances call for additional branching consequences.
+# it now calls itself recursively when circumstances call for additional branching consequences.
 def consequence_handler(consequences):
     from game_data import narration_library, item_acquired, item_expended
     global command, target, location, inventory, worldstate

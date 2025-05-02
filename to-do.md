@@ -15,11 +15,11 @@ Immediate Goals
 - [x] implement system commands that can be used while in game, such as 'save' or 'load'
 - [x] find a way to display special narration based on conditions, backgrounds, emotions, or stances
     I'm thinking thay this special narration should always be associated with a check. However, I also want to have an alternate mechanic for replacing the original status-based narration, though this should be done only rarely.
-- [ ] add a game cycle function that loops through the player turn, threat turns, and performs necessary checks and upkeep
+- [x] add a game cycle function that loops through the player turn, threat turns, and performs necessary checks and upkeep
 - [x] loop the player turn so that the player can retry faulty commands
 - [x] change the resolve function so it is more readable
 - [ ] add a time counter that can be used to trigger threat turns
-- [ ] migrate narration to new consequence dictionary
+- [x] migrate narration to new consequence dictionary
 - [ ] add additional consequences for the migrated narration
 - [ ] system command that shows all commands the player can use right now
     including contextual commands and those drawn from the character's background and status
@@ -37,11 +37,22 @@ Immediate Goals
     Reactionary
         Ruled by fear. hateful can transmute fear to anger and disgust at will. good reaction time. resistant to cognitive dissonance
         So far, this is by far the most interesting class
+- [ ] implement Revised Backgrounds
+    Madcap
+        Gains joy from daredevil feats and unpredictable, chaotic action. Resistances to fear. Likes to break things. Possible murderhobo.
+    Sleuth
+        Gains anticipation when clues are found and collected. Gets big bonuses when the clues are validated, but big maluses when a clue is identified as a red herring
+    Reactionary
+        Can transmute fear to anger, and back. Gets different bonuses when fear or anger is dominant. Resistance to cognitive dissonance
+    Connoisseur
+        Enjoys the finer things in life. Can also afford them. Hedonist. 
 
 
 Game presentation
 - [x] main menu
     should be able to choose whether to start a new game, load a save, or quit. Ideally, should also have a way to delete characters and a developer menu with commands that can help debug the game
+- [ ] beautify the main menu
+    allow navigation with arrow keys to choose an option 
 
 Zones
 - [ ] Car 0 (caboose): locked car with secrets
@@ -74,10 +85,9 @@ Character state
         aggressive
         defensive
         repulsed
-        
-
-- [ ] mutually exlusive statuses
-- [ ] inter-compatible statuses
+- [ ] cognitive dissonance stat
+- [x] mutually exlusive statuses
+- [x] inter-compatible statuses
 - [x] tracked inventory system
 
 Mechanics
