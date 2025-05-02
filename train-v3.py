@@ -64,7 +64,8 @@ def create_character():
                       'disgust': 0,
                       'anger': 0,
                       'anticipation': 0,
-                      'worldstate': default_worldstate}
+                      'worldstate': default_worldstate,
+                      'history':{}}
     with open(filename, 'w') as character_file:
         json.dump(character_info, character_file, indent=4)
     # loading the newly made save file into global variables and returning to the start_game() function
@@ -72,7 +73,7 @@ def create_character():
 
 # this function loads a character file into global variables, preparing the character for play.
 def load_character(file):
-    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate
+    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate, history
     with open(file) as character_file:
         character_data = json.load(character_file)
         name = character_data['name']
@@ -89,10 +90,11 @@ def load_character(file):
         anger = character_data['anger']
         anticipation = character_data['anticipation']
         worldstate = character_data['worldstate']
+        history = character_data['history']
         
 # saves current character values held in global variables to a file
 def save_game(save_file):
-    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate
+    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate, history
     with open(save_file, 'w') as character_file:
         character_info = {'name': name, 
                       'background': background, 
@@ -107,15 +109,20 @@ def save_game(save_file):
                       'disgust': disgust,
                       'anger': anger,
                       'anticipation': anticipation,
-                      'worldstate': worldstate}
+                      'worldstate': worldstate,
+                      'history': history}
         json.dump(character_info, character_file, indent=4)
 
 
 # this function manages the overall continuity of ganeplay, looping until the player quits the game.
 # eventually should also contain a time counter and ways to trigger events and possibly the actions of other characters
 def turn_cycle():
+    global time_elapsed
+    time_elapsed = 0
     while True:
         start_turn()
+        time_elapsed += 1
+
 
 
 # this function handles the process of the player turn.
@@ -128,6 +135,7 @@ def start_turn():
         player_action = act()
         if player_action:
             resolve(player_action)
+            history_recorder(player_action)
             break
 
 
@@ -256,6 +264,8 @@ def consequence_handler(consequences):
             consequence_handler(consequences['check knowledge']['success'])
         else:
             consequence_handler(consequences['check knowledge']['failure'])
+    if 'check history' in consequences:
+        result = check_history([command, target])
 
 # this function handles condition-agnostic consequences 
 def condition_handler(current_command, current_target):
@@ -268,6 +278,25 @@ def condition_handler(current_command, current_target):
     else:
         return narration_library[location][current_command][current_target][status][condition]
 
+def history_recorder(event):
+    global history, worldstate, location
+    condition = worldstate[location]
+    event.append(condition)
+    recorded_event = ' '.join(event)
+    if check_history(recorded_event):
+        
+        
+    history.update({recorded_event:condition})
+
+def check_history(event):
+    global history, worldstate, location
+    recorded_event = ' '.join(event)
+    condition = worldstate[location]
+    if recorded_event in history and history[recorded_event] == condition:
+        return True
+    else:
+        return False
+    
 # this function should be called into play whenever the character's stats are changed
 # called in the 'resolve' function
 # this can probably be refactored
