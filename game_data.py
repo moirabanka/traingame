@@ -58,12 +58,11 @@ confirmation_prompt = """
 
  > """
 
-# needs to be updated!
 help_text = """
     ------------------------------------------------
     
     The basic commands:
-        "touch", "taste", "sniff", "look", or "listen"
+        "touch", "taste", "sniff", "look", and "listen"
 
     Use the basic commands to perceive your environment with your character's senses.
     Either type them on their own, or add a target if you want to examine it in particular.
@@ -74,10 +73,31 @@ help_text = """
 
     
     System commands:
-        "save", "exit", "help", "status"
+        "save", "exit", "help", and "status"
+
+    You can also use the command "help _" to list the topics that can be queried for more info.
 
     ------------------------------------------------
 """
+
+help_library = {
+    '_':"""
+    You can request help on the following topics:
+    
+    commands: displays all currently available commands
+    targets: displays all currently targetable entities
+
+    Example syntax:
+        'help targets' 
+    """,
+    'commands':"""
+    Game commands:
+        {}
+    
+    System commands:
+        {}
+"""
+}
 
 prompt = """
  > """

@@ -182,20 +182,28 @@ def act():
                     from game_data import quit_message
                     print(quit_message)
                     exit()
-                return False
             case 'quit' | 'exit':
                 from game_data import quit_message
                 print(quit_message)
                 exit()
             case 'status':
-                from game_data import character_status, loaded_character
-                print(loaded_character.format(name, status, background, location))
+                from game_data import character_status, identity
+                print(identity.format(name, status, background))
                 print(character_status.format(joy, sadness, anger, fear, trust, disgust, surprise, anticipation))
-                return False
             case 'help':
-                from game_data import  help_text
-                print(help_text)
-                return False
+                match len(interpreted_input):
+                    case 1:
+                        from game_data import help_text
+                        print(help_text)
+                    case 2:
+                        from game_data import help_library
+                        match interpreted_input[1]:
+                            case 'commands':
+                                from game_data import valid_commands, system_commands
+                                print(help_library['commands'].format(', '.join(valid_commands), ', '.join(system_commands)))
+                            case '_':
+                                print(help_library['_'])
+        return False                         
     else:
         print(invalid_command)
         return False
@@ -204,16 +212,10 @@ def act():
 
 # this function will take the validated gameplay command from the 'act' function,
 # then it will retrieve all the player action's consequences and carry them out.
-# the 'resolve' function will check if a condition is needed.
-# if it is, check if the condition is fulfilled.
-# if the condition is fulfilled or no condition is needed, retrieve the corresponding value in the form of a list.
 # after retrieving the value, this function will check which flags are present, then carry out the indicated consequences.
-# flags: narration, special narration, stat change, location change, inventory change, condition change, check stat, check inventory, check knowledge, death
+# flags: narration, special narration, stat change, location change, inventory change,
+# condition change, check stat, check inventory, check knowledge, check history, game over
 
-#CURRENT ISSUE: I NEED TO PASS THIS FUNCTION A LOCAL CONDITION FOR THE LOCATION THE PLAYER IS IN.
-#HOW DOES THE PROGRAM DECIDE WHAT CONDITION IT NEEDS.
-#   working compromise: only one local condition can be active at once.
-#   the current local condition for each area can be stored in a global variable that holds the current worldstate
 def resolve(player_input):
     if player_input != False:
         global command, target, name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate
@@ -291,8 +293,6 @@ def consequence_handler(consequences, recursive_mode):
         else:
             consequence_handler(consequences['check knowledge']['failure'], True)
 
-            
-
 # this function handles condition-agnostic consequences 
 def condition_handler(current_command, current_target):
     from game_data import narration_library
@@ -324,8 +324,6 @@ def check_history(event):
     else:
         return False
     
-# this function should be called into play whenever the character's stats are changed
-# called in the 'resolve' function
 # this can probably be refactored
 def stat_change(stat, value):
     from game_data import stat_changed
@@ -365,11 +363,6 @@ def stat_change(stat, value):
                 print(stat_changed.format(stat, 'decreased', new_value))
         case str():
             print(stat_changed.format(stat, 'changed', value))
-
-# does this really need to be its own function?
-def condition_change(environment, new_condition):
-    global worldstate, location
-    worldstate[environment] = new_condition
 
 # this function checks a stat and determines if it meets the DC
 def check_stat(stat, dc):

@@ -40,7 +40,7 @@ Immediate Goals
 - [ ] create an objective system
     the player should be able to use a command that shows their current objectives. Most objectives are background- or status-specific. The completion or failure of an objective should lead to special consequences.
 - [x] update help text
-- [ ] add new functionality for the 'help' command that would allow it to be used with a target (e.g: 'help commands') to display information about a specific subject
+- [x] add new functionality for the 'help' command that would allow it to be used with a target (e.g: 'help commands') to display information about a specific subject
 
 
 
