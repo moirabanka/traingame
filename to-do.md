@@ -39,6 +39,7 @@ Immediate Goals
 - [ ] create a tutorial for the game
 - [ ] create an objective system
     the player should be able to use a command that shows their current objectives. Most objectives are background- or status-specific. The completion or failure of an objective should lead to special consequences.
+- [ ] update help text
 
 
 

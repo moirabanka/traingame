@@ -60,25 +60,23 @@ confirmation_prompt = """
 
 # needs to be updated!
 help_text = """
-------------------------------------------------
-Call on your character's five senses to help you understand the environment!
+    ------------------------------------------------
+    
+    The basic commands:
+        "touch", "taste", "sniff", "look", or "listen"
 
-sinmply type one of these commands:
-    "touch", "taste", "sniff", "look", or "listen"
-If you call on one of your senses, the game will ask if you'd like to use it on anything in particular.
-CAPITALIZED text shows an object or character can be interacted with. Type them in lowercase if you'd like to use them.
-if you don't want to interact with a specific thing, just press RETURN.
+    Use the basic commands to perceive your environment with your character's senses.
+    Either type them on their own, or add a target if you want to examine it in particular.
+    Valid targets will be written in CAPITALIZED TEXT.
 
-However, keep in mind that it may affect your character.
-You may not always like what you find...
+    (E.G: the command 'look window' will instruct your character to look at the window, but
+    the command 'look' by itself causes your character to observe their overall environment)
 
-To move between areas, simply type the name of the exit you wish to use.
+    
+    System commands:
+        "save", "exit", "help", "status"
 
-There are also other hidden commands...
-
-Good luck!
-------------------------------------------------
-
+    ------------------------------------------------
 """
 
 prompt = """
@@ -141,7 +139,14 @@ command_aliases = {
     'hear':'listen'
 }
 
-system_commands = ['save', 'quit', 'exit', 'status']
+system_commands = ['save', 'quit', 'exit', 'status', 'help']
+
+character_status = """
+    joy........... {}      sadness....... {}
+    anger......... {}      fear.......... {}
+    disgust....... {}      trust......... {}
+    surprise...... {}      anticipation.. {}
+"""
 
 default_worldstate = {
     'dining car': 'dark'

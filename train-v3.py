@@ -143,7 +143,7 @@ def start_turn():
 # can now handle single word input and reset on empty input
 def act():
     from game_data import prompt, invalid_command, invalid_target, too_many_words, command_aliases, target_aliases
-    global location, command, target
+    global location, command, target, joy, sadness, anger, fear, trust, disgust, surprise, anticipation, name, status, background
     action = input(prompt)
     if len(action) != 0:
         interpreted_input = action.split()
@@ -172,16 +172,30 @@ def act():
                 print(too_many_words)
                 return False
     elif 'system' in command_validity:
-        if 'save' in command:
-            from game_data import saved_game
-            filename = name + '.json'
-            save_game(filename)
-            print(saved_game)
-            return False
-        elif 'quit' or 'exit' in command:
-            from game_data import quit_message
-            print(quit_message)
-            exit()
+        match command:
+            case 'save':
+                from game_data import saved_game
+                filename = name + '.json'
+                save_game(filename)
+                print(saved_game)
+                if (len(interpreted_input) == 2) and ((interpreted_input[1] == 'quit') or (interpreted_input[1] == 'exit')):
+                    from game_data import quit_message
+                    print(quit_message)
+                    exit()
+                return False
+            case 'quit' | 'exit':
+                from game_data import quit_message
+                print(quit_message)
+                exit()
+            case 'status':
+                from game_data import character_status, loaded_character
+                print(loaded_character.format(name, status, background, location))
+                print(character_status.format(joy, sadness, anger, fear, trust, disgust, surprise, anticipation))
+                return False
+            case 'help':
+                from game_data import  help_text
+                print(help_text)
+                return False
     else:
         print(invalid_command)
         return False
