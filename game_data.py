@@ -159,7 +159,7 @@ command_aliases = {
     'hear':'listen'
 }
 
-system_commands = ['save', 'quit', 'exit', 'status', 'help']
+system_commands = ['save', 'quit', 'exit', 'status', 'help', 'goals']
 
 character_status = """
     joy........... {}      sadness....... {}
@@ -201,6 +201,18 @@ state_change = {
     'cursed':"""
 
 """
+}
+
+goal_change = {
+    'in progress':"""
+    "{}" has been added to your goals.
+    """,
+    'completed':"""
+    Goal completed: "{}"
+    """,
+    'failed':"""
+    Goal failed: "{}"
+    """
 }
 
 # should be changed to:
@@ -265,6 +277,7 @@ narration_library = {
                         """,
                         'stat change':{'stat':'fear', 'value':2},
                         'condition change':{'target location':'dining car', 'new condition':'light'},
+                        'goal change':{'goal name':'Turn on the lights', 'progress':'completed'},
                         'check history': {
                             1:{
                                 'narration':"""
@@ -1218,8 +1231,10 @@ narration_library = {
                     },
                     'dark': {
                         'narration':"""
-    It's too dark to see any detail, but there seem to be some TABLES around...
-                """
+    It's too dark to see any detail, but there seem to be some TABLES around.
+    Maybe you can find some way to turn on the lights...
+                """,
+                        'goal change':{'goal name':'Turn on the lights', 'progress':'in progress'}
                     }
                 },
                 'wizard': {

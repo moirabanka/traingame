@@ -65,7 +65,9 @@ def create_character():
                       'anger': 0,
                       'anticipation': 0,
                       'worldstate': default_worldstate,
-                      'history':{}}
+                      'history':{},
+                      'active goals':{},
+                      'finished goals':{}}
     with open(filename, 'w') as character_file:
         json.dump(character_info, character_file, indent=4)
     # loading the newly made save file into global variables and returning to the start_game() function
@@ -73,7 +75,7 @@ def create_character():
 
 # this function loads a character file into global variables, preparing the character for play.
 def load_character(file):
-    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate, history
+    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate, history, active_goals, finished_goals
     with open(file) as character_file:
         character_data = json.load(character_file)
         name = character_data['name']
@@ -91,10 +93,12 @@ def load_character(file):
         anticipation = character_data['anticipation']
         worldstate = character_data['worldstate']
         history = character_data['history']
+        active_goals = character_data['active goals']
+        finished_goals = character_data['finished goals']
         
 # saves current character values held in global variables to a file
 def save_game(save_file):
-    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate, history
+    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate, history, active_goals
     with open(save_file, 'w') as character_file:
         character_info = {'name': name, 
                       'background': background, 
@@ -110,7 +114,9 @@ def save_game(save_file):
                       'anger': anger,
                       'anticipation': anticipation,
                       'worldstate': worldstate,
-                      'history': history}
+                      'history': history,
+                      'active goals':active_goals,
+                      'finished goals':finished_goals}
         json.dump(character_info, character_file, indent=4)
 
 
@@ -143,7 +149,7 @@ def start_turn():
 # can now handle single word input and reset on empty input
 def act():
     from game_data import prompt, invalid_command, invalid_target, too_many_words, command_aliases, target_aliases
-    global location, command, target, joy, sadness, anger, fear, trust, disgust, surprise, anticipation, name, status, background
+    global location, command, target, joy, sadness, anger, fear, trust, disgust, surprise, anticipation, name, status, background, active_goals, finished_goals
     action = input(prompt)
     if len(action) != 0:
         interpreted_input = action.split()
@@ -203,6 +209,12 @@ def act():
                                 print(help_library['commands'].format(', '.join(valid_commands), ', '.join(system_commands)))
                             case '_':
                                 print(help_library['_'])
+            case 'goals':
+                if (len(interpreted_input) == 2) and (interpreted_input[1] == 'completed'):
+                    [print('\n' + f"    {key}: {value}") for key, value in finished_goals.items()]
+                else:
+                    [print('\n' + f"    {key}: {value}") for key, value in active_goals.items()]
+
         return False                         
     else:
         print(invalid_command)
@@ -213,7 +225,7 @@ def act():
 # this function will take the validated gameplay command from the 'act' function,
 # then it will retrieve all the player action's consequences and carry them out.
 # after retrieving the value, this function will check which flags are present, then carry out the indicated consequences.
-# flags: narration, special narration, stat change, location change, inventory change,
+# flags: narration, special narration, stat change, location change, inventory change, goals change
 # condition change, check stat, check inventory, check knowledge, check history, game over
 
 def resolve(player_input):
@@ -231,7 +243,7 @@ def resolve(player_input):
 # it now calls itself recursively when circumstances call for additional branching consequences.
 def consequence_handler(consequences, recursive_mode):
     from game_data import narration_library, item_acquired, item_expended
-    global command, target, location, inventory, worldstate
+    global command, target, location, inventory, worldstate, active_goals, finished_goals
     if consequences == False:
         target = 'other'
         consequences = condition_handler(command, target)
@@ -267,6 +279,23 @@ def consequence_handler(consequences, recursive_mode):
     if 'condition change' in consequences:
         target_location = consequences['condition change']['target location']
         worldstate[target_location] = consequences['condition change']['new condition']
+    # objective management
+    if 'goal change' in consequences:
+        from game_data import goal_change
+        goal_name = consequences['goal change']['goal name']
+        goal_progress = consequences['goal change']['progress']
+        recorded_goal = {goal_name:goal_progress}
+        if (goal_progress == 'completed' or goal_progress == 'failed') and (goal_name not in finished_goals) and (goal_name in active_goals):
+            finished_goals.update(recorded_goal)
+            del active_goals[goal_name]
+            print(goal_change[goal_progress].format(goal_name))
+            if 'completed' in consequences['goal change'] or 'failed' in consequences['goal change']:
+                consequence_handler(consequences['change goal'][goal_progress])
+        elif goal_name not in active_goals and goal_name not in finished_goals:
+            active_goals.update(recorded_goal)
+            print(goal_change[goal_progress].format(goal_name))
+            if 'in progress' in consequences['goal change']:
+                consequence_handler(consequences['goal change']['in progress'])
     # Checks
     if 'check consent' in consequences:
         player_yesno = check_consent(consequences['check consent']['prompt'])

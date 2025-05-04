@@ -21,9 +21,9 @@ Immediate Goals
 - [x] add a time counter that can be used to trigger threat turns
 - [x] migrate narration to new consequence dictionary
 - [ ] add additional consequences for the migrated narration
-- [ ] system command that shows all commands the player can use right now
+- [x] system command that shows all commands the player can use right now
     including contextual commands and those drawn from the character's background and status
-- [ ] system command that shows the character's current emotional state and stance
+- [x] system command that shows the character's current emotional state and stance
 - [x] tracked character history
     should take note of all interactions that can have an effect on the character that shouldn't be repeatable.
     also requires a system that checks when a command has been used before and changes the consequences as a result
@@ -37,7 +37,7 @@ Immediate Goals
     Connoisseur
         Enjoys the finer things in life. Can also afford them. Hedonist. 
 - [ ] create a tutorial for the game
-- [ ] create an objective system
+- [x] create an objective system
     the player should be able to use a command that shows their current objectives. Most objectives are background- or status-specific. The completion or failure of an objective should lead to special consequences.
 - [x] update help text
 - [x] add new functionality for the 'help' command that would allow it to be used with a target (e.g: 'help commands') to display information about a specific subject
