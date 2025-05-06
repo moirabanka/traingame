@@ -67,7 +67,8 @@ def create_character():
                       'worldstate': default_worldstate,
                       'history':{},
                       'active goals':{},
-                      'finished goals':{}}
+                      'finished goals':{}
+                      }
     with open(filename, 'w') as character_file:
         json.dump(character_info, character_file, indent=4)
     # loading the newly made save file into global variables and returning to the start_game() function
@@ -207,6 +208,7 @@ def resolve(player_input):
 
 # this function carries out the consequences contained in the consequence library it is supplied with.
 # it now calls itself recursively when circumstances call for additional branching consequences.
+#this should probably be broken into pieces to keep things visually simple
 def consequence_handler(consequences, recursive_mode):
     from game_data import narration_library, item_acquired, item_expended
     global command, target, location, inventory, worldstate, active_goals, finished_goals
@@ -252,13 +254,13 @@ def consequence_handler(consequences, recursive_mode):
         goal_progress = consequences['goal change']['progress']
         recorded_goal = {goal_name:goal_progress}
         # the logic here is not working quite right
-        if (goal_progress == 'completed' or goal_progress == 'failed') and (goal_name not in finished_goals) and (goal_name in active_goals):
+        if goal_progress in ('completed', 'failed') and (goal_name not in finished_goals) and (goal_name in active_goals):
             finished_goals.update(recorded_goal)
             del active_goals[goal_name]
             print(goal_change[goal_progress].format(goal_name))
             if 'completed' in consequences['goal change'] or 'failed' in consequences['goal change']:
                 consequence_handler(consequences['change goal'][goal_progress])
-        elif goal_name not in active_goals and goal_name not in finished_goals:
+        elif goal_progress == 'in progress' and goal_name not in active_goals and goal_name not in finished_goals:
             active_goals.update(recorded_goal)
             print(goal_change[goal_progress].format(goal_name))
             if 'in progress' in consequences['goal change']:
@@ -321,15 +323,18 @@ def sys_command_handler(player_input):
                     case 'commands':
                         from game_data import valid_commands, system_commands
                         print(help_library['commands'].format(', '.join(valid_commands), ', '.join(system_commands)))
-                    case '_':
+                    case _:
                         print(help_library['_'])
             else:
                 from game_data import help_text
                 print(help_text)
         case 'goals':
-            if active_goals == {}:
+            if not arg_2 and active_goals == {}:
                 from game_data import no_active_goals
                 print(no_active_goals)
+            elif arg_2 == 'completed' and finished_goals =={}:
+                from game_data import no_finished_goals
+                print(no_finished_goals)
             else:
                 if arg_2 and (arg_2 == 'completed'):
                     [print('\n' + f"    {key}: {value}") for key, value in finished_goals.items()]

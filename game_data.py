@@ -219,6 +219,10 @@ no_active_goals = """
     You do not have any active goals!
 """
 
+no_finished_goals = """
+    You haven't finished any goals yet!
+"""
+
 # should be changed to:
 # valid_targets[location][environment_state][target]
 valid_targets = {
@@ -287,7 +291,8 @@ narration_library = {
                                 'narration':"""
     You flip the light SWITCH on again.
     """,
-                                'condition change':{'target location':'dining car', 'new condition':'light'}
+                                'condition change':{'target location':'dining car', 'new condition':'light'},
+                                'goal change':{'goal name':'Turn on the lights', 'progress':'completed'}
                             }
                         }
                     }
