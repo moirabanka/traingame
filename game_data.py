@@ -215,6 +215,10 @@ goal_change = {
     """
 }
 
+no_active_goals = """
+    You do not have any active goals!
+"""
+
 # should be changed to:
 # valid_targets[location][environment_state][target]
 valid_targets = {

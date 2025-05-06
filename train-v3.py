@@ -147,6 +147,8 @@ def start_turn():
 # this function will handle asking for player input, checking its validity,
 # and will pass a value to the 'resolve' function
 # can now handle single word input and reset on empty input
+
+#some of this really needs to be partitioned off into other functions for cleanliness
 def act():
     from game_data import prompt, invalid_command, invalid_target, too_many_words, command_aliases, target_aliases
     global location, command, target, joy, sadness, anger, fear, trust, disgust, surprise, anticipation, name, status, background, active_goals, finished_goals
@@ -178,43 +180,7 @@ def act():
                 print(too_many_words)
                 return False
     elif 'system' in command_validity:
-        match command:
-            case 'save':
-                from game_data import saved_game
-                filename = name + '.json'
-                save_game(filename)
-                print(saved_game)
-                if (len(interpreted_input) == 2) and ((interpreted_input[1] == 'quit') or (interpreted_input[1] == 'exit')):
-                    from game_data import quit_message
-                    print(quit_message)
-                    exit()
-            case 'quit' | 'exit':
-                from game_data import quit_message
-                print(quit_message)
-                exit()
-            case 'status':
-                from game_data import character_status, identity
-                print(identity.format(name, status, background))
-                print(character_status.format(joy, sadness, anger, fear, trust, disgust, surprise, anticipation))
-            case 'help':
-                match len(interpreted_input):
-                    case 1:
-                        from game_data import help_text
-                        print(help_text)
-                    case 2:
-                        from game_data import help_library
-                        match interpreted_input[1]:
-                            case 'commands':
-                                from game_data import valid_commands, system_commands
-                                print(help_library['commands'].format(', '.join(valid_commands), ', '.join(system_commands)))
-                            case '_':
-                                print(help_library['_'])
-            case 'goals':
-                if (len(interpreted_input) == 2) and (interpreted_input[1] == 'completed'):
-                    [print('\n' + f"    {key}: {value}") for key, value in finished_goals.items()]
-                else:
-                    [print('\n' + f"    {key}: {value}") for key, value in active_goals.items()]
-
+        sys_command_handler(interpreted_input)
         return False                         
     else:
         print(invalid_command)
@@ -285,6 +251,7 @@ def consequence_handler(consequences, recursive_mode):
         goal_name = consequences['goal change']['goal name']
         goal_progress = consequences['goal change']['progress']
         recorded_goal = {goal_name:goal_progress}
+        # the logic here is not working quite right
         if (goal_progress == 'completed' or goal_progress == 'failed') and (goal_name not in finished_goals) and (goal_name in active_goals):
             finished_goals.update(recorded_goal)
             del active_goals[goal_name]
@@ -321,6 +288,55 @@ def consequence_handler(consequences, recursive_mode):
             consequence_handler(consequences['check knowledge']['success'], True)
         else:
             consequence_handler(consequences['check knowledge']['failure'], True)
+
+def sys_command_handler(player_input):
+    global active_goals, finished_goals
+    command = player_input[0]
+    if len(player_input) == 2:
+        arg_2 = player_input[1]
+    else:
+        arg_2 = False
+    match command:
+        case 'save':
+            from game_data import saved_game
+            filename = name + '.json'
+            save_game(filename)
+            print(saved_game)
+            if arg_2 and ((arg_2 == 'quit') or (arg_2 == 'exit')):
+                from game_data import quit_message
+                print(quit_message)
+                exit()
+        case 'quit' | 'exit':
+            from game_data import quit_message
+            print(quit_message)
+            exit()
+        case 'status':
+            from game_data import character_status, identity
+            print(identity.format(name, status, background))
+            print(character_status.format(joy, sadness, anger, fear, trust, disgust, surprise, anticipation))
+        case 'help':
+            if arg_2:
+                from game_data import help_library
+                match arg_2:
+                    case 'commands':
+                        from game_data import valid_commands, system_commands
+                        print(help_library['commands'].format(', '.join(valid_commands), ', '.join(system_commands)))
+                    case '_':
+                        print(help_library['_'])
+            else:
+                from game_data import help_text
+                print(help_text)
+        case 'goals':
+            if active_goals == {}:
+                from game_data import no_active_goals
+                print(no_active_goals)
+            else:
+                if arg_2 and (arg_2 == 'completed'):
+                    [print('\n' + f"    {key}: {value}") for key, value in finished_goals.items()]
+                else:
+                    [print('\n' + f"    {key}: {value}") for key, value in active_goals.items()]
+
+    return False
 
 # this function handles condition-agnostic consequences 
 def condition_handler(current_command, current_target):
