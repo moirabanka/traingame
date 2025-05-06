@@ -27,7 +27,7 @@ Immediate Goals
 - [x] tracked character history
     should take note of all interactions that can have an effect on the character that shouldn't be repeatable.
     also requires a system that checks when a command has been used before and changes the consequences as a result
-- [ ] implement Revised Backgrounds
+- [ ] implement Revised Backgrounds (OBSOLETE)
     Madcap
         Gains joy from daredevil feats and unpredictable, chaotic action. Resistances to fear. Likes to break things. Possible murderhobo.
     Sleuth
@@ -35,12 +35,21 @@ Immediate Goals
     Reactionary
         Can transmute fear to anger, and back. Gets different bonuses when fear or anger is dominant. Resistance to cognitive dissonance
     Connoisseur
-        Enjoys the finer things in life. Can also afford them. Hedonist. 
+        Enjoys the finer things in life. Can also afford them. Hedonist.
+- [ ] implement new mechanics and character structure
+    All characters are now sleuths. This simplifies my job and also centers the game around a single driving force: mystery solving.
+    I want to have the player acquire evidence and link it to clues inside their mind palace.
+    players will be able to assign one trait to their character when creating it, others can be gained through interacting with the world.
+    Traits should occasionally trigger additional narration or be used in dialogue, but they should not have too much impact or writing dialogue/narration will become fractally more complex.
 - [ ] create a tutorial for the game
+    I think the tutorial will be centered around the initial goal to turn on the lights in the dining car. It will walk the player through how to use commands, and how certain commands will sometimes give more info about the environment than others based on the situation.
 - [x] create an objective system
     the player should be able to use a command that shows their current objectives. Most objectives are background- or status-specific. The completion or failure of an objective should lead to special consequences.
 - [x] update help text
 - [x] add new functionality for the 'help' command that would allow it to be used with a target (e.g: 'help commands') to display information about a specific subject
+- [ ] fix bug with goal logic, refactor code
+    currently, the goal can be completed without it being in progress first. However, it did not show up in active goals until the goal was acquired when touching the switch. At this point, the goal was in the active section, but marked as complete.
+    Overall, the code for managing goals is more complex than it needs to be. 'active goals' should be a list. The variable 'finished goals' will be a dictionary with two values: 'completed goals' and 'failed goals'. Each key's value will be a list of goals that fit into that category. This way, it is simple to check for the presence of a goal in any of these categories.
 
 
 
