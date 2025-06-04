@@ -64,7 +64,7 @@ Zones
 - [ ] Car 1: kitchen car (on fire?)
 - [ ] Car 2: murder mystery dining car (starting zone)
 - [ ] Car 3: luxury first class sleeper car (undead rich people)
-    the door to this car is locked. the ley must be found elsewhere. Cursed characters can open the door without the key by smashing through the door.
+    the door to this car is locked. the key must be found elsewhere. Cursed characters can open the door without the key by smashing through the door.
 - [ ] Car 4: cargo car
     there is a door here in the side of the carriage, seemingly leading to the open air but instead opening on another area
 - [ ] Cars 5 & 6: economy micro-budget passenger car

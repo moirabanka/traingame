@@ -3,11 +3,11 @@ main_menu = r"""
 
                   Welcome to...
 
-      ______    _____    ______    ______
-     / /  \_\  / / \ \  | |__) \  | |__) \
-    ( (  ____ ( (   ) ) |  _  _/  |  ____/
-     \ \__/ /  \ \_/ /  | | \ \   | |
-      \____/    \___/   |_|  \_\  |_|
+      ______   _      _____    ______    ______
+     / /  \_\ | |    / / \ \  | |__) \  | |__) \
+    ( (  ____ | |   ( (   ) ) |  _  _/  |  ____/
+     \ \__/ / | |___ \ \_/ /  | | \ \   | |
+      \____/  |____/  \___/   |_|  \_\  |_|
 
       
        1) New game
@@ -29,6 +29,11 @@ too_many_words = """
     A valid command should only have two terms.
     E.G: 'sniff glue' or 'get item'
 """
+
+mp_not_quoted = """
+    Invalid command syntax.
+    Please make sure to enclose BOTH clue and mystery in quotes.
+    """
 
 load_prompt = """
     Would you like to load a saved character? (y/n)
@@ -80,6 +85,30 @@ help_text = """
     ------------------------------------------------
 """
 
+mind_palace_help_text = """
+    ------------------------------------------------
+    
+    You are now in your mind palace. Use the command 'exit' to resume normal gameplay.
+    Here, you can see the mysteries you are solving as well as the clues you have acquired so far.
+
+    Clues can be assigned to open mysteries by using the 'add' command.
+    Mysteries' titles must be typed out in full within quotes or referenced by number.
+    Use syntax: add [clue] to "[mystery]"
+    (E.G: add "blood" to "Who died?")
+
+    You can also request information on any clue or mystery by using the 'info' command.
+    use syntax: info [clue or mystery]
+
+    Mind palace commands:
+        "add", "remove", "info", "help" and "exit"
+
+    Mind palace commands may also be used from normal gameplay without entering this mode.
+    To do this, from normal gameplay prefix a mind palace command with 'mp'
+    (E.G: mp add "blood" to "Who died?")
+
+    ------------------------------------------------
+"""
+
 help_library = {
     '_':"""
     You can request help on the following topics:
@@ -101,6 +130,9 @@ help_library = {
 
 prompt = """
  > """
+
+mind_palace_prompt = """
+ Mind Palace: """
 
 identity = """
     You are playing as {}, a {} {}.
@@ -161,6 +193,8 @@ command_aliases = {
 
 system_commands = ['save', 'quit', 'exit', 'status', 'help', 'goals']
 
+mind_palace_commands = ['mysteries', 'clues', 'info', 'log']
+
 character_status = """
     joy........... {}      sadness....... {}
     anger......... {}      fear.......... {}
@@ -203,26 +237,36 @@ state_change = {
 """
 }
 
-goal_change = {
-    'in progress':"""
-    "{}" has been added to your goals.
+mystery_change = {
+    'new mystery acquired':"""
+    "{}" has been added to your mysteries.
     """,
-    'completed':"""
-    Goal completed: "{}"
+    'next step':"""
+    {} advanced to {}
+    """,
+    'solved':"""
+    You solved "{}"
     """,
     'failed':"""
-    Goal failed: "{}"
+    "{}" is no longer solvable!
     """
 }
 
-no_active_goals = """
-    You do not have any active goals!
+no_active_mysteries = """
+    You do not have any active mysteries!
 """
 
-no_finished_goals = """
-    You haven't finished any goals yet!
+no_solved_mysteries = """
+    You haven't solved any mysteries yet!
 """
 
+clue_added = """
+    Added {} to clues.
+    """
+
+theory_unlocked = """
+    Unlocked "{}" theory for "{}"
+    """
 # should be changed to:
 # valid_targets[location][environment_state][target]
 valid_targets = {
@@ -238,9 +282,62 @@ target_aliases = {
     }
 }
 
+
+mystery_library = {
+    'Where am I?':{
+            'description': """
+    You've awoken to darkness. 
+    What is this place?
+    """,
+            'theories':{
+                'room': {
+                    'description':"""
+    You are standing within a room, possibly contained within a larger building.
+    """,
+                    'supporting clues': ['tables', 'walls'],
+                    'validity': False
+                },
+                'train':{
+                    'description':"""
+    You are standing within a train car, most likely connected to others.
+    """,
+                    'supporting clues': ['view out the window', 'clunking sound'],
+                    'validity': True
+                }
+            },
+            'decisive evidence':['moved between cars']
+    },
+    'Whose blood is this?':{
+            'description': """
+    You found quite a lot of blood where you woke up, but no bodies.
+    Whose could it have been?
+    """,
+            'theories':{
+                'It\'s my blood': {
+                    'description':"""
+    Could this blood be... Mine?
+    But I'm not injured. How could this be?
+    """,
+                    'supporting clues': ['bullet holes in blood-soaked clothing', 'coworker\'s testimony'],
+                    'validity': True
+                },
+                'An unknown person\'s blood': {
+                    'description': """
+    I awoke uninjured.
+    This blood must belong to someone I haven't encountered yet.
+    Could they still be alive after losing this much?
+    """,
+                    'supporting clues': ['no bodies present', 'lack of injuries'],
+                    'validity': False
+                }
+            }
+    }
+}
+
 # narration tree has been reorganized on the following principles:
 # player actions will result in consequences, which will take several forms:
-# narration:'', stat change:{stat, value}, location change:'', inventory change:{item, T/F}), condition change:{target location, new condition}
+# narration:'', stat change:{stat, value}, location change:'', inventory change:{item, T/F})condition change:{target location, new condition}
+# mystery change: {name, new progress},
 # check stat:{stat, dc, check name, success, failure}, check inventory:{item, success, failure},
 # check knowledge:{prompt, answer, success, failure}, check consent:{prompt, success, failure}
 # special consequences:{trigger:{consequence sublibrary}}, Death:'reason'
@@ -1229,18 +1326,23 @@ narration_library = {
     You look around...
     The train car is covered in smears and streaks of BLOOD.
     Tacky, partially drying PUDDLES of the stuff are scattered across the floor.
-    Despite the obvious carnage that took place here, there doesn't seem to be any bodies.
+    Despite the obvious carnage that took place here, there doesn't seem to be any bodies present.
+
     This seems to be a dining car, the walls lined with TABLES that hold a variety of ITEMS.
     Platters of rotten FOOD are arrayed throughout the car, an unpleasant tableau of decay and death.
-    On the wall is the light SWITCH, toggled on.
     There is a WINDOW on each side of the carriage, made mirror-like by to the brightness inside the train car.
-    There are two DOORs (DOOR1 and DOOR2) to the front and rear of the train car, respectively.
+    There are also two doors, (DOOR1 and DOOR2) to the front and rear of the train car, respectively.
+
+    On the wall is the light SWITCH, toggled on.
     The lights flicker as the train clatters over the rough rails, but they hold.
                 """
                     },
                     'dark': {
                         'narration':"""
     It's too dark to see any detail, but there seem to be some TABLES around.
+    You can also see a large bay WINDOW in the two longest walls.
+    The faint light of dusk filters through, only a shade brighter than the darkness around you.
+
     Maybe you can find some way to turn on the lights...
                 """,
                         'goal change':{'goal name':'Turn on the lights', 'progress':'in progress'}

@@ -64,10 +64,10 @@ def create_character():
                       'disgust': 0,
                       'anger': 0,
                       'anticipation': 0,
+                      'clues':{},
+                      'mysteries':{},
                       'worldstate': default_worldstate,
-                      'history':{},
-                      'active goals':{},
-                      'finished goals':{}
+                      'history':{}
                       }
     with open(filename, 'w') as character_file:
         json.dump(character_info, character_file, indent=4)
@@ -76,7 +76,7 @@ def create_character():
 
 # this function loads a character file into global variables, preparing the character for play.
 def load_character(file):
-    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate, history, active_goals, finished_goals
+    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate, history, active_goals, solved_mysteries, clues, mysteries
     with open(file) as character_file:
         character_data = json.load(character_file)
         name = character_data['name']
@@ -92,14 +92,14 @@ def load_character(file):
         disgust = character_data['disgust']
         anger = character_data['anger']
         anticipation = character_data['anticipation']
+        clues = character_data['clues']
+        mysteries = character_data['mysteries']
         worldstate = character_data['worldstate']
         history = character_data['history']
-        active_goals = character_data['active goals']
-        finished_goals = character_data['finished goals']
         
 # saves current character values held in global variables to a file
 def save_game(save_file):
-    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate, history, active_goals
+    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate, history, active_goals, solved_mysteries, clues, mysteries
     with open(save_file, 'w') as character_file:
         character_info = {'name': name, 
                       'background': background, 
@@ -114,10 +114,10 @@ def save_game(save_file):
                       'disgust': disgust,
                       'anger': anger,
                       'anticipation': anticipation,
+                      'clues': clues,
+                      'mysteries': mysteries,
                       'worldstate': worldstate,
-                      'history': history,
-                      'active goals':active_goals,
-                      'finished goals':finished_goals}
+                      'history': history}
         json.dump(character_info, character_file, indent=4)
 
 
@@ -152,7 +152,7 @@ def start_turn():
 #some of this really needs to be partitioned off into other functions for cleanliness
 def act():
     from game_data import prompt, invalid_command, invalid_target, too_many_words, command_aliases, target_aliases
-    global location, command, target, joy, sadness, anger, fear, trust, disgust, surprise, anticipation, name, status, background, active_goals, finished_goals
+    global location, command, target, joy, sadness, anger, fear, trust, disgust, surprise, anticipation, name, status, background, active_goals, solved_mysteries
     action = input(prompt)
     if len(action) != 0:
         interpreted_input = action.split()
@@ -182,7 +182,10 @@ def act():
                 return False
     elif 'system' in command_validity:
         sys_command_handler(interpreted_input)
-        return False                         
+        return False
+    elif 'mind palace' in command_validity:
+        mind_palace_handler(interpreted_input)
+        return False
     else:
         print(invalid_command)
         return False
@@ -192,7 +195,7 @@ def act():
 # this function will take the validated gameplay command from the 'act' function,
 # then it will retrieve all the player action's consequences and carry them out.
 # after retrieving the value, this function will check which flags are present, then carry out the indicated consequences.
-# flags: narration, special narration, stat change, location change, inventory change, goals change
+# flags: narration, stat change, location change, inventory change, goals change, clues change, mysteries change
 # condition change, check stat, check inventory, check knowledge, check history, game over
 
 def resolve(player_input):
@@ -210,8 +213,8 @@ def resolve(player_input):
 # it now calls itself recursively when circumstances call for additional branching consequences.
 #this should probably be broken into pieces to keep things visually simple
 def consequence_handler(consequences, recursive_mode):
-    from game_data import narration_library, item_acquired, item_expended
-    global command, target, location, inventory, worldstate, active_goals, finished_goals
+    from game_data import narration_library, item_acquired, item_expended, mystery_change, mystery_library, clue_added, theory_unlocked
+    global command, target, location, inventory, worldstate, mysteries, clues
     if consequences == False:
         target = 'other'
         consequences = condition_handler(command, target)
@@ -237,6 +240,7 @@ def consequence_handler(consequences, recursive_mode):
         stat_change(stat, value)
     if 'location change' in consequences:
         location = consequences['location change']
+    # I want to add code that provides different pickup narration for different items
     if 'inventory change' in consequences:
         if consequences['inventory change']['add/subtract']:
             inventory.append(consequences['inventory change']['item'])
@@ -247,24 +251,59 @@ def consequence_handler(consequences, recursive_mode):
     if 'condition change' in consequences:
         target_location = consequences['condition change']['target location']
         worldstate[target_location] = consequences['condition change']['new condition']
+    # I STILL NEED TO REPLACE ALL REFERENCES TO GOALS IN GAME_DATA TO MYSTERIES
     # objective management
-    if 'goal change' in consequences:
-        from game_data import goal_change
-        goal_name = consequences['goal change']['goal name']
-        goal_progress = consequences['goal change']['progress']
-        recorded_goal = {goal_name:goal_progress}
-        # the logic here is not working quite right
-        if goal_progress in ('completed', 'failed') and (goal_name not in finished_goals) and (goal_name in active_goals):
-            finished_goals.update(recorded_goal)
-            del active_goals[goal_name]
-            print(goal_change[goal_progress].format(goal_name))
-            if 'completed' in consequences['goal change'] or 'failed' in consequences['goal change']:
-                consequence_handler(consequences['change goal'][goal_progress])
-        elif goal_progress == 'in progress' and goal_name not in active_goals and goal_name not in finished_goals:
-            active_goals.update(recorded_goal)
-            print(goal_change[goal_progress].format(goal_name))
-            if 'in progress' in consequences['goal change']:
-                consequence_handler(consequences['goal change']['in progress'])
+    # if 'goal change' in consequences:
+    #     from game_data import goal_change
+    #     goal_name = consequences['goal change']['goal name']
+    #     goal_progress = consequences['goal change']['progress']
+    #     recorded_goal = {goal_name:goal_progress}
+    #     # the logic here is not working quite right
+    #     if goal_progress in ('completed', 'failed') and (goal_name not in solved_mysteries) and (goal_name in active_goals):
+    #         solved_mysteries.update(recorded_goal)
+    #         del active_goals[goal_name]
+    #         print(goal_change[goal_progress].format(goal_name))
+    #         if 'completed' in consequences['goal change'] or 'failed' in consequences['goal change']:
+    #             consequence_handler(consequences['change goal'][goal_progress])
+    #     elif goal_progress == 'in progress' and goal_name not in active_goals and goal_name not in solved_mysteries:
+    #         active_goals.update(recorded_goal)
+    #         print(goal_change[goal_progress].format(goal_name))
+    #         if 'in progress' in consequences['goal change']:
+    #             consequence_handler(consequences['goal change']['in progress'])
+    if 'mystery change' in consequences:
+        mystery_name = consequences['mystery change']['name']
+        mystery_progress = consequences['mystery change']['new progress']
+        if mystery_name not in mysteries:
+            preunlocked_theories = []
+            for clue in clues:
+                if clue in mystery_library[mystery_name]['decisive evidence']:
+                    quick_solved = True
+                for theory, related_clues in mystery_library[mystery_name]['theories']:
+                    if clue in related_clues:
+                        preunlocked_theories.append(theory)
+            if quick_solved:
+                mystery_progress = 'solved'
+                print(mystery_change['solved'].format(mystery_name))
+            else:
+                print(mystery_change['new mystery acquired'].format(mystery_name))
+            recorded_mystery = {mystery_name:{'current progress':mystery_progress, 'unlocked theories':preunlocked_theories}}
+            mysteries.update(recorded_mystery)
+        elif mystery_name in mysteries and mysteries[mystery_name]['current progress'] == 'solved':
+            pass
+    if 'clue change' in consequences:
+        clue_name = consequences['clue change']['clue name']
+        if clue_name not in clues:
+            clues.append(clue_name)
+            print(clue_added)
+            for mystery in mysteries:
+                theories = mystery_library[mystery]['theories']
+                for theory, related_clues in theories:
+                    if clue_name in related_clues and theory not in mysteries[mystery]['unlocked theories']:
+                        mysteries[mystery]['unlocked theories'].append(theory)
+                        print(theory_unlocked)
+                if clue_name in mystery_library[mystery]['decisive evidence']:
+                    mysteries[mystery]['current progress'] = 'solved'
+                    print(mystery_change['solved'].format(mystery))
     # Checks
     if 'check consent' in consequences:
         player_yesno = check_consent(consequences['check consent']['prompt'])
@@ -292,7 +331,7 @@ def consequence_handler(consequences, recursive_mode):
             consequence_handler(consequences['check knowledge']['failure'], True)
 
 def sys_command_handler(player_input):
-    global active_goals, finished_goals
+    global mysteries
     command = player_input[0]
     if len(player_input) == 2:
         arg_2 = player_input[1]
@@ -328,20 +367,34 @@ def sys_command_handler(player_input):
             else:
                 from game_data import help_text
                 print(help_text)
-        case 'goals':
-            if not arg_2 and active_goals == {}:
-                from game_data import no_active_goals
-                print(no_active_goals)
-            elif arg_2 == 'completed' and finished_goals =={}:
-                from game_data import no_finished_goals
-                print(no_finished_goals)
+    return False
+
+
+def mind_palace_handler(player_input):
+    from game_data import mind_palace_prompt, mind_palace_help_text, mp_not_quoted
+    global mysteries, clues
+    if len(player_input) == 2:
+        arg_2 = player_input[1]
+    match player_input[0]:
+        case 'mysteries':
+            if len(player_input) == 1 and mysteries == {}:
+                from game_data import no_active_mysteries
+                print(no_active_mysteries)
+            #this bit is a little funky. revise?
+            elif arg_2 == 'solved':
+                solved_mysteries = []
+                for mystery, mystery_contents in mysteries:
+                    if mystery_contents['current progress'] == 'solved':
+                        solved_mysteries.append(mystery)
+                if solved_mysteries == []:
+                    from game_data import no_solved_mysteries
+                    print(no_solved_mysteries)
             else:
                 if arg_2 and (arg_2 == 'completed'):
-                    [print('\n' + f"    {key}: {value}") for key, value in finished_goals.items()]
+                    [print('\n' + f"    {key}: {value}") for key, value in solved_mysteries.items()]
                 else:
-                    [print('\n' + f"    {key}: {value}") for key, value in active_goals.items()]
-
-    return False
+                    [print('\n' + f"    {key}: {value}") for key, value in mysteries.items()]
+    
 
 # this function handles condition-agnostic consequences 
 def condition_handler(current_command, current_target):
@@ -456,11 +509,13 @@ def check_knowledge(prompt, answer):
 
 # function for checking if a user command is a valid, invalid, or system command
 def command_checker(checked_command):
-    from game_data import valid_commands, system_commands
+    from game_data import valid_commands, system_commands, mind_palace_commands
     if checked_command in valid_commands:
         return 'valid'
     elif checked_command in system_commands:
         return 'system'
+    elif checked_command in mind_palace_commands:
+        return 'mind palace'
     else:
         from game_data import error
         print(error)

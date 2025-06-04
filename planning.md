@@ -14,3 +14,17 @@ the rich undead character in the sleeper car will check your character for the '
 if you approach the rich undead as a wizard, he will be quite scared of you. If you press him for information, he will cave. However, eventually he will betray you...
 
 if you approach the rich undead while cursed, he will laugh at you.
+
+
+Other Notes:
+What info do you need for mysteries in the mind palace?
+    mystery name, mystery status (what step are you on?), mystery description (stored in its own library), player-associated clues, correct clues, red herrings, completion condition(?)
+What info do you need when adding a new mystery to the player's active mysteries?
+    is the mystery already in progress, at a later/earlier step, or completed? 
+What info do you need when changing an active mystery to the next step?
+
+The player's save file should ONLY show the name of each mystery chain and the step number. Gathered clues should be stored in a list with no extra information. All information regarding mysteries or clues can be fetched from game_data
+
+mystery data is stored in its own dictionary, the mystery_library. This dictionary's keys hold sub-dictionaries representing the different mystery chains present in the game. within each mystery chain are the steps to its completion, which may branch based on the player's beliefs and choices. Each step has its own sub-sub-dictionary, which contains info like the name of the step, the log of events relevant to each mystery, the correct clues
+
+Clues will be automatically associated with theories. It is the player's job to gather enough clues to get a decent understanding of how the evidence supports each theory. Each clue found will increase the player's anticipation when associated with a theory. Once they have gathered sufficient evidence, the player will be able to commit to a theory, gaining a decent amount of confidence. However if a clue is found that disproves a theory the player has committed to, they will lose confidence and convert their anticipation into surprise. This malus can be mitigated by having fully identified other theories. If the player tries to commit to a theory without enough evidence to validate their belief, they will instead develop a "hunch". When a player has a hunch, they will gain confidence for each clue already known as well as each new clue found that supports the hunched theory. However, if the hunch is definitively disproven, the confidence loss and surprise gain will be increased. This will create a risk-reward dynamic that encourages the player to hunch theories and win big as a stylish detective. However, the system also encourages the player to explore thoroughly as a dutiful gumshoe in order to keep themselves from suffering too great of losses.
