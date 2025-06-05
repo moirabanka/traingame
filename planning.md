@@ -23,6 +23,13 @@ What info do you need when adding a new mystery to the player's active mysteries
     is the mystery already in progress, at a later/earlier step, or completed? 
 What info do you need when changing an active mystery to the next step?
 
+mystery commands:
+display mysteries in progress
+display solved mysteries
+select a mystery, also displays theories and clues for selected mystery as well as a brief summary
+commit to a theory for a specified mystery (only used after a mystery has been selected)
+
+
 The player's save file should ONLY show the name of each mystery chain and the step number. Gathered clues should be stored in a list with no extra information. All information regarding mysteries or clues can be fetched from game_data
 
 mystery data is stored in its own dictionary, the mystery_library. This dictionary's keys hold sub-dictionaries representing the different mystery chains present in the game. within each mystery chain are the steps to its completion, which may branch based on the player's beliefs and choices. Each step has its own sub-sub-dictionary, which contains info like the name of the step, the log of events relevant to each mystery, the correct clues

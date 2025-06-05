@@ -121,7 +121,7 @@ def save_game(save_file):
         json.dump(character_info, character_file, indent=4)
 
 
-# this function manages the overall continuity of ganeplay, looping until the player quits the game.
+# this function manages the overall continuity of gameplay, looping until the player quits the game.
 # eventually should also contain a time counter and ways to trigger events and possibly the actions of other characters
 def turn_cycle():
     global time_elapsed
@@ -278,6 +278,8 @@ def consequence_handler(consequences, recursive_mode):
             for clue in clues:
                 if clue in mystery_library[mystery_name]['decisive evidence']:
                     quick_solved = True
+                else:
+                    quick_solved = False
                 for theory, related_clues in mystery_library[mystery_name]['theories']:
                     if clue in related_clues:
                         preunlocked_theories.append(theory)
@@ -294,7 +296,7 @@ def consequence_handler(consequences, recursive_mode):
         clue_name = consequences['clue change']['clue name']
         if clue_name not in clues:
             clues.append(clue_name)
-            print(clue_added)
+            print(clue_added.format(clue_name))
             for mystery in mysteries:
                 theories = mystery_library[mystery]['theories']
                 for theory, related_clues in theories:
@@ -371,30 +373,38 @@ def sys_command_handler(player_input):
 
 
 def mind_palace_handler(player_input):
-    from game_data import mind_palace_prompt, mind_palace_help_text, mp_not_quoted
+    from game_data import mind_palace_prompt, mind_palace_help_text, mp_not_quoted, no_active_mysteries, mystery_format, mystery_header
     global mysteries, clues
+    command = player_input[0]
     if len(player_input) == 2:
         arg_2 = player_input[1]
-    match player_input[0]:
+    else:
+        arg_2 = False
+    match command:
         case 'mysteries':
-            if len(player_input) == 1 and mysteries == {}:
+            if mysteries == {}:
                 from game_data import no_active_mysteries
                 print(no_active_mysteries)
-            #this bit is a little funky. revise?
-            elif arg_2 == 'solved':
-                solved_mysteries = []
-                for mystery, mystery_contents in mysteries:
-                    if mystery_contents['current progress'] == 'solved':
-                        solved_mysteries.append(mystery)
-                if solved_mysteries == []:
-                    from game_data import no_solved_mysteries
-                    print(no_solved_mysteries)
             else:
-                if arg_2 and (arg_2 == 'completed'):
-                    [print('\n' + f"    {key}: {value}") for key, value in solved_mysteries.items()]
-                else:
-                    [print('\n' + f"    {key}: {value}") for key, value in mysteries.items()]
-    
+                mystery_label = 1
+                print(mystery_header.format('Unsolved'))
+                for mystery in mysteries:
+                    print(mystery_format.format(mystery_label, '}', mystery))
+                    mystery_label += 1
+        case 'solved':
+            solved_mysteries = []
+            for mystery, mystery_contents in mysteries:
+                if mystery_contents['current progress'] == 'solved':
+                    solved_mysteries.append(mystery)
+            if solved_mysteries == []:
+                from game_data import no_solved_mysteries
+                print(no_solved_mysteries)
+            else:
+                print(mystery_header.format('Solved'))
+                for mystery in solved_mysteries:
+                    print(mystery_format.format('', '-', mystery))
+        case 'select':
+            if arg_2 
 
 # this function handles condition-agnostic consequences 
 def condition_handler(current_command, current_target):

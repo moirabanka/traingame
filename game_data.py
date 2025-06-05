@@ -259,6 +259,12 @@ no_active_mysteries = """
 no_solved_mysteries = """
     You haven't solved any mysteries yet!
 """
+mystery_header = """
+{} mysteries:"""
+
+mystery_format = """
+{}{} "{}"
+"""
 
 clue_added = """
     Added {} to clues.
