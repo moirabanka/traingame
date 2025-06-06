@@ -132,7 +132,7 @@ prompt = """
  > """
 
 mind_palace_prompt = """
- Mind Palace: """
+ {}: """
 
 identity = """
     You are playing as {}, a {} {}.
@@ -193,7 +193,7 @@ command_aliases = {
 
 system_commands = ['save', 'quit', 'exit', 'status', 'help', 'goals']
 
-mind_palace_commands = ['mysteries', 'clues', 'info', 'log']
+mind_palace_commands = ['mysteries', 'solved', 'select']
 
 character_status = """
     joy........... {}      sadness....... {}
@@ -207,7 +207,9 @@ default_worldstate = {
 }
 
 
-error = "\nInvalid entry! please try again.\n"
+error = """
+    Invalid entry! please try again
+    """
 
 saved_game= """
     Game saved successfully!
@@ -260,11 +262,37 @@ no_solved_mysteries = """
     You haven't solved any mysteries yet!
 """
 mystery_header = """
-{} mysteries:"""
+    {} mysteries:"""
+
+select_header = """
+    "{}\""""
 
 mystery_format = """
-{}{} "{}"
+    {}{} "{}"
 """
+
+arg_2_invalid = """
+    Second argument "{}" is invalid.
+    It should be a {}.
+"""
+outside_range = """
+    Input {} is outside of expected range {} to {}
+"""
+hunch_prompt = """
+    Are you sure you want to hunch {} theory? (Y/n)
+
+ > """
+
+hunch = """
+    Developing a hunch on {} theory for "{}"...
+"""
+
+preexisting_hunch = """
+    You have already developed a hunch for {} theory.
+"""
+
+current_hunch = """
+    Current hunch: {} theory"""
 
 clue_added = """
     Added {} to clues.
