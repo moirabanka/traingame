@@ -1,5 +1,5 @@
 from sys import exit
-import json
+import json, textwrap
 
 
 # this function handles starting the game, and checks if you want to load a save before starting the turn cycle
@@ -280,7 +280,7 @@ def consequence_handler(consequences, recursive_mode):
                     quick_solved = True
                 else:
                     quick_solved = False
-                for theory, related_clues in mystery_library[mystery_name]['theories']:
+                for theory, related_clues in mystery_library[mystery_name]['theories'].items():
                     if clue in related_clues:
                         preunlocked_theories.append(theory)
             if quick_solved:
@@ -288,21 +288,21 @@ def consequence_handler(consequences, recursive_mode):
                 print(mystery_change['solved'].format(mystery_name))
             else:
                 print(mystery_change['new mystery acquired'].format(mystery_name))
-            recorded_mystery = {mystery_name:{'current progress':mystery_progress, 'unlocked theories':preunlocked_theories, 'hunch': None}}
+            recorded_mystery = {mystery_name:{'current progress':mystery_progress, 'unlocked theories':preunlocked_theories, 'hunch': 'none'}}
             mysteries.update(recorded_mystery)
         elif mystery_name in mysteries and mysteries[mystery_name]['current progress'] == 'solved':
             pass
     if 'clue change' in consequences:
-        clue_name = consequences['clue change']['clue name']
+        clue_name = consequences['clue change']
         if clue_name not in clues:
             clues.append(clue_name)
             print(clue_added.format(clue_name))
             for mystery in mysteries:
                 theories = mystery_library[mystery]['theories']
-                for theory, theory_contents in theories:
+                for theory, theory_contents in theories.items():
                     if clue_name in theory_contents['supporting clues'] and theory not in mysteries[mystery]['unlocked theories']:
                         mysteries[mystery]['unlocked theories'].append(theory)
-                        print(theory_unlocked)
+                        print(theory_unlocked.format(theory, mystery))
                 if clue_name in mystery_library[mystery]['decisive evidence']:
                     mysteries[mystery]['current progress'] = 'solved'
                     print(mystery_change['solved'].format(mystery))
@@ -371,9 +371,9 @@ def sys_command_handler(player_input):
                 print(help_text)
     return False
 
-
+# this is kinda messy
 def mind_palace_handler(player_input):
-    from game_data import mind_palace_prompt, hunch, hunch_prompt, current_hunch, preexisting_hunch, arg_2_invalid, outside_range, select_header, no_active_mysteries, mystery_format, mystery_header, mystery_library, no_solved_mysteries, invalid_command
+    from game_data import mind_palace_prompt, hunch, hunch_prompt, current_hunch, preexisting_hunch, theory_header, no_theories_unlocked, arg_2_invalid, arg_2_NaN, outside_range, select_header, no_active_mysteries, mystery_format, mystery_header, mystery_library, no_solved_mysteries, invalid_command
     global mysteries, clues
     command = player_input[0]
     if len(player_input) == 2:
@@ -392,7 +392,7 @@ def mind_palace_handler(player_input):
                     mystery_label += 1
         case 'solved':
             solved_mysteries = []
-            for mystery, mystery_contents in mysteries:
+            for mystery, mystery_contents in mysteries.items():
                 if mystery_contents['current progress'] == 'solved':
                     solved_mysteries.append(mystery)
             if solved_mysteries == []:
@@ -402,20 +402,34 @@ def mind_palace_handler(player_input):
                 for mystery in solved_mysteries:
                     print(mystery_format.format('', '-', mystery))
         case 'select' if arg_2:
+            try:
+                arg_2 = int(arg_2)
+            except:
+                print(arg_2_NaN)
             if type(arg_2) == int:
                 arg_2 -= 1
-                mystery_index = mysteries.list()
+                mystery_index = list(mysteries)
                 selection = mystery_index[arg_2]
                 print(select_header.format(selection))
-                if mysteries[selection]['hunch'] is not None:
+                if mysteries[selection]['hunch'] != 'none':
                     print(current_hunch.format(mysteries[selection]['hunch']))
                 theory_label = 1
+                if len(mysteries[selection]['unlocked theories']) == 0:
+                    print(no_theories_unlocked.format(selection))
+                else:
+                    print(theory_header, end='')
                 for theory in mysteries[selection]['unlocked theories']:
-                    print(mystery_format.format(theory_label, ')  ', theory) + '\n        ')
+                    print(mystery_format.format(theory_label, ')  ', theory), end='')
                     theory_label += 1
+                    clue_list = []
+                    print('        Supporting clues: ', end='')
                     for clue in clues:
                         if clue in mystery_library[selection]['theories'][theory]['supporting clues']:
-                            print(clue + ', ')
+                            clue_list.append(clue)
+                    clue_list = ', '.join(clue_list)
+                    print(clue_list)
+                    clue_list = []
+                    print('\n', end='')
                 while True:
                     mp_action = input(mind_palace_prompt.format(selection)).split()
                     mp_command = mp_action[0]
@@ -430,27 +444,28 @@ def mind_palace_handler(player_input):
                         case 'quit' | 'exit' | 'q' | 'x' | 'back':
                             break
                         case 'commit' |'hunch' if mp_arg_2:
-                            if mysteries[selection]['hunch'] == None and type(mp_arg_2) == int:
+                            try:
+                                mp_arg_2 = int(mp_arg_2)
+                            except:
+                                print(arg_2_NaN)
+                            if mysteries[selection]['hunch'] == 'none' and type(mp_arg_2) == int:
                                 mp_arg_2 -= 1
                                 mp_selection = mysteries[selection]['unlocked theories'][mp_arg_2]
                                 formatted_prompt = hunch_prompt.format(mp_selection)
                                 if check_consent(formatted_prompt):
                                     print(hunch.format(mp_selection, selection))
                                     mysteries[selection]['hunch'] = mp_selection
-                            elif mysteries[selection]['hunch'] is not None:
+                            elif mysteries[selection]['hunch'] != 'none':
                                 print(preexisting_hunch.format(mysteries[selection]['hunch']))
-                            elif type(mp_arg_2) is not int:
-                                print(arg_2_invalid.format(mp_arg_2, 'number'))
                             elif mp_arg_2 > len(mysteries[selection]['unlocked theories']):
                                 print(outside_range.format(mp_arg_2, 1, len(mysteries[selection]['unlocked theories'])))
-                            else:
-                                print(invalid_command)
+                            elif len(mysteries[selection]['unlocked theories']) == 0:
+                                print(no_theories_unlocked.format(selection))
                         case _:
                             print(invalid_command)
 
-                                
-
-
+def narrate(narration_dict, mode):
+    pass
 
 # this function handles condition-agnostic consequences 
 def condition_handler(current_command, current_target):

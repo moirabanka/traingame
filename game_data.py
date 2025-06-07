@@ -191,7 +191,7 @@ command_aliases = {
     'hear':'listen'
 }
 
-system_commands = ['save', 'quit', 'exit', 'status', 'help', 'goals']
+system_commands = ['save', 'quit', 'exit', 'status', 'help',]
 
 mind_palace_commands = ['mysteries', 'solved', 'select']
 
@@ -265,7 +265,7 @@ mystery_header = """
     {} mysteries:"""
 
 select_header = """
-    "{}\""""
+    Mystery selected: "{}\""""
 
 mystery_format = """
     {}{} "{}"
@@ -275,9 +275,21 @@ arg_2_invalid = """
     Second argument "{}" is invalid.
     It should be a {}.
 """
+
 outside_range = """
     Input {} is outside of expected range {} to {}
 """
+
+arg_2_NaN = """
+    Second argument must be a number.
+"""
+
+no_theories_unlocked = """    No theories unlocked for "{}"
+"""
+
+theory_header = """
+    Theories:"""
+
 hunch_prompt = """
     Are you sure you want to hunch {} theory? (Y/n)
 
@@ -291,11 +303,10 @@ preexisting_hunch = """
     You have already developed a hunch for {} theory.
 """
 
-current_hunch = """
-    Current hunch: {} theory"""
+current_hunch = """    Current hunch: {} theory"""
 
 clue_added = """
-    Added {} to clues.
+    Added "{}" to clues.
     """
 
 theory_unlocked = """
@@ -371,17 +382,42 @@ mystery_library = {
 # narration tree has been reorganized on the following principles:
 # player actions will result in consequences, which will take several forms:
 # narration:'', stat change:{stat, value}, location change:'', inventory change:{item, T/F})condition change:{target location, new condition}
-# mystery change: {name, new progress},
+# mystery change: {name, new progress}, clue change: clue name
 # check stat:{stat, dc, check name, success, failure}, check inventory:{item, success, failure},
 # check knowledge:{prompt, answer, success, failure}, check consent:{prompt, success, failure}
 # special consequences:{trigger:{consequence sublibrary}}, Death:'reason'
 # not every action will have every type of consequence, so types of consequences should be checked for by flag
 # condition-agnostic consequences are marked with 'any', and target-agnostic consequences return False
 
+new_game = {
+    'narration':"""
+    You open your eyes to darkness.
+    Lying half on your side, half on your stomach, your cheek is pressed into what seems to be dirty carpeting.
+
+    Last you knew, you were attending a fabulous masquerade thrown in the honor of the now-late Lord Bilquist.
+    You feigned the fear and anger felt by the rest of the onlookers who witnessed his wretched poisoning, but you were grinning heartily behind your mask.
+    There was a culprit to be caught. A mystery to be solved. A case to be cracked.
+    His Lordship wasn't much to your liking anyway. Pompous old fool...
+
+    But it's all gone now, and you don't know where.
+
+    Every few seconds, a tremor passes through the floor strong enough to lift your head slightly and smack it down into the carpet again.
+    You stand up before the next one comes, rubbing at the stippled pattern pressed into your face by your uncomfortable resting position.
+    """,
+
+}
 narration_library = {
     'dining car': {
         'touch': {
             'switch': {
+                'myself': {
+                    'light':{
+                        'narration':""""""
+                    },
+                    'dark':{
+                        'narration':""""""
+                    }
+                },
                 'normal': {
                     'light': {
                         'narration': 
@@ -416,14 +452,12 @@ narration_library = {
                         """,
                         'stat change':{'stat':'fear', 'value':2},
                         'condition change':{'target location':'dining car', 'new condition':'light'},
-                        'goal change':{'goal name':'Turn on the lights', 'progress':'completed'},
                         'check history': {
                             1:{
                                 'narration':"""
     You flip the light SWITCH on again.
     """,
-                                'condition change':{'target location':'dining car', 'new condition':'light'},
-                                'goal change':{'goal name':'Turn on the lights', 'progress':'completed'}
+                                'condition change':{'target location':'dining car', 'new condition':'light'}
                             }
                         }
                     }
@@ -1379,7 +1413,7 @@ narration_library = {
 
     Maybe you can find some way to turn on the lights...
                 """,
-                        'goal change':{'goal name':'Turn on the lights', 'progress':'in progress'}
+                        'clue change': 'walls'
                     }
                 },
                 'wizard': {

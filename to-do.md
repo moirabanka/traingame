@@ -1,12 +1,19 @@
 New goals:
     overarching:
 - [ ] create a tutorial
+- [ ] redo text printing
 
     immediate:
 - [ ] add clue change and mystery change consequences to the narration library
 - [ ] test new mystery system
 - [ ] add confidence/composure stat to character file
-- [ ] 
+- [ ] implement line wrapping for narration in a narrate(narration) function
+- [ ] add slow printing to narration
+- [ ] redo game intro with the new_game consequence library
+- [ ] change how longer narration is displayed
+    longer narration should be broken into chunks displayed one at a time. The player should be able to press 'enter' or 'space' to go to the next chunk
+- [ ] add 'myself' as a target
+- [ ] test mystery system code
 
 
 
