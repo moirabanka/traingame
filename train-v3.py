@@ -1,5 +1,5 @@
 from sys import exit
-import json, textwrap
+import json, textwrap, shutil
 
 
 # this function handles starting the game, and checks if you want to load a save before starting the turn cycle
@@ -251,25 +251,6 @@ def consequence_handler(consequences, recursive_mode):
     if 'condition change' in consequences:
         target_location = consequences['condition change']['target location']
         worldstate[target_location] = consequences['condition change']['new condition']
-    # I STILL NEED TO REPLACE ALL REFERENCES TO GOALS IN GAME_DATA TO MYSTERIES
-    # objective management
-    # if 'goal change' in consequences:
-    #     from game_data import goal_change
-    #     goal_name = consequences['goal change']['goal name']
-    #     goal_progress = consequences['goal change']['progress']
-    #     recorded_goal = {goal_name:goal_progress}
-    #     # the logic here is not working quite right
-    #     if goal_progress in ('completed', 'failed') and (goal_name not in solved_mysteries) and (goal_name in active_goals):
-    #         solved_mysteries.update(recorded_goal)
-    #         del active_goals[goal_name]
-    #         print(goal_change[goal_progress].format(goal_name))
-    #         if 'completed' in consequences['goal change'] or 'failed' in consequences['goal change']:
-    #             consequence_handler(consequences['change goal'][goal_progress])
-    #     elif goal_progress == 'in progress' and goal_name not in active_goals and goal_name not in solved_mysteries:
-    #         active_goals.update(recorded_goal)
-    #         print(goal_change[goal_progress].format(goal_name))
-    #         if 'in progress' in consequences['goal change']:
-    #             consequence_handler(consequences['goal change']['in progress'])
     if 'mystery change' in consequences:
         mystery_name = consequences['mystery change']['name']
         mystery_progress = consequences['mystery change']['new progress']
@@ -465,7 +446,29 @@ def mind_palace_handler(player_input):
                             print(invalid_command)
 
 def narrate(narration_dict, mode):
-    pass
+    from game_data import continue_prompt
+    terminal_width = shutil.get_terminal_size(fallback = 70).columns
+    if terminal_width >= 74:
+        terminal_width = 70
+    else:
+        terminal_width -= 4
+    for sequence, text in narration_dict.items():
+        formatted_narration = textwrap.fill(
+            text,
+            width=terminal_width,
+            initial_indent=' >> ',
+            subsequent_indent='    ',
+            replace_whitespace=True,
+            drop_whitespace=True,
+            break_long_words=False,
+            break_on_hyphens=False
+        )
+        print(formatted_narration)
+        if int(sequence) < len(narration_dict):
+            input(continue_prompt)
+
+        
+
 
 # this function handles condition-agnostic consequences 
 def condition_handler(current_command, current_target):

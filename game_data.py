@@ -309,6 +309,8 @@ clue_added = """
     Added "{}" to clues.
     """
 
+continue_prompt = """(enter) to continue..."""
+
 theory_unlocked = """
     Unlocked "{}" theory for "{}"
     """
@@ -390,20 +392,32 @@ mystery_library = {
 # condition-agnostic consequences are marked with 'any', and target-agnostic consequences return False
 
 new_game = {
-    'narration':"""
-    You open your eyes to darkness.
-    Lying half on your side, half on your stomach, your cheek is pressed into what seems to be dirty carpeting.
-
-    Last you knew, you were attending a fabulous masquerade thrown in the honor of the now-late Lord Bilquist.
-    You feigned the fear and anger felt by the rest of the onlookers who witnessed his wretched poisoning, but you were grinning heartily behind your mask.
-    There was a culprit to be caught. A mystery to be solved. A case to be cracked.
-    His Lordship wasn't much to your liking anyway. Pompous old fool...
-
-    But it's all gone now, and you don't know where.
-
-    Every few seconds, a tremor passes through the floor strong enough to lift your head slightly and smack it down into the carpet again.
-    You stand up before the next one comes, rubbing at the stippled pattern pressed into your face by your uncomfortable resting position.
+    'narration':{
+        1:"""
+You open your eyes to darkness.
+Lying half on your side, half on your stomach, your cheek is pressed into what seems to be dirty carpet.
     """,
+        2:"""
+Last you knew, you were attending a fabulous masquerade thrown in the honor of the now-late Lord Borthwick.
+You feigned the fear and anger felt by the rest of the onlookers who witnessed his wretched poisoning, but you were grinning heartily behind your mask.
+    """,
+        3:"""
+There was a culprit to be caught. A mystery to be solved. A case to be cracked.
+His Lordship wasn't much to your liking anyway. Pompous old fool...
+    """,
+        4:"""
+But it's all gone now, and you don't know where.
+    """,
+        5:"""
+Every few seconds, a tremor passes through the floor strong enough to lift your head slightly and smack it down into the carpet again.
+You stand up before the next one comes, rubbing at the stippled pattern pressed into your face by your uncomfortable resting position.
+Perhaps some mysteries may yet be found here...
+Where the hell are you, anyway?
+    """},
+    'mystery change':{
+        'name': 'Where am I?',
+        'new progress': 'in progress'
+    }
 
 }
 narration_library = {
