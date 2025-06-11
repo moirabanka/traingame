@@ -2,8 +2,8 @@ import shutil, textwrap, threading, time, sys
 from game_data import new_game
 
 #this should be made to run in another thread so that it can be canceled by player input
-def slow_print(text):
-    for character in text:
+def slow_print(input_text):
+    for character in input_text:
         sys.stdout.write(character)
         sys.stdout.flush()
         match character:
@@ -12,17 +12,20 @@ def slow_print(text):
             case ' ':
                 continue
             case _:
-                time.sleep(.03)
+                time.sleep(.025)
 
 def wait_for_keypress(prompt="    (Press any key to continue)"):
     print(prompt, end='', flush=True)
     if sys.platform.startswith('win'):
         import msvcrt
+        while msvcrt.kbhit():
+            msvcrt.getch()
         msvcrt.getch()
     else:
         import termios, tty
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
+        termios.tcflush(fd, termios.tcgetattr(fd))
         # this try/finally probably is not necessary and can be simplified
         try:
             tty.setraw(fd)
@@ -36,6 +39,8 @@ def narrate(narration_dict):
         terminal_width = 70
     else:
         terminal_width -= 4
+    if type(narration_dict) == str:
+        narration_dict = {1:narration_dict}
     for sequence, text in narration_dict.items():
         formatted_narration = textwrap.fill(
             text,
@@ -48,7 +53,6 @@ def narrate(narration_dict):
             break_on_hyphens=False
         )
         if sequence == 1:
-            #print('    >', end='')
             slow_print(formatted_narration)
             print('\n')
         else:
