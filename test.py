@@ -1,4 +1,4 @@
-import shutil, textwrap, threading, time, sys
+import shutil, textwrap, time, sys
 from game_data import new_game
 
 #this should be made to run in another thread so that it can be canceled by player input
@@ -62,26 +62,6 @@ def narrate(narration_dict):
             print('\n')
         if int(sequence) < len(narration_dict):
             wait_for_keypress()
-            # stop_event = threading.Event()
-
-            # def flashing_prompt(text=' >', interval=0.5):
-            #     visible = True
-            #     while not stop_event.is_set():
-            #         #print('\r' + (text if visible else '  '), end='', flush=True)
-            #         sys.stdout.write('\r' + (text if visible else '  '))
-            #         sys.stdout.flush()
-            #         visible = not visible
-            #         time.sleep(interval)
-            #     else:
-            #         if visible == True:
-            #             sys.stdout.write('\r' + (text if visible else '  '))
-            #             sys.stdout.flush()    
-
-            # flasher = threading.Thread(target=flashing_prompt, daemon=False)
-            # flasher.start()
-            # if input():
-            #     stop_event.set()
-            # flasher.join()
 
 
             

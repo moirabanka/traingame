@@ -412,8 +412,10 @@ But it's all gone now, and you don't know where.
 Every few seconds, a tremor passes through the floor strong enough to lift your head slightly and smack it down into the carpet again.
 You stand up before the next one comes, rubbing at the stippled pattern pressed into your face by your uncomfortable resting position.
 Perhaps some mysteries may yet be found here...
+    """,
+        6:"""
 Where the hell are you, anyway?
-    """},
+"""},
     'mystery change':{
         'name': 'Where am I?',
         'new progress': 'in progress'
