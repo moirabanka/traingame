@@ -4,16 +4,26 @@ New goals:
 - [ ] redo text printing
 
     immediate:
-- [ ] implement line wrapping for narration in a narrate(narration) function
-- [ ] add slow printing to narration
-- [ ] add confidence/composure stat to character file
-- [ ] change how longer narration is displayed
+- [x] implement line wrapping for narration in a narrate(narration) function
+- [x] add slow printing to narration
+- [x] add confidence/composure stat to character file
+- [x] change how longer narration is displayed
 - [ ] redo game intro with the new_game consequence library
 - [ ] add clue change and mystery change consequences to the narration library
     longer narration should be broken into chunks displayed one at a time. The player should be able to press 'enter' or 'space' to go to the next chunk
 - [ ] add 'myself' as a target
 - [ ] add help entries for mind palace commands
 - [x] test mystery system code
+- [ ] make every check or stat change check the player's history
+- [x] revise narration_library to fit with new printing style
+- [ ] fully populat narration_library with...
+    - [ ] clues
+    - [ ] mysteries
+    - [ ] stat changes
+    - [ ] checks with special narration
+- [ ] remove background system
+- [ ] implement initial trait choice
+
 
 
 

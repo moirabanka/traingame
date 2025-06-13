@@ -56,6 +56,7 @@ def create_character():
                       'status': 'normal', 
                       'location': 'dining car', 
                       'inventory': [],
+                      'traits':[],
                       'joy': 0,
                       'trust': 0,
                       'fear': 0,
@@ -63,7 +64,8 @@ def create_character():
                       'sadness': 0,
                       'disgust': 0,
                       'anger': 0,
-                      'anticipation': 0,
+                      'curiosity': 0,
+                      'confidence': 10,
                       'clues':{},
                       'mysteries':{},
                       'worldstate': default_worldstate,
@@ -76,7 +78,7 @@ def create_character():
 
 # this function loads a character file into global variables, preparing the character for play.
 def load_character(file):
-    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate, history, active_goals, solved_mysteries, clues, mysteries
+    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, curiosity, confidence, worldstate, history, traits, clues, mysteries
     with open(file) as character_file:
         character_data = json.load(character_file)
         name = character_data['name']
@@ -84,6 +86,7 @@ def load_character(file):
         status = character_data['status']
         location = character_data['location']
         inventory = character_data['inventory']
+        traits = character_data['traits']
         joy = character_data['joy']
         trust = character_data['trust']
         fear = character_data['fear']
@@ -91,7 +94,8 @@ def load_character(file):
         sadness = character_data['sadness']
         disgust = character_data['disgust']
         anger = character_data['anger']
-        anticipation = character_data['anticipation']
+        curiosity = character_data['curiosity']
+        confidence = character_data['confidence']
         clues = character_data['clues']
         mysteries = character_data['mysteries']
         worldstate = character_data['worldstate']
@@ -99,13 +103,14 @@ def load_character(file):
         
 # saves current character values held in global variables to a file
 def save_game(save_file):
-    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate, history, active_goals, solved_mysteries, clues, mysteries
+    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, curiosity, confidence, worldstate, history, traits, clues, mysteries
     with open(save_file, 'w') as character_file:
         character_info = {'name': name, 
                       'background': background, 
                       'status': status, 
                       'location': location, 
                       'inventory': inventory,
+                      'traits': traits,
                       'joy': joy,
                       'trust': trust,
                       'fear': fear,
@@ -113,7 +118,8 @@ def save_game(save_file):
                       'sadness': sadness,
                       'disgust': disgust,
                       'anger': anger,
-                      'anticipation': anticipation,
+                      'curiosity': curiosity,
+                      'confidence': confidence,
                       'clues': clues,
                       'mysteries': mysteries,
                       'worldstate': worldstate,
@@ -152,7 +158,7 @@ def start_turn():
 #some of this really needs to be partitioned off into other functions for cleanliness
 def act():
     from game_data import prompt, invalid_command, invalid_target, too_many_words, command_aliases, target_aliases
-    global location, command, target, joy, sadness, anger, fear, trust, disgust, surprise, anticipation, name, status, background, active_goals, solved_mysteries
+    global location, command, target, joy, sadness, anger, fear, trust, disgust, surprise, curiosity, name, status, background
     action = input(prompt)
     if len(action) != 0:
         interpreted_input = action.split()
@@ -200,7 +206,7 @@ def act():
 
 def resolve(player_input):
     if player_input != False:
-        global command, target, name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, anticipation, worldstate
+        global command, target, name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, curiosity, worldstate
         consequence_library = condition_handler(command, target)
         consequence_handler(consequence_library, False)
 
@@ -213,8 +219,8 @@ def resolve(player_input):
 # it now calls itself recursively when circumstances call for additional branching consequences.
 #this should probably be broken into pieces to keep things visually simple
 def consequence_handler(consequences, recursive_mode):
-    from game_data import narration_library, item_acquired, item_expended, mystery_change, mystery_library, clue_added, theory_unlocked
-    global command, target, location, inventory, worldstate, mysteries, clues
+    from game_data import narration_library, item_acquired, item_expended, mystery_change, mystery_library, clue_added, theory_unlocked, trait_acquired, trait_replaced
+    global command, target, location, inventory, worldstate, mysteries, clues, traits
     if consequences == False:
         target = 'other'
         consequences = condition_handler(command, target)
@@ -248,6 +254,16 @@ def consequence_handler(consequences, recursive_mode):
         else:
             inventory.remove(consequences['inventory change']['item'])
             print(item_expended)
+    if 'trait change' in consequences:
+        trait_name = consequences['trait change']['trait']
+        replaces = consequences['trait change']['replaces']
+        if replaces == None:
+            traits.append(consequences['trait change']['trait'])
+            print(trait_acquired.format(trait_name))
+        elif replaces is True:
+            traits.remove(replaces)
+            traits.append(trait_name)
+            print(trait_replaced.format(trait_name, replaces))
     if 'condition change' in consequences:
         target_location = consequences['condition change']['target location']
         worldstate[target_location] = consequences['condition change']['new condition']
@@ -337,7 +353,7 @@ def sys_command_handler(player_input):
         case 'status':
             from game_data import character_status, identity
             print(identity.format(name, status, background))
-            print(character_status.format(joy, sadness, anger, fear, trust, disgust, surprise, anticipation))
+            print(character_status.format(joy, sadness, anger, fear, trust, disgust, surprise, curiosity))
         case 'help':
             if arg_2:
                 from game_data import help_library
@@ -504,7 +520,7 @@ def check_history(event):
 # this can probably be refactored
 def stat_change(stat, value):
     from game_data import stat_changed
-    global joy, trust, fear, surprise, sadness, disgust, anger, anticipation, status
+    global joy, trust, fear, surprise, sadness, disgust, anger, curiosity, confidence, status
     match stat:
         case 'joy':
             joy = joy + value
@@ -527,19 +543,20 @@ def stat_change(stat, value):
         case 'anger':
             anger = anger + value
             new_value = anger
-        case 'anticipation':
-            anticipation = anticipation + value
-            new_value = anticipation
+        case 'curiosity':
+            curiosity = curiosity + value
+            new_value = curiosity
+        case 'confidence': 
+            confidence += value
+            new_value = confidence
         case 'status':
             status = value
     match value:
         case int():
-            if value >= 0:
-                print(stat_changed.format(stat, 'increased', new_value))
-            elif value <= 0:
-                print(stat_changed.format(stat, 'decreased', new_value))
-        case str():
-            print(stat_changed.format(stat, 'changed', value))
+            if value > 0:
+                print(stat_changed.format('+', value, stat, 'increased', new_value))
+            elif value < 0:
+                print(stat_changed.format('-', value, stat, 'decreased', new_value))
 
 # this function checks a stat and determines if it meets the DC
 def check_stat(stat, dc):
@@ -557,9 +574,10 @@ def check_inventory(item):
         return False
 
 # this function checks if the player wants to perform a subsequent action (Y/n)
-def check_consent(prompt):
+def check_consent(proposed_action):
+    from game_data import prompt
     while True:
-        response = input(prompt)
+        response = input(proposed_action+ prompt)
         if 'y' in response:
             return True
         elif 'n' in response:
@@ -569,10 +587,10 @@ def check_consent(prompt):
             print(error)
             continue
 
-def check_knowledge(prompt, answer):
-    from game_data import confirmation_prompt
+def check_knowledge(question, answer):
+    from game_data import confirmation_prompt, prompt
     while True:
-        response = input(prompt)
+        response = input(question + prompt)
         confirmation = check_consent(confirmation_prompt)
         if confirmation:
             if response == answer:
