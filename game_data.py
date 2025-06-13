@@ -30,11 +30,6 @@ too_many_words = """
     E.G: 'sniff glue' or 'get item'
 """
 
-mp_not_quoted = """
-    Invalid command syntax.
-    Please make sure to enclose BOTH clue and mystery in quotes.
-    """
-
 load_prompt = """
     Would you like to load a saved character? (y/n)
 
@@ -135,57 +130,46 @@ mind_palace_prompt = """
  {}: """
 
 identity = """
-    You are playing as {}, a {} {}.
+You are playing as {}, a master sleuth.
 """
 
 intro = {
     'dining car': {
         'dark':"""
-    {} is standing in a darkened train car.
-    The carriage bumps and rattles.
-    What do you do?
+{} is standing in a darkened train car.
+The carriage bumps and rattles.
+What do you do?
     """,
         'light':"""
-    {} is standing in the dining car.
-    The walls are covered in blood.
-    The carriage bumps and rattles.
-    What do you do?
+{} is standing in the dining car.
+The walls are covered in blood.
+The carriage bumps and rattles.
+What do you do?
     """
     }
 }
 
-backgrounds = """
-    1) Malcontent
-    2) Utilitarian
-    3) Gourmond
-    4) Reactionary
-"""
-
-background_info = """
-INSERT DETAIL ON BACKGROUNDS HERE
-"""
-
 loaded_character = """
-    {} is a {} {}, currently located in the {}.
+{} is currently located in the {}.
 """
 
 stat_changed = """
-    {}{} {} ({} to {})
+{}{} {} ({} to {})
 """
 
 item_acquired = """
-    You pocket the {}
+You pocket the {}
 """
 
 item_expended = """
-    {} removed from inventory
+{} removed from inventory
 """
 trait_acquired = """
-    Added "{}" to traits
+Added "{}" to traits
 """
 
 trait_replaced = """
-    New trait "{}" replaces "{}"
+New trait "{}" replaces "{}"
 """
 valid_commands = ['touch', 'taste', 'sniff', 'look', 'listen', 'go', 'get']
 
@@ -218,7 +202,7 @@ error = """
     """
 
 saved_game= """
-    Game saved successfully!
+Game saved successfully!
 """
 
 game_over = ["""
@@ -232,31 +216,18 @@ quit_message = """
     Thanks for playing!
 """
 
-
-state_change = {
-    'normal':"""
-
-""",
-    'wizard':"""
-
-""",
-    'cursed':"""
-
-"""
-}
-
 mystery_change = {
     'new mystery acquired':"""
-    "{}" has been added to your mysteries.
+"{}" has been added to your mysteries.
     """,
     'next step':"""
     {} advanced to {}
     """,
     'solved':"""
-    You solved "{}"
+You solved "{}"
     """,
     'failed':"""
-    "{}" is no longer solvable!
+"{}" is no longer solvable!
     """
 }
 
@@ -302,7 +273,7 @@ hunch_prompt = """
  > """
 
 hunch = """
-    Developing a hunch on {} theory for "{}"...
+Developing a hunch on {} theory for "{}"...
 """
 
 preexisting_hunch = """
@@ -312,14 +283,14 @@ preexisting_hunch = """
 current_hunch = """    Current hunch: {} theory"""
 
 clue_added = """
-    Added "{}" to clues.
-    """
+Added "{}" to clues.
+"""
 
 continue_prompt = """(enter) to continue..."""
 
 theory_unlocked = """
-    Unlocked "{}" theory for "{}"
-    """
+Unlocked "{}" theory for "{}"
+"""
 # should be changed to:
 # valid_targets[location][environment_state][target]
 valid_targets = {
@@ -340,20 +311,20 @@ target_aliases = {
 mystery_library = {
     'Where am I?':{
             'description': """
-    You've awoken to darkness. 
-    What is this place?
+You've awoken to darkness. 
+What is this place?
     """,
             'theories':{
                 'room': {
                     'description':"""
-    You are standing within a room, possibly contained within a larger building.
+You are standing within a room, possibly contained within a larger building.
     """,
                     'supporting clues': ['tables', 'walls'],
                     'validity': False
                 },
                 'train':{
                     'description':"""
-    You are standing within a train car, most likely connected to others.
+You are standing within a train car, most likely connected to others.
     """,
                     'supporting clues': ['view out the window', 'clunking sound'],
                     'validity': True
@@ -363,23 +334,23 @@ mystery_library = {
     },
     'Whose blood is this?':{
             'description': """
-    You found quite a lot of blood where you woke up, but no bodies.
-    Whose could it have been?
+You found quite a lot of blood where you woke up, but no bodies.
+Whose could it have been?
     """,
             'theories':{
                 'It\'s my blood': {
                     'description':"""
-    Could this blood be... Mine?
-    But I'm not injured. How could this be?
+Could this blood be... Mine?
+But I'm not injured. How could this be?
     """,
                     'supporting clues': ['bullet holes in blood-soaked clothing', 'coworker\'s testimony'],
                     'validity': True
                 },
                 'An unknown person\'s blood': {
                     'description': """
-    I awoke uninjured.
-    This blood must belong to someone I haven't encountered yet.
-    Could they still be alive after losing this much?
+I awoke uninjured.
+This blood must belong to someone I haven't encountered yet.
+Could they still be alive after losing this much?
     """,
                     'supporting clues': ['no bodies present', 'lack of injuries'],
                     'validity': False
@@ -434,788 +405,697 @@ narration_library = {
     'dining car': {
         'touch': {
             'switch': {
-                'myself': {
-                    'light':{
-                        'narration':""""""
-                    },
-                    'dark':{
-                        'narration':""""""
-                    }
-                },
-                'normal': {
-                    'light': {
-                        'narration': 
-                        """
+                # 'myself': {
+                #     'light':{
+                #         'narration':""""""
+                #     },
+                #     'dark':{
+                #         'narration':""""""
+                #     }
+                # },
+                'light': {
+                    'narration': 
+                    """
 You flip the light SWITCH!
 The train car is flooded with darkness.
 You can't see the blood anymore...
 But if anything, that's even scarier!  
-                        """,
-                        'stat change':{'stat':'fear', 'value':1},
-                        'condition change':{'target location':'dining car', 'new condition':'dark'},
-                        'check history': {
-                            1:{
-                                'narration':"""
+                    """,
+                    'stat change':{'stat':'fear', 'value':1},
+                    'condition change':{'target location':'dining car', 'new condition':'dark'},
+                    'check history': {
+                        1:{
+                            'narration':"""
 You flip the light SWITCH off again.
-    """,
-                                'condition change':{'target location':'dining car', 'new condition':'dark'}
-                            }
+""",
+                            'condition change':{'target location':'dining car', 'new condition':'dark'}
                         }
-                    },
-                    'dark': {
-                        'narration': """
+                    }
+                },
+                'dark': {
+                    'narration': """
 You find a light SWITCH!
 You flick it on, bathing the train car in light.
 There's blood everywhere, and I mean *everywhere*.
-                        """,
-                        'stat change':{'stat':'fear', 'value':2},
-                        'condition change':{'target location':'dining car', 'new condition':'light'},
-                        'check history': {
-                            1:{
-                                'narration':"""
+                    """,
+                    'stat change':{'stat':'fear', 'value':2},
+                    'condition change':{'target location':'dining car', 'new condition':'light'},
+                    'check history': {
+                        1:{
+                            'narration':"""
 You flip the light SWITCH on again.
-    """,
-                                'condition change':{'target location':'dining car', 'new condition':'light'}
-                            }
+""",
+                            'condition change':{'target location':'dining car', 'new condition':'light'}
                         }
                     }
                 }
             },
             'blood': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 It's a viscous, dark fluid. Tacky in places, and partially dried.
 It seems to be only a few hours old.
-            """,
-                        'clue change': 'Fresh Blood'
-                    }
+""",
+                    'clue change': 'Fresh Blood'
                 }
             },
             'food': {
-                'normal': {
-                    'any': {
-                        'narration':{
-                            1:"""
+                'any': {
+                    'narration':{
+                        1:"""
 You sift through the plates of rotten FOOD...
 """,
-                            2:"""
+                        2:"""
 Eventually, you have to face the truth. there's nothing edible here.
 You accidentally poke your finger through the soft exterior of a decaying fruit.
 Gross...
 """
-                        },
-                        'stat change':{'stat':'disgust', 'value': 1}
-                    }
+                    },
+                    'stat change':{'stat':'disgust', 'value': 1}
                 }
             },
             'tables': {
-                'normal': {
-                    'any': {
-                        'narration':{
-                            1:"""
+                'any': {
+                    'narration':{
+                        1:"""
 Expecting the texture of wood, you discover that the tables are constructed with wood-imitation plastic paneling.
 It's incredibly tacky. You can't abide by this.
 """,
-                            2:"""
+                        2:"""
 You feel a number of objects on the tables.
 There is a large TOME bound in some sort of leather, and heaping plates of FOOD.
 """        
-                        },
-                        'stat change':{'stat': 'anger', 'value':1}
-                    }
+                    },
+                    'stat change':{'stat': 'anger', 'value':1}
                 }
             },
             'tome': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 You grab the TOME.
 It seems to compel you to open it...
-                """,
-                        'check consent':{
-                            'prompt':"""
+            """,
+                    'check consent':{
+                        'prompt':"""
 Are you sure you want to open the TOME? (Y/n)
 """,
-                            'yes':{
-                                'narration':"""
+                        'yes':{
+                            'narration':"""
 Your fate is sealed.
 """,
-                                'check knowledge':{
-                                    'prompt':"""
+                            'check knowledge':{
+                                'prompt':"""
 Can you resist the TOME's influence?
 """,
-                                    'answer':'xoglfotz',
-                                    'success':{
-                                        'narration':{
-                                            1:"""
+                                'answer':'xoglfotz',
+                                'success':{
+                                    'narration':{
+                                        1:"""
 You speak the TOME's word of power!
 """,
-                                            2:"""
+                                        2:"""
 The TOME has no more power over you. It goes limp in your hands.
 Your skin begins to emit a very soft glow...
 """},
-                                        'trait change':{'trait': 'mana-touched', 'replaces': None}
-                            },
-                                    'failure':{
-                                        'narration':{
-                                            1:"""
+                                    'trait change':{'trait': 'mana-touched', 'replaces': None}
+                                },
+                                'failure':{
+                                    'narration':{
+                                        1:"""
 You are unable to resist the TOME's influence!
 """,
-                                            2:"""
+                                        2:"""
 The TOME chills your hands, freezing them in place!
 You can't tell if the book contains pictures or words, but the ink writhes ceaselessly...
 """},
-                                        'trait change':{'trait': 'cursed', 'replaces': None}
+                                    'trait change':{'trait': 'cursed', 'replaces': None}
+                                }
                             }
-                        }
-                            },
-                            'no':{
-                                'narration':"""
+                        },
+                        'no':{
+                            'narration':"""
 You withdraw from the TOME.
 """
-                            },
+                        },
                     },
-                        
-                    }
-                },
+                }
 # this narration remains untouched until it is integrated into the history check
-                'wizard': {
-                    'any':{
-                        'narration':"""
-    {} picks up the tome. It hangs limply in their grasp, defeated.
-    They and the tome now share the source of their powers.
-    For one to hurt the other is to hurt themselves.
-            """
-                    }
-                },
-                'cursed': {
-                    'any':{
-                        'narration':"""
-    Yeah, you're doing that.
-    Can't stop doing that, actually.
-    Your hands are starting to go numb...
-            """
-                    }
-            }
+    #             'wizard': {
+    #                 'any':{
+    #                     'narration':"""
+    # {} picks up the tome. It hangs limply in their grasp, defeated.
+    # They and the tome now share the source of their powers.
+    # For one to hurt the other is to hurt themselves.
+    #         """
+    #                 }
+    #             },
+    #             'cursed': {
+    #                 'any':{
+    #                     'narration':"""
+    # Yeah, you're doing that.
+    # Can't stop doing that, actually.
+    # Your hands are starting to go numb...
+    #         """
+    #                 }
+    #         }
             },
             'door1': {
-                'normal': {
-                    'any': {
-                        'narration':{
-                            1: """
+                'any': {
+                    'narration':{
+                        1: """
 You feel all around the door.
 It feels like a normal door on a train.
 """,
-                            2:"""
+                        2:"""
 Nonetheless, you find yourself compelled by the allure of the unknown...
 """
-                        },
-                        'stat change': {'stat': 'curiosity', 'value': 1}
-                    }
+                    },
+                    'stat change': {'stat': 'curiosity', 'value': 1}
                 }
             },
             'door2': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 You feel all around the door.
 The handle feels warm.
 """,
-                        'clue change': 'Warm doorhandle'
-                    }
+                    'clue change': 'Warm doorhandle'
                 }
             },
             'window': {
-                'normal': {
-                    'any': {
-                        'narration':{
-                            1:"""
+                'any': {
+                    'narration':{
+                        1:"""
 You touch the glass of the window...
 """,
-                            2:"""
+                        2:"""
 It's cool, like the night outside.
 You feel the vibrations of the train car as it rattles along the rails.
-            """
-                        }
+        """
                     }
                 }
             },
             'other': {
-                'normal': {
-                    'any': {
-                        'narration':{
-                            1:"""
+                'any': {
+                    'narration':{
+                        1:"""
 Unsure of what you're looking for, you grope around the carriage...
 """,
-                            2:"""
+                        2:"""
 On the walls and floor, you find a number of PUDDLES and damp surfaces, 
 what seems to be a light SWITCH, and a number of TABLES laden with items.
 You feel the cool glass of a WINDOW inset into each wall.
 There are doors (DOOR1 and DOOR2) at the front and rear of the carriage.
 """
-                        }
                     }
                 }
             },
         },
         'taste': {
             'switch': {
-                'normal': {
-                    'light': {
-                        'narration':"""
+                'light': {
+                    'narration':"""
 It's difficult, but after a few moments of fumbling, you manage to turn the light switch back off.
 Darkness once more envelops the room, and the coppery taste of all the fingers that may have once flipped that switch envelops your taste buds.
 """,
-                        'stat change':{'stat':'disgust', 'value': 1},
-                        'condition change':{'target location':'dining car', 'new condition':'dark'},
-                        'check history': {
-                            1:{
-                                'narration':"""
+                    'stat change':{'stat':'disgust', 'value': 1},
+                    'condition change':{'target location':'dining car', 'new condition':'dark'},
+                    'check history': {
+                        1:{
+                            'narration':"""
 You flip the light SWITCH off, once again using nothing but your tongue.
 You're really getting quite good at this.
 """,
-                                'condition change':{'target location':'dining car', 'new condition':'dark'}
-                            }
+                            'condition change':{'target location':'dining car', 'new condition':'dark'}
                         }
-                    },
-                    'dark': {
-                        'narration':{
-                            1:"""
+                    }
+                },
+                'dark': {
+                    'narration':{
+                        1:"""
 You lean in and lick the light SWITCH.
 After a few seconds of fumbling, you manage to turn on the lights!""",
-                            2:"""
+                        2:"""
 That flavor, though...
 You can't seem to get it to leave your taste buds.
 """
-                        },
-                        'stat change':{'stat':'disgust', 'value': 1},
-                        'condition change':{'target location':'dining car', 'new condition':'light'},
-                        'check history': {
-                            1:{
-                                'narration':"""
+                    },
+                    'stat change':{'stat':'disgust', 'value': 1},
+                    'condition change':{'target location':'dining car', 'new condition':'light'},
+                    'check history': {
+                        1:{
+                            'narration':"""
 You flip the light SWITCH on again, using only your tongue.
 You're discovering a real talent here.
 """,
-                                'condition change':{'target location':'dining car', 'new condition':'light'}
-                            }
+                            'condition change':{'target location':'dining car', 'new condition':'light'}
                         }
                     }
                 }
             },
             'blood': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 It tastes metallic...
 Yep, that's definitely BLOOD.
 """
-                    }
                 }
             },
             'food': {
-                'normal': {
-                    'any': {
-                        'narration':{
-                            1:"""
+                'any': {
+                    'narration':{
+                        1:"""
 You attempt to peel a rotting banana before you eat it,
 but the stem sloughs off in your grasp.
 """,
-                            2:"""
+                        2:"""
 You take a small bite, peel and all.
 You feel gross...
 """
-                        },
-                        'stat change':{'stat':'disgust', 'value': 3}
-                    }
+                    },
+                    'stat change':{'stat':'disgust', 'value': 3}
                 }
             },
             'tables': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 The imitation-wood vinyl turns your stomach.
 The nearby rotting FOOD doesnt help, either...
 """,
-                        'stat change':{'stat': 'disgust', 'value':1}
-                    }
+                    'stat change':{'stat': 'disgust', 'value':1}
                 }
             },
             'tome': {
-                'normal': {
-                    'any': {
-                        'narration':{
-                            1:"""
+                'any': {
+                    'narration':{
+                        1:"""
 You lick the tome...
 Ouch! You got a papercut on your tongue!
 """,
-                            2:"""
+                        2:"""
 The blood seeps into the tome's pages, quickly disappearing before your eyes...
 A word of power whispers itself into your mind...
 """,
-                            3:"""
+                        3:"""
 
 "XOGLFOTZ"
 """
-                        },
-                        'stat change':{'stat':'fear', 'value':2}
-                    }
+                    },
+                    'stat change':{'stat':'fear', 'value':2}
                 }
             },
             'door1': {
-                'normal': {
-                    'any': {
-                        'narration':{
-                            1:"""
+                'any': {
+                    'narration':{
+                        1:"""
 Ouch! You get a huge splinter in your tongue!
 """,
-                            2:"""
+                        2:"""
 However, the sliver is so big you kinda look like one of those cool guys with toothpicks.
 You decide to keep it.
 """
-                        },
-                        'stat change':{'stat':'confidence', 'value':1}
-                    }
+                    },
+                    'stat change':{'stat':'confidence', 'value':1}
                 }
             },
             'door2': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 Yep, it tastes like door.
 """
-                    }
                 }
             },
             'window': {
-                'normal': {
-                    'any': {
-                        'narration':{
-                            1:"""
+                'any': {
+                    'narration':{
+                        1:"""
 You put your mouth on the window, breathing out to cause your cheeks to inflate.
 """,
-                            2:"""
+                        2:"""
 If any four-year-olds were on the other side of the glass, they'd be cracking up.
 Kinda unsanitary, though...
 """
-                        }
                     }
                 }
             },
             'other': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 You lick the wall.
 It tastes like BLOOD.
 """
-                    }
                 }
             },
         },
         'sniff': {
             'switch': {
-                'normal': {
-                    'any': False
-                }
+                'any': False
             },
             'blood': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 A metallic, rich aroma fills your nostrils...
 Yep, that smells like BLOOD, alright.
 """
-                    }
                 }
             },
             'food': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 You lean in to one of the platters and take a deep whiff...
 You detect notes of rotting fruits and meats.
 """,
-                        'stat change':{'stat':'disgust', 'value':1}
-                    }
-                },
+                    'stat change':{'stat':'disgust', 'value':1}
+                }
 # I want this cursed narration to be preserved
-                'cursed': {
-                    'any':{
-                        'narration':"""
-    You lean in to one of the platters and take a deep whiff...
-    The smell of the rotting food entices you as if it were a free breakfast buffet.
-            """
-                    }
-            }
+    #             'cursed': {
+    #                 'any':{
+    #                     'narration':"""
+    # You lean in to one of the platters and take a deep whiff...
+    # The smell of the rotting food entices you as if it were a free breakfast buffet.
+    #         """
+    #                 }
+    #         }
             },
             'tables': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 The smell of rot and death fills your nostrils.
 You stop smelling it before it makes you retch.
 """,
-                        'stat change':{'stat':'disgust', 'value':2}
-                    }
+                    'stat change':{'stat':'disgust', 'value':2}
                 }
             },
             'tome': {
-                'normal': {
-                    'any': {
-                        'narration':{
-                            1:"""
+                'any': {
+                    'narration':{
+                        1:"""
 It smells like death.
 You reflexively gag and recoil away.
 """,
-                            2:"""
+                        2:"""
 Despite everything, somehow the TOME seems... tasty.
 """
-                        },
-                        'stat change':{'stat':'curiosity', 'value':2}
-                    }
+                    },
+                    'stat change':{'stat':'curiosity', 'value':2}
                 }
             },
             'door1': {
-                'normal': {
-                    'any': {
-                        'narration':{
-                            1:"""
+                'any': {
+                    'narration':{
+                        1:"""
 The air wafting through the door smells like static electricity and ozone.
 The hair stands up on the back of your neck.
 """,
-                            2:"""
+                        2:"""
 You're not sure what that means...
 """
-                        }
                     }
                 }
             },
             'door2': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 Smells smokey.
 Damn, you could really go for some marshmallows right now.
 """
-                    }
                 }
             },
             'window': {
-                'normal': {
-                    'any': False 
-                }
+                'any': False 
             },
             'other': {
-                'normal': {
-                    'any': {
-                        'narration':{
-                            1:"""
+                'any': {
+                    'narration':{
+                        1:"""
 You take a few good whiffs...
 The coppery scent of BLOOD hits your nostrils, followed by the smell of rotten FOOD.
 """,
-                            2:"""
+                        2:"""
 The train car is ripe with odors most foul.
 """
-                        }
                     }
                 }
             },
         },
         'look': {
             'switch': {
-                'normal': {
-                    'light': {
-                        'narration':"""
+                'light': {
+                    'narration':"""
 It's a light SWITCH, toggled on.
 You toggled it not long ago.
 """
-                    },
-                    'dark': False
-                }
+                },
+                'dark': False
             },
             'blood': {
-                'normal': {
-                    'light': {
-                        'narration':{
-                            1:"""
+                'light': {
+                    'narration':{
+                        1:"""
 Smears and spatters of BLOOD cover the inside of the train car.
 It seems to be drying, but still somewhat fresh.
 """,
-                            2:"""
+                        2:"""
 Gleams of bright crimson reside among the flaking rusty brown.
 """,
-                            3:"""
+                        3:"""
 ... Whose blood is this, anyway?
 """
-                        }
-                    },
-                    'dark': False
-                }
+                    }
+                },
+                'dark': False
             },
             'food': {
-                'normal': {
-                    'light': {
-                        'narration':"""
+                'light': {
+                    'narration':"""
 Plates piled high with spoiled fruit and moldy bread are spread throughout the room.
 The flies are having a goddamn field day...
 """
-                    },
-                    'dark': False
-                }
+                },
+                'dark': False
             },
             'tables': {
-                'normal': {
-                    'light': {
-                        'narration':{
-                            1:"""
+                'light': {
+                    'narration':{
+                        1:"""
 You see five circular TABLES. On them sits many platters of rotten FOOD.
 """,
-                            2:"""
+                        2:"""
 Also present on the table is what seems to be an ancient TOME.
 It looks quite valuable...
 """
-                        }
-                    },
-                    'dark': {
-                        'narration':{
-                            1:"""
+                    }
+                },
+                'dark': {
+                    'narration':{
+                        1:"""
 You see the silhoutte of TABLES laden with STUFF.
 """,
-                            2:"""
+                        2:"""
 There is also a squarish THING sitting on one of the TABLES.
 Too dark to make out what it is...
 """
-                        }
                     }
                 }
             },
             'tome': {
-                'normal': {
-                    'light': {
-                        'narration':{
-                            1:"""
+                'light': {
+                    'narration':{
+                        1:"""
 You look over the tome, an ornate book bound in a pale leather.
 A variety of symbols and patterns are embossed in precious metals on the cover.
 """,
-                            2:"""
+                        2:"""
 The symbols are striking, but hardly anything you recognize.
 It's quite a striking volume. Clearly, potent secrets reside within.
 """,
-                            3:"""
+                        3:"""
 For some strange reason, it seems rather tasty...
 """
-                        }
-                    },
-                    'dark': False
-                },
-# Keep this narration for a trait check
-                'wizard': {
-                    'any':{
-                        'narration':"""
-    {} looks over the tome, an ornate book bound in human skin.
-    It exudes magic from the same source as your own...
-    They kind of feel like they are bathing in their own sweat.
-            """
                     }
-                }
+                },
+                'dark': False
+# Keep this narration for a trait check
+    #             'wizard': {
+    #                 'any':{
+    #                     'narration':"""
+    # {} looks over the tome, an ornate book bound in human skin.
+    # It exudes magic from the same source as your own...
+    # They kind of feel like they are bathing in their own sweat.
+    #         """
+    #                 }
+    #             }
             },
             'door1': {
-                'normal': {
-                    'light': {
-                        'narration':{
-                            1:"""
+                'light': {
+                    'narration':{
+                        1:"""
 The curtain is drawn on the other side of the door's window.
 What seems to be a breeze disturbs it now and then, revealing nothing but darkness.
 """,
-                            2:"""
+                        2:"""
 Next to the door is a sign that reads: 'To Ultra-Luxe Sleeper Car'
 """
-                        }
-                    },
-                    'dark': False
-                }
+                    }
+                },
+                'dark': False
             },
             'door2': {
-                'normal': {
-                    'light': {
-                        'narration':{
-                            1:"""
+                'light': {
+                    'narration':{
+                        1:"""
 This door's window is covered with a large piece of plywood.
 It seems someone doesn't want people going back there...
 """,
-                            2:"""
+                        2:"""
 Next to the door is a sign that reads: 'To Kitchen Car'
 """
-                        },
-                        'stat change':{'stat': 'curiosity', 'value':1}
                     },
-                    'dark': False
-                }
+                    'stat change':{'stat': 'curiosity', 'value':1}
+                },
+                'dark': False
             },
             'window': {
-                'normal': {
-                    'light': {
-                        'narration':{
-                            1:"""
+                'light': {
+                    'narration':{
+                        1:"""
 You look out the window...
 But it's too bright in the train car to see anything outside!
 """,
-                            2:"""
+                        2:"""
 Instead, you see yourself standing in your bloody surroundings.
 You look disheveled and displeased.
 """,
-                            3:"""
+                        3:"""
 You tidy yourself up as much as you can, but your clothing is riddled with holes and bloodstains.
 """
-                        },
-                        'trait change':{'trait':'Tidied Up', 'replaces': None}
                     },
-                    'dark': {
-                        'narration':{
-                            1:"""
+                    'trait change':{'trait':'Tidied Up', 'replaces': None}
+                },
+                'dark': {
+                    'narration':{
+                        1:"""
 You look out the window...
 """,
-                            2:"""
+                        2:"""
 A wide, flat expanse of cracked soil whizzes past the window at great speed, lit only by the faint light of dusk.
 """,
-                            3:"""
+                        3:"""
 Beyond the rattling of the rails beneath the carriage, all is quiet.
 You feel like it's going to be a long night.
 """
-                        },
-                        'clue change':'Travelling through the desert'
-                    }
+                    },
+                    'clue change':'Travelling through the desert'
                 }
             },
             'other': {
-                'normal': {
-                    'light': {
-                        'narration':{
-                            1:"""
+                'light': {
+                    'narration':{
+                        1:"""
 You look around...
 The train car is covered in smears and streaks of BLOOD.
 Tacky, partially drying PUDDLES of the stuff are scattered across the floor.
 Despite the obvious carnage that took place here, there doesn't seem to be any bodies present.
 """,
-                            2:"""
+                        2:"""
 This seems to be a dining car, the walls lined with TABLES that hold a variety of ITEMS.
 Platters of rotten FOOD are arrayed throughout the car, an unpleasant tableau of decay and death.
 """,
-                            3:"""
+                        3:"""
 There is a WINDOW on each side of the carriage, made mirror-like by to the brightness inside the train car.
 There are also two doors, (DOOR1 and DOOR2) to the front and rear of the train car, respectively.
 """,
-                            4:"""
+                        4:"""
 On the wall is the light SWITCH, toggled on.
 The lights flicker as the train clatters over the rough rails, but they hold.
 """
-                        }
-                    },
-                    'dark': {
-                        'narration':{
-                            1:"""
+                    }
+                },
+                'dark': {
+                    'narration':{
+                        1:"""
 It's too dark to see any detail, but there seem to be some TABLES around.
 You can also see a large bay WINDOW in the two longest walls.
 The faint light of dusk filters through, only a shade brighter than the darkness around you.
 """,
-                            2:"""
+                        2:"""
 Maybe you can find some way to turn on the lights...
 """
-                        },
-                        'clue change': 'walls'
-                    }
+                    },
+                    'clue change': 'walls'
                 }
             },
         },
         'listen': {
             'switch': {
-                'normal': {
-                    'any': False
-                }
+                'any': False
             },
             'blood': {
-                'normal': {
-                    'any': {
-                        'narration':{
-                            1:"""
+                'any': {
+                    'narration':{
+                        1:"""
 You imagine the BLOOD gurgling softly.
 It whispers to you...
 """,
-                            2:"""
+                        2:"""
 "I was once in the veins of a guy named Abrahand Lickin'. Hell of a thing, ain't it?"
 """
-                        }
                     }
                 }
             },
             'food': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 You hear the buzzing of the flies overhead.
 There are a LOT of them.
 """
-                    }
                 }
             },
             'tables': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 You hear the buzzing of the flies overhead.
 There are a LOT of them.
 """
-                    }
                 }
             },
             'tome': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 You hear otherworldly whispers emanating from the tome.
 They say: "Warning! This tome is cursed!".
 """
-                    }
                 }
             },
             'door1': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 You can't quite make it out, but you hear something rhythmic...
 """
-                    }
                 }
             },
             'door2': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 No other sound comes from the rear car but the clattering of the rails.
-            """
-                    }
+        """
                 }
             },
             'window': {
-                'normal': {
-                    'any':{
-                        'narration':"""
+                'any':{
+                    'narration':"""
 You cup your ear against the window.
 Maybe you hear a bird outside. 
 I don't know, it's hard to tell.
 """
-                    }
                 }
             },
             'other': {
-                'normal': {
-                    'any': {
-                        'narration':"""
+                'any': {
+                    'narration':"""
 You listen to the intermittent clunk of the train passing over the rough railway.
 You seem to be traveling quite fast, in excess of 90 miles per hour.
 """
-                    }
                 }
             },
         },
@@ -1225,733 +1105,4 @@ You seem to be traveling quite fast, in excess of 90 miles per hour.
         }
 
     }
-}
-
-
-normal = {
-    "dining car": {
-        "touch": {
-            "switch":"""
-    You find a LIGHT SWITCH!
-    You flick it on, bathing the train car in light.
-    There's blood everywhere, and I mean *everywhere*.
-            """,
-            "blood":"""
-    It's a viscous, dark fluid. Tacky in places, and partially dried.
-            """,
-            "food":"""
-    You sift through the plates of rotten FOOD...
-    Eventually, you have to face the truth. there's nothing edible here.
-    You accidentally poke your finger through the soft exterior of a decaying fruit.
-    Gross...
-            """,
-            "tables":"""
-    You feel a number of objects here.
-    Some sort of squarish THING, and what seems to be heaping plates of FOOD
-            """,
-            "tome":{
-                "influence":"""
-    You grab the TOME.
-    It seems to compel you to open it...
-    Can you resist its influence?
-                """,
-                "success":"""
-    You speak the TOME's word of power!
-    The TOME has no more power over you. It goes limp in your hands.
-    Your skin begins to emit a soft glow...
-                """,
-                "failure":"""
-    You are unable to resist the TOME's influence!
-    The TOME chills your hands, freezing them in place!
-    You can't tell if the book contains pictures or words, but the ink writhes ceaselessly...
-            """},
-            "door1":"""
-    You feel all around the door.
-    It feels like a normal door on a train.
-            """,
-            "door2":"""
-    You feel all around the door.
-    It feels like a normal door on a train.
-            """,
-            "window":"""
-    You touch the glass of the window.
-    It's cool, like the night outside.
-    You feel the vibrations of the train car as it rattles along the rails.
-            """,
-            "other":"""
-    Unsure of what you're looking for, you grope around the carriage.
-    On the walls and floor, you find a number of PUDDLES and WET SURFACES, 
-    what seems to be a LIGHT SWITCH, and a number of TABLES laden with ITEMS.
-    You feel the cool glass of a WINDOW inset into each wall.
-    There are doors (DOOR 1 and DOOR 2) at the front and rear of the carriage.
-            """
-        },
-        "taste": {
-            "switch":"""
-    You lean in and lick the LIGHT SWITCH.
-    After a few seconds of fumbling, you manage to turn on the lights!
-            """,
-            "blood":"""
-    It tastes metallic...
-    Yep, that's definitely BLOOD.
-            """,
-            "food":"""
-    You attempt to peel a rotting banana before you eat it,
-    but the stem sloughs off in your grasp.
-    You take a small bite, peel and all.
-    You feel gross...
-            """,
-            "tables":"""
-    Ouch! You get a huge splinter in your tongue!
-    However, the sliver is so big you kinda look like one of those cool guys with toothpicks.
-    You decide to keep it.
-            """,
-            "tome":"""
-    You lick the tome...
-    Ouch! You got a papercut on your tongue!
-    The blood seeps into the tome's pages, quickly disappearing before your eyes...
-    A word of power whispers itself into your mind...
-    "XOGLFOTZ"
-            """,
-            "door1":"""
-    Yep, it tastes like door.
-            """,
-            "door2":"""
-    Yep, it tastes like door.
-            """,
-            "window":"""
-    You put your mouth on the window, breathing out to cause your cheeks to inflate.
-    If any four-year-olds were on the other side of the glass, they'd be cracking up.
-    Kinda unsanitary, though...
-            """,
-            "other":"""
-    You lick the wall.
-    It tastes like BLOOD.
-            """
-        },
-        "sniff": {
-            "switch":"""
-    That doesn't smell like anything.
-            """,
-            "blood":"""
-    A metallic, rich aroma...
-    Yep, that smells like BLOOD.
-            """,
-            "food":"""
-    You lean in to one of the platters and take a deep whiff...
-    You detect notes of rotting fruits and meats.
-            """,
-            "tables":"""
-    The smell of rot and death fills your nostrils.
-    You stop smelling it before it makes you retch.
-            """,
-            "tome":"""
-    It smells like death.
-    You reflexively gag and recoil away.
-            """,
-            "door1":"""
-    The air wafting through the door smells like static electricity and ozone.
-    The hair stands up on the back of your neck.
-    You're not sure what that means...
-            """,
-            "door2":"""
-    That doesn't smell like anything.
-            """,
-            "window":"""
-    That doesn't smell like anything.
-            """,
-            "other":"""
-    You take a few good whiffs...
-    The coppery scent of BLOOD hits your nostrils, followed by the smell of rotten FOOD.
-            """
-        },
-        "look": {
-            "switch": """
-    It's a LIGHT SWITCH, toggled on.
-    You toggled it not long ago.
-            """,
-            "blood":"""
-    Smears and spatters of blood cover the inside of the train car.
-    It seems to be drying, but still somewhat fresh.
-    Gleams of bright crimson reside among the flaking rusty brown
-            """,
-            "food":"""
-    Plates piled high with spoiled fruit and moldy bread are spread throughout the room.
-    The flies are having a goddamn field day...
-            """,
-            "tables":{
-                'light':"""
-    You see five circular tables. On them sits many platters of rotten FOOD.
-    Also present on the table is what seems to be an ancient TOME.
-    It looks quite valuable...
-                """,
-                'dark':"""
-    You see the silhoutte of TABLES laden with ITEMS.
-    Too dark to make out what the ITEMS are...
-                """
-            },
-            "tome":"""
-    You look over the tome, an ornate book bound in a pale leather.
-    A variety of symbols and patterns are embossed in precious metals on the cover.
-    The symbols are striking, but hardly anything you recognize.
-    It's quite a striking volume. Clearly, potent secrets reside within.
-    For some strange reason, it seems rather tasty...
-            """,
-            "door1":"""
-    The curtain is drawn on the other side of the door's window.
-    What seems to be a breeze disturbs it now and then, revealing nothing but darkness.
-            """,
-            "door2":"""
-    This door's window is covered with a large piece of plywood.
-    It seems someone doesn't want people going back there...
-            """,
-            "window":{
-                'light':"""
-    You look out the window...
-    But it's too bright in the train car to see anything outside!
-    Instead, you see yourself standing in your bloody surroundings.
-    You look disheveled and displeased.
-                """,
-                'dark':"""
-    You look out the window...
-    The silhouettes of trees whiz past the dark sky.
-    The moon hangs overhead, Its meager sliver casting a slight silvery glow.
-    Beyond the rattling of the rails beneath the carriage, all is quiet.
-    You feel like it's going to be a long night.
-                """
-            },
-            "other": {
-                'light':"""
-    You look around...
-    The train car is covered in smears and streaks of BLOOD.
-    Tacky, partially drying PUDDLES of the stuff are scattered across the floor.
-    Despite the obvious carnage that took place here, there doesn't seem to be any bodies.
-    This seems to be a dining car, the walls lined with TABLES that hold a variety of ITEMS.
-    Platters of rotten FOOD are arrayed throughout the car, an unpleasant tableau of decay and death.
-    On the wall is the light SWITCH, toggled on.
-    There is a WINDOW on each side of the carriage, made mirror-like by to the brightness inside the train car.
-    There are two DOORs (DOOR1 and DOOR2) to the front and rear of the train car, respectively.
-    The lights flicker as the train clatters over the rough rails, but they hold.
-                """,
-                'dark':"""
-    It's too dark to see any detail, but there seem to be some TABLES around...
-                """
-            }
-        },
-        "listen": {
-            "food":"""
-    You hear the buzzing of the flies overhead.
-    There are a LOT of them.
-            """,
-            "tables":"""
-    You hear the buzzing of the flies overhead.
-    There are a LOT of them.
-            """,
-            "tome":"""
-    You hear otherworldly whispers enticing you.
-    This books seems quite powerful.
-    Perhaps that power can be yours...
-            """,
-            "door1":"""
-    You can't quite make it out, but you hear something rhythmic...
-            """,
-            "door2":"""
-    No other sound comes from the rear car but the clattering of the rails.
-            """,
-            "other":"""
-    You listen to the intermittent clunk of the train passing over the rough railway.
-    You seem to be traveling quite fast.
-            """
-        },
-        "go": {
-            "door1":"""
-
-            """,
-            "door2":"""
-
-            """
-        }
-    }
-}
-
-wizard = {
-    "car0": {
-        "touch": {
-            
-        },
-        "taste": {
-
-        },
-        "sniff": {
-        
-        },
-        "look": {
-        
-        },
-        "listen": {
-        
-        }
-    },
-    "dining car": {
-        "touch": {
-            "switch":"""
-    {} has no need for such contrivances of simpler beings.
-    The luminousity of their skin should suffice.
-            """,
-            "blood":"""
-    Somweone has left their life's blood behind.
-    Too far degraded for any use. A pity...
-            """,
-            "food":"""
-    {} refuses to touch the rotten food.
-    Let the dead decompose in peace...
-            """,
-            "tables":"""
-    The tables are constructed with plastic paneling printed to look like wood.
-    It's incredibly tacky. {} is somewhaty insulted by your suggestion to touch it.
-    Out of the overwhelming kindness of their heart, they forgive you.
-            """,
-            "tome":"""
-    {} picks up the tome. It hangs limply in their grasp, defeated.
-    They and the tome now share the source of their powers.
-    For one to hurt the other is to hurt themselves.
-            """,
-            "door1":"""
-    Behind this door lies something the likes of which {} has never perceived, not even with their mind's eye.
-    They are compelled by the allure of the unknown... They must see it, now!
-            """,
-            "door2":"""
-    {} already knows what a door feels like.
-    It feels like a normal door on a normal train.
-            """,
-            "window":"""
-    {} touches the window. It feels like cool glass
-    It reminds them of what they think a crystal ball might feel like.
-            """,
-            "other":"""
-    {} refuses to grope around like a fool.
-            """
-        },
-        "taste": {
-            "blood":"""
-    {} doesn't need to taste the blood to know it tastes like blood.
-    They taste it anyway...
-    The bloodstains range from 30 minutes to 2 hours in age, from at least 5 people.
-            """,
-            "food":"""
-    Unnecessary. {} has already calculated the original flavor of the fresh food in their head.
-    Hmm... Maybe some more Sodium Chloride next time...
-            """,
-            "tome":"""
-    Been there, done that.
-            """,
-            "other":"""
-    {} refuses.
-            """
-        },
-        "sniff": {
-            "blood":"""
-    A metallic, rich aroma...
-    Weak blood, drained of the little life essence it once carried.
-            """,
-            "tome":"""
-    It smells like powerful magic...
-    The same magic {} feels coursing through their body.
-            """,
-            "door1":"""
-    The air wafting through the door smells like static electricity and ozone.
-    The hair stands up on the back of {}'s neck.
-    A potent spirit dwells in the next car...
-            """,
-            "other":"""
-    {} takes a few good whiffs...
-    The train car is ripe with odours most foul.
-            """
-        },
-        "look": {
-            
-            "switch": {
-                "light": """
-    A pitiful contraption for lesser beings unable to project light from their very skin.
-    It's beneath {} to make use of it.
-    They turn it off, because it's too bright in here.
-                """,
-                "dark":"""
-    A pitiful contraption for lesser beings unable to project light from their very skin.
-    It's beneath {} to make use of it.
-    It's as dark as it gets in here.
-                """
-            },
-            "blood":"""
-    Somweone has left their life's blood behind.
-    Too far degraded for any use. A pity...
-            """,
-            "food":"""
-    Disgusting. {} will not pollute their mind with such unclean images.
-            """,
-            "tables":"""
-    {} sees five circular tables laden with rotten FOOD.
-    Also present on the tables is the TOME.
-    It sits, exhausted of malice.
-            """,
-            "tome":"""
-    {} looks over the tome, an ornate book bound in human skin.
-    It exudes magic from the same source as your own...
-    They kind of feel like they are bathing in their own sweat.
-            """,
-            "door1":"""
-    The curtain is drawn on the other side of the door's window.
-    What seems to be a breeze disturbs it now and then, revealing nothing but darkness.
-    The allure of the unknown calls...
-            """,
-            "door2":"""
-    This door's window seems to be covered with a large piece of plywood. How uncouth.
-    Flickering light from the other side of the door shines through small gaps in the wood.
-            """,
-            "window":"""
-    {} looks out the window...
-    But it's too bright in the train car to see anything outside.
-    Instead, {} sees themself, a magnifiscent figure wreathed in the glowing blue light that suffuses the room.
-    {} gives a wizardly wink at you through the mirrored window.
-            """,
-            "other":"""
-    {} looks around...
-    The train car is covered in about three gallons of rapidly expiring life's BLOOD.
-    Tacky, partially drying PUDDLES of the stuff are scattered across the floor.
-    Despite the obvious carnage that took place here, there doesn't seem to be any bodies.
-    This seems to be a dining car, the walls lined with TABLES holding a variety of ITEMS.
-    Platters of rotten FOOD are arrayed throughout the car, an unpleasant tableau of decay and death.
-    On the wall is the light SWITCH, rendered unnecessary.
-    There is a WINDOW on each side of the carriage, made mirror-like by the brightness inside the train car.
-    There are two DOORS (DOOR 1 and DOOR 2) to the front and rear of the train car, respectively.
-                """
-        },
-        "listen": {
-            "blood":"""
-    {} imagines the BLOOD gurgling softly.
-    It whispers...
-    "I was once in the veins of a guy named Abrahand Lickin'. Hell of a thing, ain't it?"
-            """,
-            "tome":"""
-    {} hears otherworldly whispers emanating from the tome.
-    They say: "Warning! This tome is cursed!".
-            """,
-            "door1":"""
-    {} hears something rhythmic...
-    It sounds like the chanting of an incantation.
-            """,
-            "window":"""
-    {} cups their ear against the window.
-    Maybe they hear a bird outside. 
-    I don't know, it's hard to tell.
-            """,
-            "other":"""
-    {} listens to the intermittent clunk of the train passing over the rough railway.
-    The train seems to be traveling quite fast, about 90 miles per hour.
-            """
-        },
-        "go": {
-            "door1":"""
-
-            """,
-            "door2":"""
-
-            """
-        }
-    },
-    "car2": {
-        "touch": {
-            
-        },
-        "taste": {
-
-        },
-        "sniff": {
-        
-        },
-        "look": {
-        
-        },
-        "listen": {
-        
-        }
-    },
-    "void": {
-        "touch": {
-            
-        },
-        "taste": {
-
-        },
-        "sniff": {
-        
-        },
-        "look": {
-        
-        },
-        "listen": {
-        
-        }
-    },
-    "car3": {
-        "touch": {
-            
-        },
-        "taste": {
-
-        },
-        "sniff": {
-        
-        },
-        "look": {
-        
-        },
-        "listen": {
-        
-        }
-    }
-}
-
-cursed = {
-    "car0": {
-        "touch": {
-
-        },
-        "taste": {
-
-        },
-        "sniff": {
-        
-        },
-        "look": {
-        
-        },
-        "listen": {
-        
-        }
-    },
-    "dining car": {
-        "touch": {
-            'other':"""
-    You try to touch the {}, but your hands are still frozen to the tome!
-    They're starting to go numb...
-            """
-        },
-        "taste": {
-            "switch":"""
-    Arms still frozen in place by the cursed TOME, you crane your neck towards the LIGHT SWITCH.
-    After a few seconds of fumbling, you manage to turn on the lights!
-            """,
-            "blood":"""
-    It tastes metallic, tangy, and almost sweet.
-    Yep, that's definitely BLOOD.
-    You wish it was fresher...
-    You're quite hungry.
-            """,
-            "food":"""
-    Leaning over the table with your upper body, you use your mouth to seize a scrap of spoiled meat.
-    After a few short minutes of crunching and slurping, it's gone.
-    You're still hungry...
-            """,
-            "tables":"""
-    The bare imitation-wood vinyl turns your stomach.
-    However, you manage to find a spot of BLOOD while licking the table.
-    It's not enough, though...
-            """,
-            "tome":"""
-    You try to lick the tome...
-    However, your arms are paralyzed too far forward.
-    You cannot reach its pages with your tongue.
-            """,
-            "door1":"""
-    This door tastes like promise.
-    Like power.
-            """,
-            "door2":"""
-    This door tastes like freedom...
-    And death.
-            """,
-            "window":"""
-    You lick the window.
-    It's a cold night, and something strange is on the air.
-    You keep licking until you find a spot of blood.
-    Not bad.
-            """,
-            "other":"""
-    You lick the wall.
-    It tastes like BLOOD.
-    You're quite hungry.
-            """
-        },
-        "sniff": {
-            "blood":"""
-    A metallic, rich aroma...
-    Yep, that smells like BLOOD.
-    It's drying, though. Not fresh.
-            """,
-        # these are copied from normal. need to be edited for cursed still
-            "food":"""
-    You lean in to one of the platters and take a deep whiff...
-    The smell of the rotting food entices you as if it were a free breakfast buffet.
-            """,
-            "tables":"""
-    The smell of rot and death fills your nostrils.
-    Your stomach growls...
-    Why did you ever used to think this was bad?
-            """,
-            "tome":"""
-    It smells just like you.
-            """,
-            "door1":"""
-    The air wafting through the door smells like static electricity and ozone.
-    The hair stands up on the back of your neck.
-    It feels powerful...
-            """,
-            "door2":"""
-    That doesn't smell like anything.
-            """,
-            "window":"""
-    That doesn't smell like anything.
-            """,
-            "other":"""
-    You take a few good whiffs...
-    The coppery scent of BLOOD hits your nostrils, overwhelming all else.
-    If only it was fresher...
-            """
-        },
-        "look": {
-            "dark": {
-                "tables":"""
-
-                """,
-                "window":"""
-
-                """,
-                "other":"""
-
-                """
-            },
-            "light": {
-                "switch":"""
-
-                """,
-                "blood":"""
-
-                """,
-                "food":"""
-
-                """,
-                "tables":"""
-
-                """,
-                "tome":"""
-
-                """,
-                "door1":"""
-
-                """,
-                "door2":"""
-
-                """,
-                "window":"""
-
-                """,
-                "other":"""
-
-                """
-            }
-        },
-        "listen": {
-            "switch":"""
-
-            """,
-            "blood":"""
-
-            """,
-            "food":"""
-
-            """,
-            "tables":"""
-
-            """,
-            "tome":"""
-
-            """,
-            "door1":"""
-
-            """,
-            "door2":"""
-
-            """,
-            "window":"""
-
-            """,
-            "other":"""
-
-            """
-        }
-    },
-    "car2": {
-        "touch": {
-            
-        },
-        "taste": {
-
-        },
-        "sniff": {
-        
-        },
-        "look": {
-        
-        },
-        "listen": {
-        
-        }
-    },
-    "void": {
-        "touch": {
-            
-        },
-        "taste": {
-
-        },
-        "sniff": {
-        
-        },
-        "look": {
-        
-        },
-        "listen": {
-        
-        }
-    },
-    "car3": {
-        "touch": {
-            
-        },
-        "taste": {
-
-        },
-        "sniff": {
-        
-        },
-        "look": {
-        
-        },
-        "listen": {
-        
-        }
-    }
-
-}
-
-# this is where the narration for different gome over/ending conditions is stored
-endings = {
-"fell off":"""
-
-""",
-"voided out":"""
-
-"""
-
 }

@@ -1,76 +1,56 @@
 from sys import exit
-import json, textwrap, shutil
+import json, textwrap, shutil, time, sys
 
 
 # this function handles starting the game, and checks if you want to load a save before starting the turn cycle
 def start_game():
     from game_data import main_menu, help_text, intro, name_load_prompt, loaded_character, identity
-    global name, status, background, location, worldstate
+    global name, location, worldstate
     menu_action = input(main_menu)
     match menu_action:
         case '1' | 'n' | 'new game':
             create_character()
             print(help_text)
-            print(identity.format(name, status, background))
             context = intro['dining car']['dark']
-            print(context.format(name))
+            narrate(context.format(name))
             turn_cycle()
         case '2' | 'l' | 'load game':
             filename = input(name_load_prompt) + '.json'
             load_character(filename)
-            print(loaded_character.format(name, status, background, location))
+            narrate(loaded_character.format(name, location))
             condition = worldstate[location]
             context = intro[location][condition]
-            print(context.format(name))
+            narrate(context.format(name))
             turn_cycle()
         case '3' | 'q' | 'quit game':
             exit()
         
 
 def create_character():
-    from game_data import backgrounds, background_info, name_prompt, background_prompt, default_worldstate
-    global name, background, filename
-    # choosing your character's name and background
+    from game_data import name_prompt, default_worldstate
+    global name, filename
     name = input(name_prompt)
-    background = None
-    print(backgrounds)
-    while background is None:
-        background_choice = input(background_prompt)
-        match background_choice:
-            case '1' | 'malcontent':
-                background = 'malcontent'
-            case '2' | 'utilitarian':
-                background = 'utilitarian'
-            case '3' | 'gourmond':
-                background = 'gourmond'
-            case '4' | 'reactionary':
-                background = 'reactionary'
-            case 'info':
-                print(background_info)
-            case _:
-                print('\nplease try again')
     # assembling a library of initial character data and dumping it to a .json file
     filename = name + '.json'
-    character_info = {'name': name, 
-                      'background': background, 
-                      'status': 'normal', 
-                      'location': 'dining car', 
-                      'inventory': [],
-                      'traits':[],
-                      'joy': 0,
-                      'trust': 0,
-                      'fear': 0,
-                      'surprise': 0,
-                      'sadness': 0,
-                      'disgust': 0,
-                      'anger': 0,
-                      'curiosity': 0,
-                      'confidence': 10,
-                      'clues':{},
-                      'mysteries':{},
-                      'worldstate': default_worldstate,
-                      'history':{}
-                      }
+    character_info = {
+        'name': name, 
+        'location': 'dining car', 
+        'inventory': [],
+        'traits':[],
+        'joy': 0,
+        'trust': 0,
+        'fear': 0,
+        'surprise': 0,
+        'sadness': 0,
+        'disgust': 0,
+        'anger': 0,
+        'curiosity': 0,
+        'confidence': 10,
+        'clues':[],
+        'mysteries':{},
+        'worldstate': default_worldstate,
+        'history':{}
+    }
     with open(filename, 'w') as character_file:
         json.dump(character_info, character_file, indent=4)
     # loading the newly made save file into global variables and returning to the start_game() function
@@ -78,12 +58,10 @@ def create_character():
 
 # this function loads a character file into global variables, preparing the character for play.
 def load_character(file):
-    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, curiosity, confidence, worldstate, history, traits, clues, mysteries
+    global name, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, curiosity, confidence, worldstate, history, traits, clues, mysteries
     with open(file) as character_file:
         character_data = json.load(character_file)
         name = character_data['name']
-        background = character_data['background']
-        status = character_data['status']
         location = character_data['location']
         inventory = character_data['inventory']
         traits = character_data['traits']
@@ -103,27 +81,27 @@ def load_character(file):
         
 # saves current character values held in global variables to a file
 def save_game(save_file):
-    global name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, curiosity, confidence, worldstate, history, traits, clues, mysteries
+    global name, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, curiosity, confidence, worldstate, history, traits, clues, mysteries
     with open(save_file, 'w') as character_file:
-        character_info = {'name': name, 
-                      'background': background, 
-                      'status': status, 
-                      'location': location, 
-                      'inventory': inventory,
-                      'traits': traits,
-                      'joy': joy,
-                      'trust': trust,
-                      'fear': fear,
-                      'surprise': surprise,
-                      'sadness': sadness,
-                      'disgust': disgust,
-                      'anger': anger,
-                      'curiosity': curiosity,
-                      'confidence': confidence,
-                      'clues': clues,
-                      'mysteries': mysteries,
-                      'worldstate': worldstate,
-                      'history': history}
+        character_info = {
+            'name': name,
+            'location': location, 
+            'inventory': inventory,
+            'traits': traits,
+            'joy': joy,
+            'trust': trust,
+            'fear': fear,
+            'surprise': surprise,
+            'sadness': sadness,
+            'disgust': disgust,
+            'anger': anger,
+            'curiosity': curiosity,
+            'confidence': confidence,
+            'clues': clues,
+            'mysteries': mysteries,
+            'worldstate': worldstate,
+            'history': history
+            }
         json.dump(character_info, character_file, indent=4)
 
 
@@ -143,7 +121,7 @@ def turn_cycle():
 
 # this function now loops itself to account for incorrect input
 def start_turn():
-    global location, status, name
+    global location, name
     while True:
         player_action = act()
         if player_action:
@@ -158,7 +136,7 @@ def start_turn():
 #some of this really needs to be partitioned off into other functions for cleanliness
 def act():
     from game_data import prompt, invalid_command, invalid_target, too_many_words, command_aliases, target_aliases
-    global location, command, target, joy, sadness, anger, fear, trust, disgust, surprise, curiosity, name, status, background
+    global location, command, target, joy, sadness, anger, fear, trust, disgust, surprise, curiosity, name
     action = input(prompt)
     if len(action) != 0:
         interpreted_input = action.split()
@@ -206,7 +184,7 @@ def act():
 
 def resolve(player_input):
     if player_input != False:
-        global command, target, name, background, status, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, curiosity, worldstate
+        global command, target, name, location, inventory, joy, trust, fear, surprise, sadness, disgust, anger, curiosity, worldstate
         consequence_library = condition_handler(command, target)
         consequence_handler(consequence_library, False)
 
@@ -239,7 +217,7 @@ def consequence_handler(consequences, recursive_mode):
         history_recorder([command, target])
     # Immediate consequences
     if 'narration' in consequences:
-        print(consequences['narration'].format(name))
+        narrate(consequences['narration'])
     if 'stat change' in consequences:
         stat = consequences['stat change']['stat']
         value = consequences['stat change']['value']
@@ -250,20 +228,20 @@ def consequence_handler(consequences, recursive_mode):
     if 'inventory change' in consequences:
         if consequences['inventory change']['add/subtract']:
             inventory.append(consequences['inventory change']['item'])
-            print(item_acquired)
+            narrate(item_acquired)
         else:
             inventory.remove(consequences['inventory change']['item'])
-            print(item_expended)
+            narrate(item_expended)
     if 'trait change' in consequences:
         trait_name = consequences['trait change']['trait']
         replaces = consequences['trait change']['replaces']
         if replaces == None:
             traits.append(consequences['trait change']['trait'])
-            print(trait_acquired.format(trait_name))
+            narrate(trait_acquired.format(trait_name))
         elif replaces is True:
             traits.remove(replaces)
             traits.append(trait_name)
-            print(trait_replaced.format(trait_name, replaces))
+            narrate(trait_replaced.format(trait_name, replaces))
     if 'condition change' in consequences:
         target_location = consequences['condition change']['target location']
         worldstate[target_location] = consequences['condition change']['new condition']
@@ -282,9 +260,9 @@ def consequence_handler(consequences, recursive_mode):
                         preunlocked_theories.append(theory)
             if quick_solved:
                 mystery_progress = 'solved'
-                print(mystery_change['solved'].format(mystery_name))
+                narrate(mystery_change['solved'].format(mystery_name))
             else:
-                print(mystery_change['new mystery acquired'].format(mystery_name))
+                narrate(mystery_change['new mystery acquired'].format(mystery_name))
             recorded_mystery = {mystery_name:{'current progress':mystery_progress, 'unlocked theories':preunlocked_theories, 'hunch': 'none'}}
             mysteries.update(recorded_mystery)
         elif mystery_name in mysteries and mysteries[mystery_name]['current progress'] == 'solved':
@@ -293,16 +271,16 @@ def consequence_handler(consequences, recursive_mode):
         clue_name = consequences['clue change']
         if clue_name not in clues:
             clues.append(clue_name)
-            print(clue_added.format(clue_name))
+            narrate(clue_added.format(clue_name))
             for mystery in mysteries:
                 theories = mystery_library[mystery]['theories']
                 for theory, theory_contents in theories.items():
                     if clue_name in theory_contents['supporting clues'] and theory not in mysteries[mystery]['unlocked theories']:
                         mysteries[mystery]['unlocked theories'].append(theory)
-                        print(theory_unlocked.format(theory, mystery))
+                        narrate(theory_unlocked.format(theory, mystery))
                 if clue_name in mystery_library[mystery]['decisive evidence']:
                     mysteries[mystery]['current progress'] = 'solved'
-                    print(mystery_change['solved'].format(mystery))
+                    narrate(mystery_change['solved'].format(mystery))
     # Checks
     if 'check consent' in consequences:
         player_yesno = check_consent(consequences['check consent']['prompt'])
@@ -341,7 +319,7 @@ def sys_command_handler(player_input):
             from game_data import saved_game
             filename = name + '.json'
             save_game(filename)
-            print(saved_game)
+            narrate(saved_game)
             if arg_2 and ((arg_2 == 'quit') or (arg_2 == 'exit')):
                 from game_data import quit_message
                 print(quit_message)
@@ -352,8 +330,8 @@ def sys_command_handler(player_input):
             exit()
         case 'status':
             from game_data import character_status, identity
-            print(identity.format(name, status, background))
-            print(character_status.format(joy, sadness, anger, fear, trust, disgust, surprise, curiosity))
+            print(identity.format(name))
+            print(character_status.format(joy, sadness, anger, fear, disgust, trust, surprise, curiosity))
         case 'help':
             if arg_2:
                 from game_data import help_library
@@ -403,7 +381,7 @@ def mind_palace_handler(player_input):
                 arg_2 = int(arg_2)
             except:
                 print(arg_2_NaN)
-            if type(arg_2) == int:
+            if type(arg_2) == int and arg_2 <= len(mysteries):
                 arg_2 -= 1
                 mystery_index = list(mysteries)
                 selection = mystery_index[arg_2]
@@ -437,7 +415,7 @@ def mind_palace_handler(player_input):
                     match mp_command:
                         case 'info':
                             #eventually make a longer description and/or a journal/log
-                            print(mystery_library[selection]['description'])
+                            narrate(mystery_library[selection]['description'])
                         case 'quit' | 'exit' | 'q' | 'x' | 'back':
                             break
                         case 'commit' |'hunch' if mp_arg_2:
@@ -461,41 +439,79 @@ def mind_palace_handler(player_input):
                         case _:
                             print(invalid_command)
 
-def narrate(narration_dict, mode):
-    from game_data import continue_prompt
+def slow_print(input_text):
+    for character in input_text:
+        sys.stdout.write(character)
+        sys.stdout.flush()
+        match character:
+            case ',' | '.' | '!' | '?' |';':
+                time.sleep(.2)
+            case ' ':
+                continue
+            case _:
+                time.sleep(.025)
+
+def wait_for_keypress(prompt="    (Press any key to continue)"):
+    print(prompt, end='', flush=True)
+    if sys.platform.startswith('win'):
+        import msvcrt
+        while msvcrt.kbhit():
+            msvcrt.getch()
+        msvcrt.getch()
+    else:
+        import termios, tty
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        termios.tcflush(fd, termios.tcgetattr(fd))
+        # this try/finally probably is not necessary and can be simplified
+        try:
+            tty.setraw(fd)
+            sys.stdin.read(1)
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+
+def narrate(narration_object):
     terminal_width = shutil.get_terminal_size(fallback = 70).columns
-    if terminal_width >= 74:
+    if terminal_width >= 74: 
         terminal_width = 70
     else:
         terminal_width -= 4
-    for sequence, text in narration_dict.items():
+    if type(narration_object) == str:
+        narration_object = {1:narration_object}
+    for sequence, text in narration_object.items():
         formatted_narration = textwrap.fill(
             text,
             width=terminal_width,
-            initial_indent=' >> ',
+            initial_indent='       ',
             subsequent_indent='    ',
             replace_whitespace=True,
             drop_whitespace=True,
             break_long_words=False,
             break_on_hyphens=False
         )
-        print(formatted_narration)
-        if int(sequence) < len(narration_dict):
-            input(continue_prompt)
-
-        
+        if sequence == 1:
+            print('\n', end='')
+            slow_print(formatted_narration)
+            print('\n')
+        else:
+            sys.stdout.write('\r' + '                               ' + '\r')
+            sys.stdout.flush()
+            slow_print(formatted_narration)
+            print('\n')
+        if int(sequence) < len(narration_object):
+            wait_for_keypress()
 
 
 # this function handles condition-agnostic consequences 
 def condition_handler(current_command, current_target):
     from game_data import narration_library
-    global location, status, worldstate
+    global location, worldstate
     condition = worldstate[location]
-    condition_tree = narration_library[location][current_command][current_target][status]
-    if len(condition_tree) is 1 and 'any' in condition_tree:
-        return narration_library[location][current_command][current_target][status]['any']
+    condition_tree = narration_library[location][current_command][current_target]
+    if len(condition_tree) == 1 and 'any' in condition_tree:
+        return narration_library[location][current_command][current_target]['any']
     else:
-        return narration_library[location][current_command][current_target][status][condition]
+        return narration_library[location][current_command][current_target][condition]
 
 def history_recorder(event):
     global history, worldstate, location
@@ -520,7 +536,7 @@ def check_history(event):
 # this can probably be refactored
 def stat_change(stat, value):
     from game_data import stat_changed
-    global joy, trust, fear, surprise, sadness, disgust, anger, curiosity, confidence, status
+    global joy, trust, fear, surprise, sadness, disgust, anger, curiosity, confidence
     match stat:
         case 'joy':
             joy = joy + value
@@ -549,14 +565,12 @@ def stat_change(stat, value):
         case 'confidence': 
             confidence += value
             new_value = confidence
-        case 'status':
-            status = value
     match value:
         case int():
             if value > 0:
-                print(stat_changed.format('+', value, stat, 'increased', new_value))
+                narrate(stat_changed.format('+', value, stat, 'increased', new_value))
             elif value < 0:
-                print(stat_changed.format('-', value, stat, 'decreased', new_value))
+                narrate(stat_changed.format('-', value, stat, 'decreased', new_value))
 
 # this function checks a stat and determines if it meets the DC
 def check_stat(stat, dc):

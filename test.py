@@ -53,6 +53,7 @@ def narrate(narration_dict):
             break_on_hyphens=False
         )
         if sequence == 1:
+            print('\n', end='')
             slow_print(formatted_narration)
             print('\n')
         else:

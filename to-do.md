@@ -1,7 +1,7 @@
 New goals:
     overarching:
 - [ ] create a tutorial
-- [ ] redo text printing
+- [x] redo text printing
 
     immediate:
 - [x] implement line wrapping for narration in a narrate(narration) function
@@ -16,12 +16,14 @@ New goals:
 - [x] test mystery system code
 - [ ] make every check or stat change check the player's history
 - [x] revise narration_library to fit with new printing style
-- [ ] fully populat narration_library with...
+- [ ] fully populate narration_library with...
     - [ ] clues
     - [ ] mysteries
     - [ ] stat changes
     - [ ] checks with special narration
-- [ ] remove background system
+- [x] remove background system
+- [x] remove status from main file and game_data
+- [ ] create check_trait() function
 - [ ] implement initial trait choice
 
 
