@@ -1,18 +1,40 @@
-import shutil, textwrap, time, sys
+import shutil, textwrap, time, sys, termios, tty
 from game_data import new_game
 
 #this should be made to run in another thread so that it can be canceled by player input
 def slow_print(input_text):
-    for character in input_text:
-        sys.stdout.write(character)
-        sys.stdout.flush()
-        match character:
-            case ',' | '.' | '!' | '?' |';':
-                time.sleep(.2)
-            case ' ':
-                continue
-            case _:
-                time.sleep(.025)
+    global operating_system
+    if operating_system == 'unix':
+        global file_descriptor, stdin_settings
+        new_settings = stdin_settings
+        new_settings[3] &= ~(termios.ICANON | termios.ECHO)
+        try:
+            #tty.setraw(file_descriptor)
+            termios.tcsetattr(file_descriptor, termios.TCSAFLUSH, new_settings)
+            for character in input_text:
+                sys.stdout.write(character)
+                sys.stdout.flush()
+                match character:
+                    case ',' | '.' | '!' | '?' |';':
+                        time.sleep(.2)
+                    case ' ':
+                        continue
+                    case _:
+                        time.sleep(.025)
+        finally:
+            termios.tcsetattr(file_descriptor, termios.TCSANOW, stdin_settings)
+    else:
+        for character in input_text:
+            sys.stdout.write(character)
+            sys.stdout.flush()
+            match character:
+                case ',' | '.' | '!' | '?' |';':
+                    time.sleep(.2)
+                case ' ':
+                    continue
+                case _:
+                    time.sleep(.025)
+
 
 def wait_for_keypress(prompt="    (Press any key to continue)"):
     print(prompt, end='', flush=True)
@@ -22,16 +44,12 @@ def wait_for_keypress(prompt="    (Press any key to continue)"):
             msvcrt.getch()
         msvcrt.getch()
     else:
-        import termios, tty
-        fd = sys.stdin.fileno()
-        old_settings = termios.tcgetattr(fd)
-        termios.tcflush(fd, termios.tcgetattr(fd))
-        # this try/finally probably is not necessary and can be simplified
+        global file_descriptor, stdin_settings
         try:
-            tty.setraw(fd)
+            tty.setraw(file_descriptor)
             sys.stdin.read(1)
         finally:
-            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+            termios.tcsetattr(file_descriptor, termios.TCSADRAIN, stdin_settings)
 
 def narrate(narration_dict):
     terminal_width = shutil.get_terminal_size(fallback = 70).columns
@@ -65,6 +83,12 @@ def narrate(narration_dict):
             wait_for_keypress()
 
 
-            
+if sys.platform.startswith('win'):
+    operating_system = 'windows'
+else:
+    operating_system = 'unix'
+    file_descriptor = sys.stdin.fileno()
+    stdin_settings = termios.tcgetattr(file_descriptor)
 
+print(operating_system)
 narrate(new_game['narration'])

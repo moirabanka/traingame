@@ -1,11 +1,17 @@
 from sys import exit
-import json, textwrap, shutil, time, sys
+import json, textwrap, shutil, time, sys, termios, tty
 
 
 # this function handles starting the game, and checks if you want to load a save before starting the turn cycle
 def start_game():
     from game_data import main_menu, help_text, intro, name_load_prompt, loaded_character, identity
-    global name, location, worldstate
+    global name, location, worldstate, operating_system, file_descriptor, stdin_settings
+    if sys.platform.startswith('win'):
+        operating_system = 'windows'
+    else:
+        operating_system = 'unix'
+        file_descriptor = sys.stdin.fileno()
+        stdin_settings = termios.tcgetattr(file_descriptor)
     menu_action = input(main_menu)
     match menu_action:
         case '1' | 'n' | 'new game':
@@ -440,16 +446,38 @@ def mind_palace_handler(player_input):
                             print(invalid_command)
 
 def slow_print(input_text):
-    for character in input_text:
-        sys.stdout.write(character)
-        sys.stdout.flush()
-        match character:
-            case ',' | '.' | '!' | '?' |';':
-                time.sleep(.2)
-            case ' ':
-                continue
-            case _:
-                time.sleep(.025)
+    global operating_system
+    if operating_system == 'unix':
+        global file_descriptor, stdin_settings
+        new_settings = list(stdin_settings)
+        new_settings[3] &= ~(termios.ICANON | termios.ECHO)
+        try:
+            #tty.setraw(file_descriptor)
+            termios.tcsetattr(file_descriptor, termios.TCSAFLUSH, new_settings)
+            for character in input_text:
+                sys.stdout.write(character)
+                sys.stdout.flush()
+                match character:
+                    case ',' | '.' | '!' | '?' |';':
+                        time.sleep(.2)
+                    case ' ':
+                        continue
+                    case _:
+                        time.sleep(.025)
+        finally:
+            termios.tcsetattr(file_descriptor, termios.TCSAFLUSH, stdin_settings)
+    else:
+        for character in input_text:
+            sys.stdout.write(character)
+            sys.stdout.flush()
+            match character:
+                case ',' | '.' | '!' | '?' |';':
+                    time.sleep(.2)
+                case ' ':
+                    continue
+                case _:
+                    time.sleep(.025)
+
 
 def wait_for_keypress(prompt="    (Press any key to continue)"):
     print(prompt, end='', flush=True)
@@ -459,30 +487,26 @@ def wait_for_keypress(prompt="    (Press any key to continue)"):
             msvcrt.getch()
         msvcrt.getch()
     else:
-        import termios, tty
-        fd = sys.stdin.fileno()
-        old_settings = termios.tcgetattr(fd)
-        termios.tcflush(fd, termios.tcgetattr(fd))
-        # this try/finally probably is not necessary and can be simplified
+        global file_descriptor, stdin_settings
         try:
-            tty.setraw(fd)
+            tty.setraw(file_descriptor)
             sys.stdin.read(1)
         finally:
-            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+            termios.tcsetattr(file_descriptor, termios.TCSADRAIN, stdin_settings)
 
-def narrate(narration_object):
+def narrate(narration_dict):
     terminal_width = shutil.get_terminal_size(fallback = 70).columns
     if terminal_width >= 74: 
         terminal_width = 70
     else:
         terminal_width -= 4
-    if type(narration_object) == str:
-        narration_object = {1:narration_object}
-    for sequence, text in narration_object.items():
+    if type(narration_dict) == str:
+        narration_dict = {1:narration_dict}
+    for sequence, text in narration_dict.items():
         formatted_narration = textwrap.fill(
             text,
             width=terminal_width,
-            initial_indent='       ',
+            initial_indent='   ',
             subsequent_indent='    ',
             replace_whitespace=True,
             drop_whitespace=True,
@@ -498,7 +522,7 @@ def narrate(narration_object):
             sys.stdout.flush()
             slow_print(formatted_narration)
             print('\n')
-        if int(sequence) < len(narration_object):
+        if int(sequence) < len(narration_dict):
             wait_for_keypress()
 
 
