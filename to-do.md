@@ -2,16 +2,33 @@ New goals:
     overarching:
 - [ ] create a tutorial
 - [x] redo text printing
-
+- [ ] create autosense feature
+    this would allow for certain one-word commands to occur automatically, like looking around when you enter a new room. with autosense disabled, saving throws are needed to keep from perceiving some things (e.g: trying not to pay attention to a horrible smell)
+    autolook
+    autosmell
+    autolisten
+    autotaste, autotouch (normally disabled, only enabled by some traits)
+- [ ] assign a priority value for all narration
+    this would allow coincident narration consequences to be sorted in order of their priority when displaying narration from multiple sources. the highest priority could ovverride the default narration
+- [ ] add 'frenzy' stat for unpredictable actions
+- [ ] remove narration from game_data and put it into its own file where it can be arranged more beautifully
+    I was writing tutorial narration and things got disorganized. narration should be grouped by trait, sense, target, and location in some arrangement
     immediate:
+- [ ] create a system for labeling the speaker of given lines of narration
+    this is necessary for implementing dialogue with NPCs and the player's own skills
+- [ ] allow certain lines of narration/dialogue to interrupt primary narration or replace specific parts
+    this will help create a dynamic system of narration and dialogue
+    maybe enmesh this with the dialogue priority idea
 - [x] implement line wrapping for narration in a narrate(narration) function
 - [x] add slow printing to narration
 - [x] add confidence/composure stat to character file
 - [x] change how longer narration is displayed
+- [ ] rewrite stat check/change functions to be able to change or check anything (stats, traits, inventory, etc)
+- [ ] autosense/autolook feature
 - [ ] redo game intro with the new_game consequence library
 - [ ] add clue change and mystery change consequences to the narration library
     longer narration should be broken into chunks displayed one at a time. The player should be able to press 'enter' or 'space' to go to the next chunk
-- [ ] add 'myself' as a target
+- [ ] add 'myself' as a universal target
 - [ ] add help entries for mind palace commands
 - [x] test mystery system code
 - [ ] make every check or stat change check the player's history

@@ -4,7 +4,7 @@ import json, textwrap, shutil, time, sys, termios, tty
 
 # this function handles starting the game, and checks if you want to load a save before starting the turn cycle
 def start_game():
-    from game_data import main_menu, help_text, intro, name_load_prompt, loaded_character, identity
+    from game_data import main_menu, help_text, intro, name_load_prompt, loaded_character, new_game
     global name, location, worldstate, operating_system, file_descriptor, stdin_settings
     if sys.platform.startswith('win'):
         operating_system = 'windows'
@@ -16,7 +16,8 @@ def start_game():
     match menu_action:
         case '1' | 'n' | 'new game':
             create_character()
-            print(help_text)
+            consequence_handler(new_game, True)
+            #print(help_text)
             context = intro['dining car']['dark']
             narrate(context.format(name))
             turn_cycle()
@@ -51,7 +52,7 @@ def create_character():
         'disgust': 0,
         'anger': 0,
         'curiosity': 0,
-        'confidence': 10,
+        'confidence': 3,
         'clues':[],
         'mysteries':{},
         'worldstate': default_worldstate,
@@ -208,6 +209,8 @@ def consequence_handler(consequences, recursive_mode):
     if consequences == False:
         target = 'other'
         consequences = condition_handler(command, target)
+    elif consequences == None:
+        return
     # History management
     if 'check history' in consequences:
         condition = worldstate[location]
@@ -241,13 +244,16 @@ def consequence_handler(consequences, recursive_mode):
     if 'trait change' in consequences:
         trait_name = consequences['trait change']['trait']
         replaces = consequences['trait change']['replaces']
+        silent_mode = consequences['trait change']['silent']
         if replaces == None:
             traits.append(consequences['trait change']['trait'])
-            narrate(trait_acquired.format(trait_name))
+            if not silent_mode:
+                narrate(trait_acquired.format(trait_name))
         elif replaces is True:
             traits.remove(replaces)
             traits.append(trait_name)
-            narrate(trait_replaced.format(trait_name, replaces))
+            if not silent_mode:
+                narrate(trait_replaced.format(trait_name, replaces))
     if 'condition change' in consequences:
         target_location = consequences['condition change']['target location']
         worldstate[target_location] = consequences['condition change']['new condition']
@@ -256,6 +262,8 @@ def consequence_handler(consequences, recursive_mode):
         mystery_progress = consequences['mystery change']['new progress']
         if mystery_name not in mysteries:
             preunlocked_theories = []
+            if clues == []:
+             quick_solved = False
             for clue in clues:
                 if clue in mystery_library[mystery_name]['decisive evidence']:
                     quick_solved = True
@@ -306,6 +314,12 @@ def consequence_handler(consequences, recursive_mode):
             consequence_handler(consequences['check inventory']['success'], True)
         else:
             consequence_handler(consequences['check inventory']['failure'], True)
+    if 'check trait' in consequences:
+        result = check_trait(consequences['check trait']['trait'])
+        if result:
+            consequence_handler(consequences['check trait']['success'], True)
+        else:
+            consequence_handler(consequences['check trait']['failure'], True)
     if 'check knowledge' in consequences:
         result = check_knowledge(consequences['check knowledge']['prompt'], consequences['check knowledge']['answer'])
         if result:
@@ -445,14 +459,18 @@ def mind_palace_handler(player_input):
                         case _:
                             print(invalid_command)
 
-def slow_print(input_text):
+def slow_print(input_text, speed='normal'):
     global operating_system
+    match speed:
+        case 'normal':
+            speed = (.2, .025)
+        case 'fast':
+            speed = (.1, .0125)
     if operating_system == 'unix':
         global file_descriptor, stdin_settings
         new_settings = list(stdin_settings)
         new_settings[3] &= ~(termios.ICANON | termios.ECHO)
         try:
-            #tty.setraw(file_descriptor)
             termios.tcsetattr(file_descriptor, termios.TCSAFLUSH, new_settings)
             for character in input_text:
                 sys.stdout.write(character)
@@ -615,7 +633,8 @@ def check_inventory(item):
 def check_consent(proposed_action):
     from game_data import prompt
     while True:
-        response = input(proposed_action+ prompt)
+        narrate(proposed_action)
+        response = input(prompt)
         if 'y' in response:
             return True
         elif 'n' in response:
@@ -625,6 +644,13 @@ def check_consent(proposed_action):
             print(error)
             continue
 
+def check_trait(trait):
+    global traits
+    if trait in traits:
+        return True
+    else:
+        return False
+    
 def check_knowledge(question, answer):
     from game_data import confirmation_prompt, prompt
     while True:

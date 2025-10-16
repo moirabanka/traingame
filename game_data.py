@@ -326,7 +326,7 @@ You are standing within a room, possibly contained within a larger building.
                     'description':"""
 You are standing within a train car, most likely connected to others.
     """,
-                    'supporting clues': ['view out the window', 'clunking sound'],
+                    'supporting clues': ['Locomotion', 'Clunking sound'],
                     'validity': True
                 }
             },
@@ -363,9 +363,9 @@ Could they still be alive after losing this much?
 # player actions will result in consequences, which will take several forms:
 # narration:'', stat change:{stat, value}, location change:'', inventory change:{item, T/F})condition change:{target location, new condition}
 # mystery change: {name, new progress}, clue change: clue name
-# trait change: {'trait':'', 'replaces':'' or None}
+# trait change: {'trait':'', 'replaces':'' or None, 'silent':T/F}
 # check stat:{stat, dc, check name, success, failure}, check inventory:{item, success, failure},
-# check knowledge:{prompt, answer, success, failure}, check consent:{prompt, success, failure}
+# check knowledge:{prompt, answer, success, failure}, check consent:{prompt, yes:{}, no:{}}
 # special consequences:{trigger:{consequence sublibrary}}, Death:'reason'
 # not every action will have every type of consequence, so types of consequences should be checked for by flag
 # condition-agnostic consequences are marked with 'any', and target-agnostic consequences return False
@@ -388,7 +388,7 @@ His Lordship wasn't much to your liking anyway. Pompous old fool...
 But it's all gone now, and you don't know where.
     """,
         5:"""
-Every few seconds, a tremor passes through the floor strong enough to lift your head slightly and smack it down into the carpet again.
+Every few seconds, a tremor passes through the floor just strong enough to lift your head slightly and smack it down into the carpet again.
 You stand up before the next one comes, rubbing at the stippled pattern pressed into your face by your uncomfortable resting position.
 Perhaps some mysteries may yet be found here...
     """,
@@ -398,6 +398,44 @@ Where the hell are you, anyway?
     'mystery change':{
         'name': 'Where am I?',
         'new progress': 'in progress'
+    },
+    'check consent':{
+        'prompt': """
+Faced with a fresh mystery, you try to recall your sleuthing skills...
+Would you care for a tutorial? (Y/n)
+""",
+        'yes':{
+            'narration':{
+                1:"""
+As the finest investigator in all the Nine Territories, your sleuthing skills are your life's blood. They are your very essence.
+There is no prey more succulent than the hard-won truth at the dark, twisted heart of a case cracked wide open.
+""",
+                2:"""
+The act of solving a mystery revitalizes you, granting you the CONFIDENCE to go on investigating.
+Without your CONFIDENCE, you are nothing, and will flee from this realm a harried, tortured soul.
+""",
+                2:"""
+Unsure of yourself and your unknown surroundings, your confidence is dangerously low. Drink, sire, from the wealth of your many senses.
+Take in the world and let its secrets burst forth!
+""",
+                3:"""
+* To investigate the world and gather clues, you must use one your five senses to TOUCH, TASTE, SMELL, HEAR, or LOOK at your environment.
+You may use the command "help commands" to display all the commands available to you.
+Try using the 'look' command now. (type 'look' and hit 'enter' to submit the command)
+"""
+            },
+            'trait change':{
+                'trait': 'tutorial',
+                'replaces': None,
+                'silent': True
+            }
+        },
+        'no':{
+            'narration':"""
+Of course you don't, my liege. After all, you *are* the finest investigator in all the Nine Territories. Where were we...
+""",
+            'stat change':{'stat':'confidence', 'value': 1}
+        }
     }
 
 }
@@ -970,7 +1008,7 @@ You look disheveled and displeased.
 You tidy yourself up as much as you can, but your clothing is riddled with holes and bloodstains.
 """
                     },
-                    'trait change':{'trait':'Tidied Up', 'replaces': None}
+                    'trait change':{'trait':'Tidied Up', 'replaces': None, 'silent': False}
                 },
                 'dark': {
                     'narration':{
@@ -979,13 +1017,33 @@ You look out the window...
 """,
                         2:"""
 A wide, flat expanse of cracked soil whizzes past the window at great speed, lit only by the faint light of dusk.
-""",
-                        3:"""
-Beyond the rattling of the rails beneath the carriage, all is quiet.
-You feel like it's going to be a long night.
+The sky is clear -- both moonless and starless, and neither any structures nor signs of life can be seen outside.
+You have a feeling it's going to be a long night.
 """
                     },
-                    'clue change':'Travelling through the desert'
+                    'clue change':'Locomotion',
+                    'check trait':{
+                        'trait':'tutorial',
+                        'success':{
+                            'narration':{
+                                1:"""
+For a sleuth such as yourself, to gather clues is to breathe, and you have taken your first breath since you have awoken here.
+While it is only a pale imitation of the rejuvenating force experienced when solving mysteries, it will tide you over until that moment comes.
+""",
+                                2:"""
+Clues may briefly slake your ravenous thirst for CONFIDENCE, sire, but only solving mysteries
+and developing shrewd hunches will allow you to restore it to your usual state of contained megolomania.
+""",
+                                3:"""
+The hunch is a key component in the life of an investigator, my liege, especially one as dependent on self esteem and appearances as yourself.
+When your CONFIDENCE is waning and decisive evidence is not yet clasped in your eager hands, developing a hunch can provide temporary CONFIDENCE points,
+protecting your fragile ego. However, if your hunch is proven wrong, your CONFIDENCE will be duly penalized.
+"""
+                            },
+                            'stat change':{'stat':'confidence', 'value':1}
+                        },
+                        'failure':None
+                    }
                 }
             },
             'other': {
@@ -998,7 +1056,7 @@ Tacky, partially drying PUDDLES of the stuff are scattered across the floor.
 Despite the obvious carnage that took place here, there doesn't seem to be any bodies present.
 """,
                         2:"""
-This seems to be a dining car, the walls lined with TABLES that hold a variety of ITEMS.
+This seems to be a dining car, the walls lined with TABLES that hold a variety of items.
 Platters of rotten FOOD are arrayed throughout the car, an unpleasant tableau of decay and death.
 """,
                         3:"""
@@ -1015,14 +1073,29 @@ The lights flicker as the train clatters over the rough rails, but they hold.
                     'narration':{
                         1:"""
 It's too dark to see any detail, but there seem to be some TABLES around.
-You can also see a large bay WINDOW in the two longest walls.
+You can also see a large bay WINDOW in each of the two longest walls.
 The faint light of dusk filters through, only a shade brighter than the darkness around you.
 """,
                         2:"""
 Maybe you can find some way to turn on the lights...
 """
                     },
-                    'clue change': 'walls'
+                    'check trait': {
+                        'trait':'tutorial',
+                        'success':{
+                            'narration': {
+                                1:"""
+Sire, it has come to my attention that your CONFIDENCE is dangerously low. You simply cannot continue like this for long.
+I suggest you scour your environment for clues. They will help you to sustain your CONFIDENCE, keeping your connection to this realm from weakening.
+""",
+                                2:"""
+* Commands can also be used with a target to focus your senses on a specific thing to inspect it for clues.
+Valid targets will be written in CAPITALIZED text in the narration, and will be only one word long.
+Try using the "look" command targeting the window now. (type 'look window' and hit 'enter' to submit the command)
+"""
+                            }
+                        },
+                        'failure': None}
                 }
             },
         },

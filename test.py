@@ -6,7 +6,7 @@ def slow_print(input_text):
     global operating_system
     if operating_system == 'unix':
         global file_descriptor, stdin_settings
-        new_settings = stdin_settings
+        new_settings = list(stdin_settings)
         new_settings[3] &= ~(termios.ICANON | termios.ECHO)
         try:
             #tty.setraw(file_descriptor)
