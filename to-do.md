@@ -1,3 +1,8 @@
+what needs to be done:
+- [ ] revise tutorial messages, finish walkthrough of the mystery system
+- [ ] add the option for narration to be tagged with a speaker (either a character, trait, or skill)
+- [ ] nail down emotion mechanics
+
 New goals:
     overarching:
 - [ ] create a tutorial

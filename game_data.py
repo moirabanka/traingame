@@ -555,7 +555,7 @@ You speak the TOME's word of power!
 The TOME has no more power over you. It goes limp in your hands.
 Your skin begins to emit a very soft glow...
 """},
-                                    'trait change':{'trait': 'mana-touched', 'replaces': None}
+                                    'trait change':{'trait': 'mana-touched', 'replaces': None, 'silent': False}
                                 },
                                 'failure':{
                                     'narration':{
@@ -566,7 +566,7 @@ You are unable to resist the TOME's influence!
 The TOME chills your hands, freezing them in place!
 You can't tell if the book contains pictures or words, but the ink writhes ceaselessly...
 """},
-                                    'trait change':{'trait': 'cursed', 'replaces': None}
+                                    'trait change':{'trait': 'cursed', 'replaces': None, 'silent': False}
                                 }
                             }
                         },

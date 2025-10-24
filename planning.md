@@ -1,3 +1,16 @@
+Emotion mechanics
+    Trust:
+        Used primarily in conversations. Trust is gained when using certain dialogue moves, and can act as temporary confidence points used to track the flow of the conversation. When working towards mutually beneficial goals, both characters' trust should be raised. If you are manipulating the NPC, your goal is to increase their trust of you while keeping your own trust low. NPCs' trust is hidden, however, and they may also be attempting to manipulate the main character
+    Disgust:
+        Used to undermine trust
+    Fear
+    Anger
+    Anticipation
+    Surprise
+    Joy
+    Sadness
+
+
 I want to scale back my goals, and possibly focus in on the sleuth class as the main character archetype of the game. Finding evidence, drawing conclusions, investigating, and having breakdowns when your theories are proven wrong. Take influence from ace attorney.
 all gameplay is going to center around the planned mechanics for the sleuth background. Character and narrative diversity will arise from the character's emotions and traits acquired either during character creation or through gameplay.
 
