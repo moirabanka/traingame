@@ -1,14 +1,62 @@
-Emotion mechanics
-    Trust:
-        Used primarily in conversations. Trust is gained when using certain dialogue moves, and can act as temporary confidence points used to track the flow of the conversation. When working towards mutually beneficial goals, both characters' trust should be raised. If you are manipulating the NPC, your goal is to increase their trust of you while keeping your own trust low. NPCs' trust is hidden, however, and they may also be attempting to manipulate the main character
-    Disgust:
-        Used to undermine trust
-    Fear
-    Anger
-    Anticipation
-    Surprise
-    Joy
-    Sadness
+CONVERSATION SYSTEM:
+
+
+EMOTION MECHANICS:
+    Fear:
+        Spent as a resource to avoid immediate threats
+        used in conversation to conspire, spread rumors, or incite fear in others.
+    Anger/Fury:
+        Spent as a resource to intimidate NPCS into revealing information. Requires the player to use a previously-obtained clue as leverage against an NPC.
+        Used to rile up an NPC in dialogue
+    Sadness/Melancholy:
+        Sadness can be spent in dialogue to say something profoundly depressing to demoralize an NPC, possibly illiciting a useful reaction
+        Use sadness to reminisce with other characters, potentially revealing information
+    Anticipation/Curiosity: 
+        Used to increase confidence gain
+        probing questions generate curiosity and low-value clues (leads), pressing questions are more incisive and require the player to spend curiosity to be asked.
+    Disgust/Antipathy:
+        Spent as a resource to resist influence from an NPC or situation.
+    
+    Surprise(special stat):
+        gained when hunches are disproved or certain clues are gained. 
+    Trust/confidence (special stat):
+        Only gained or used during conversations. There is an individual trust value for each NPC that can be viewed in the "reputation" menu.
+        Trust can be spent as a resource to get an NPC to divulge hidden information.
+    Joy/confidence/Fascination (special stat):
+        Used as the player's hit points. Depleting to zero will cause a game over.
+        Gained by solving mysteries, finding clues, or other means. Lost when hunches are disproven
+
+
+Dialogue actions:
+    Manipulate
+        conspire (spend fear to gain trust)
+        reminisce (spend sadness to gain trust)
+        argue (spend anger for a chance to gain intel)
+    Question
+        probe (ask basic questions to gain curiosity)
+        press (spend curiosity to gain info based on trust level. Pressing questions will be unlocked by gathering related clues)
+    Chat (short, semi-randomized dialogue with unknown emotional consequences)
+    Extort (spend anger and a clue to gain crucial intel)
+
+
+    The player is solely driven to uncover information and solve mysteries, and dialogue with other characters is only a means to this end.
+    Dialogue may 
+    The player is disinterested in violence,
+
+
+     
+
+FIRST DIALOGUE:
+    Possible outcomes:
+        --Get information (clues)
+            Manipulate a character's emotions to get them to divulge information. As trust increases, higher value information will become available. 
+        --Build rapport
+            Each character will have different ways to gain their trust. Some may want the player to perform tasks, impress them with knowledge, or swear their loyalty.
+            You will not be able to gain the loyalty of every character in the same playthrough. Acquiring some important clues will require some characters' trust to be broken.
+            When noticed, antisocial actions toward a character will reduce their trust in you, if they care.
+        --Manipulate or be manipulated to specific ends
+        --
+
 
 
 I want to scale back my goals, and possibly focus in on the sleuth class as the main character archetype of the game. Finding evidence, drawing conclusions, investigating, and having breakdowns when your theories are proven wrong. Take influence from ace attorney.
