@@ -1,4 +1,62 @@
-CONVERSATION SYSTEM:
+OVERARCHING PLOT PLANS:
+    The player wakes up on a train traveling through the desolate and irradiated no-man's-land between Aezea and the URSA, two superpowers embroiled in a deeply entrenched cold war. Hours ago, the train was attacked by squad of state-sponsored marauders -- known wayfarers who have been captured, surgically implanted with a vaporizing agent, exiled to the wastes, supplied with military-grade weaponry, and given carte blanche to kill anyone they see. The marauders' initial attack killed all but 8 of the train's 30 passengers and crew, and the train has been running at a breakneck pace ever since. The engine is close to overheating, and the remaining 3 marauders are still in hot pursuit.
+
+    Initially unknown to the player, the narrator is actually the in-universe person whose name they choose at the beginning of the game. The player is possessing this person after they were made into a wayfarer after the mercenary attack on the train
+
+    Player: YOU are the platonic ideal of what it means to be an investigator: 40% Sherlock Holmes, 40% Agatha Christie, 15% Columbo, and 5% Frank Drebin, you have a number of abstract memories from what you think was your life, but they are only fragmented dreams experienced in a soup of consciousness before you were pulled into this world. Almost exclusively referred to in the second person, "the investigator" is currently possessing the named protagonist as their avatar.
+
+    Player character (AKA Named Protagonist): An undercover Aezean agent posing as a waiter on a train harboring multinational fugitives. Embedded within the stateless community for 8 years, the Named Protagonist was attempting to make inroads with the infranationalists before being unceremoniously killed by state-sponsored marauders. Like most deep-cover operatives, the Named Protagonist has been implanted with a near-undetectable cranial device used to encrypt their memories. As a result, while the player is largely in control of what is left of the Named Protagonist's consciousness, they cannot remember any tangible details from the Named Protagonist's memory. 
+
+    SETTING: 
+        Known officially as the IQZ (International Quarantine Zone) and colloquially as the Wastes or Dead Zone, 
+
+    FACTIONS:
+        Federated States of Aezea -- "FSA", "Aezea",  (macronational affiliation)
+            An expansionist federalized democratic monarchy centered around a verdant peninsula roughly the size of western Europe, Aezea is a massive cultural and economic superpower comprised of a large number of semiautonomous states. Central to Aezean society is symbiotic fungus known in common speech as Ithrasa, and scientifically as reticogitans aurumacula. Almost all living things within the territory of Aezea host an Ithrasa colony, unobtrusively dispersed throughout the body of the host organism. Ithrasa colonies are tied together through the Ether, and serve as a psychic relay to a distributed network of centralized colonies tended by quasireligious civil servants. 
+
+        United Republic of Sovereign Ascendents -- "URSA" (macronational affiliation)
+            A fluid alliance of libertarian-authoritarian technocratic nations, the URSA is near the end of a transition from republic to 
+
+        Micronationals/Outlanders
+
+        Stateless
+        Antinationalists
+        Infranationalists
+        Marauders
+
+    NPCs:
+        Named Protagonist (narrator) -- undercover Aezean agent posing as a waiter, embedded for 8 years, possesses implanted cranial device for memory encryption
+        Gerard Redfield* -- URSA expatriot, wealthy antinationalist war profiteer, longtime wayfarer, and power-hungry ghoulish cynic
+            Allies: Alesius
+            Enemies: Tana
+        Felise Staneca -- stateless sprawl disaster refugee, citizenship application rejected by Aezea, employed by Gerard harboring spies and fugitives until recently
+            Allies: Named Protagonist, Alphonse, Caprice
+            Enemies: Gerard
+        Tana "Shortcut" Roberts -- Infranationalist data mule, Outland micronational, passionate revolutionary, persistent survivalist
+            Allies: Alphonse
+            Enemies: Arizona (?), Gerard
+        Arizona Sunshine* -- Cybernetic wargrafted marauder of the wastes, layers of military exoskeleton, newly contemplative murderhobo wayfarer, depressed traitor tired of the casual murder of hundreds
+            Allies: None
+            Enemies: None
+        Alesius Mora -- Becloaked paranoid esotiricist, supernaturalist on retainer to Gerard, currently holed up in the kitchen binge drinking after your botched wayfaring ritual
+            Allies: Gerard, Olya(?)
+            Enemies: Alphonse
+        Alphonse Quenta -- musclegrafted train conductor, aging ex-champion boxer in the Aezean Outlands, hardcore stateless antinationalist, train enthusiast, infranationalist ally
+            Allies: Everyone but Alesius
+            Enemies: Alesius
+        Kieran Verdano -- undercover bioenhanced Aezean spy posing as the train's onboard cook, Named Protagonist's parter, coldhearted motherfucker
+            Allies: Named Protagonist
+            Enemies: Player
+        Caprice -- Subversive underground electronic artist, Antinationalist propagandist, Uncountable warrants for accessory to murder, sickest beats in the IQZ, stateless sprawlee
+            Allies: Tana, Felise, Alphonse
+            Enemies: Kieran, Gerard
+        Reticogitans Aurumacula (AKA R. Aurumacula, Aurum, Ithrasa)-- Psychic symbiotic fungus infecting both Named Protagonist and Kieran Verdano, sacrement of the Aezean Ecclesiarchy
+
+
+
+
+
+
 
 
 EMOTION MECHANICS:
@@ -29,7 +87,7 @@ EMOTION MECHANICS:
 
 Dialogue actions:
     Manipulate
-        conspire (spend fear to gain trust)
+        conspire (spend fear to gain trust, info about others)
         reminisce (spend sadness to gain trust)
         argue (spend anger for a chance to gain intel)
     Question
@@ -44,9 +102,16 @@ Dialogue actions:
     The player is disinterested in violence,
 
 
-     
+DIALOGUE STRUCTURE:
+    There are 2 stats associated with every NPC -- trust and status.
+    Trust:
+        Trust is a 0 to 10 measure of how much an NPC trusts you to act in a manner beneficial to them and their goals.
+    Status:
+        Status is a -5 to +5 measure of how power is distributed in your relationship with an NPC. A score of +5 indicates that you hold all the cards in a relationship and can exert undue influence over an NPC. Conversely, a score of -5 indicates that the opposite is true, and it is the NPC that hold the power. A score of 0 shows that a relationship is mutually beneficial and power is evenly distributed.
+        
 
-FIRST DIALOGUE:
+FIRST DIALOGUE: Gerard Redfield
+
     Possible outcomes:
         --Get information (clues)
             Manipulate a character's emotions to get them to divulge information. As trust increases, higher value information will become available. 

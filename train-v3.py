@@ -1,17 +1,17 @@
 from sys import exit
-import json, textwrap, shutil, time, sys, termios, tty
+import json, textwrap, shutil, time, sys
 
 
 # this function handles starting the game, and checks if you want to load a save before starting the turn cycle
 def start_game():
     from game_data import main_menu, help_text, intro, name_load_prompt, loaded_character, new_game
     global name, location, worldstate, operating_system, file_descriptor, stdin_settings
-    if sys.platform.startswith('win'):
-        operating_system = 'windows'
-    else:
-        operating_system = 'unix'
-        file_descriptor = sys.stdin.fileno()
-        stdin_settings = termios.tcgetattr(file_descriptor)
+    # if sys.platform.startswith('win'):
+    #     operating_system = 'windows'
+    # else:
+    #     operating_system = 'unix'
+    #     file_descriptor = sys.stdin.fileno()
+    #     stdin_settings = termios.tcgetattr(file_descriptor)
     menu_action = input(main_menu)
     match menu_action:
         case '1' | 'n' | 'new game':
@@ -688,5 +688,11 @@ def target_checker(checked_target):
         print(error)
         return False
 
-
+if sys.platform.startswith('win'):
+    operating_system = 'windows'
+else:
+    import termios, tty
+    operating_system = 'unix'
+    file_descriptor = sys.stdin.fileno()
+    stdin_settings = termios.tcgetattr(file_descriptor)
 start_game()
