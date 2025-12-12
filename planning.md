@@ -1,35 +1,93 @@
 OVERARCHING PLOT PLANS:
-    The player wakes up on a train traveling through the desolate and irradiated no-man's-land between Aezea and the URSA, two superpowers embroiled in a deeply entrenched cold war. Hours ago, the train was attacked by squad of state-sponsored marauders -- known wayfarers who have been captured, surgically implanted with a vaporizing agent, exiled to the wastes, supplied with military-grade weaponry, and given carte blanche to kill anyone they see. The marauders' initial attack killed all but 8 of the train's 30 passengers and crew, and the train has been running at a breakneck pace ever since. The engine is close to overheating, and the remaining 3 marauders are still in hot pursuit.
+    The player wakes up on a train traveling through the desolate and irradiated no-man's-land between Azea and the URSA, two superpowers embroiled in a deeply entrenched cold war. Hours ago, the train was attacked by squad of state-sponsored marauders -- known wayfarers who have been captured, surgically implanted with a vaporizing agent, exiled to the wastes, supplied with military-grade weaponry, and given carte blanche to kill anyone they see. The marauders' initial attack killed all but 8 of the train's 30 passengers and crew, and the train has been running at a breakneck pace ever since. The engine is close to overheating, and the remaining 3 marauders are still in hot pursuit.
 
     Initially unknown to the player, the narrator is actually the in-universe person whose name they choose at the beginning of the game. The player is possessing this person after they were made into a wayfarer after the mercenary attack on the train
 
-    Player: YOU are the platonic ideal of what it means to be an investigator: 40% Sherlock Holmes, 40% Agatha Christie, 15% Columbo, and 5% Frank Drebin, you have a number of abstract memories from what you think was your life, but they are only fragmented dreams experienced in a soup of consciousness before you were pulled into this world. Almost exclusively referred to in the second person, "the investigator" is currently possessing the named protagonist as their avatar.
+    Player: YOU are the platonic ideal of what it means to be an investigator: 40% Sherlock Holmes, 40% Agatha Christie, 15% Columbo, and 5% Frank Drebin, you have a number of abstract memories from what you think was your life, but they are only fragmented dreams experienced in a soup of consciousness before you were pulled into this world. Almost exclusively referred to in the second person, "the investigator" is currently possessing the Named Protagonist as their avatar.
 
-    Player character (AKA Named Protagonist): An undercover Aezean agent posing as a waiter on a train harboring multinational fugitives. Embedded within the stateless community for 8 years, the Named Protagonist was attempting to make inroads with the infranationalists before being unceremoniously killed by state-sponsored marauders. Like most deep-cover operatives, the Named Protagonist has been implanted with a near-undetectable cranial device used to encrypt their memories. As a result, while the player is largely in control of what is left of the Named Protagonist's consciousness, they cannot remember any tangible details from the Named Protagonist's memory. 
+    Player character (AKA Named Protagonist): An undercover Azean agent posing as a waiter on a train harboring multinational fugitives. Embedded within the stateless community for 8 years, the Named Protagonist was attempting to make inroads with the infranationalists before being unceremoniously killed by a state-sponsored squad of freelance liquidators. Like most deep-cover operatives, the Named Protagonist has been implanted with a near-undetectable cranial device used to encrypt their memories. As a result, while the player is largely in control of what is left of the Named Protagonist's consciousness, they cannot remember any specific details from the Named Protagonist's memory. Over time, memories not related to national intelligence may emerge as the encryption is worn away by the mind's probing.
 
-    SETTING: 
-        Known officially as the IQZ (International Quarantine Zone) and colloquially as the Wastes or Dead Zone, 
+    SETTING:
+
+        Location:
+        Blackened, scorched dunes of fine carbon dust stretch for miles in all directions. Metallic fog settles slowly downwards in great slanted columns half a kilometer high. It cloaks the dust beneath such that only the very peaks of most dunes reach up past the heavy fog that settles in the low places. Every few minutes, the fog quivers and boils, stirred up by the  
+
+        Known officially as the IQZ (International Quarantine Zone) and colloquially as "the Wastes", "Quarantine", or "the Dead Zone", the swathe of land connecting the Azean Peninsula to the mainland serves as a buffer between Azea and Ursa borders. Mandated by the Ursa/Azea peace treaty at the end of the Overlap wars, the IQZ serves to isolate the mutually antagonistic ecologies endemic to Azean and URSA territory.
+
+        Nothing is permitted to live in or cross over the IQZ, though in practice the enforcement of this rule is far from perfect. The treaty bars any official troops belonging to either nation from entering the IQZ, so sterilization procedures are carried out by a neutral, multinational organization known as the Ecological Compatibility Council
+        
+        Radioactive particle beams are used to conduct routine sweeps, killing or at least sterilizing any wildlife that enters the IQZ. Additionally, both Azea and Ursa are known to exile groups of undesirable wayfarers to the IQZ, often outfitting them with anti-tamper vaporization devices, retired military hardware, and orders to kill everything on sight. Officially, these roving gangs of heavily armed and cybernetically augmented wayfarers are dubbed "liquidators", though most know them simply as "marauders". The exoskeletal armor issued to liquidators provides a near-complete protection from environmental hazards, including the radioactive dust storms and sterilization sweeps local to the IQZ. Liquidator armor is heavily integrated into the body, and cannot be removed without destroying the nervous system of the individual wearing it.
+        
+        While the border shields on either side of the IQZ are very effective at blocking both large-scale incursions and air exchange, small groups, vehicles, or individuals are sometimes able to cross unimpeded and must contend with the national security apparatus beyond the border. However, crossing the IQZ on foot is nearly impossible, even for most wayfarers. Without high-grade environmental armor, a human body can be rendered to radioactive dust within 8 hours. Most successful crossings are undergone with the aid of an all-terrain vehicle with armor capable of withstanding sterilization sweeps, dust storms, and marauder attacks while also successfully evading detection by border security on both sides of the IQZ. Crossing is difficult and dangerous, and is generally only done by outlaws, spies, smugglers, and traitors.
+        
+        A later revision of the treaty also allows for the deployment of unarmed surveillance drones in the IQZ, which are used to detect incursions and distribute kill orders to all nearby marauders. This has created a kind of competitive surveillance war, as both nations frequently send isolated operatives to cross the IQZ to infiltrate enemy territory in the hopes of gaining actionable intelligence. Neither nation is inclined to issue a bounty on a group they have operatives planted in until it is at risk of imminent detection by the enemy, though sometimes a nation is forced to issue a kill order on a transport with a loyal operative in order to preserve their cover in death. However, both nations also bend the rules of the treaty, covertly deploying counter-surveillance drones in the IQZ to protect their assets in the field and undermine the intelligence-gathering capabilities of their rival. The treaty also bans the retrieval of salvage from the IQZ, but this is sometimes performed illegally by covert swarms of salvage drones or commissioned marauder squads.
+
+        A lone centipedal passenger train gallops perastaltically, gliding across the slip face of one of the IQZ's many barren dunes. The fine blackened dust around it sizzles and hisses from the last gamma bombardment as the train cuts through the metallic fog of aerosolized strontium-90. On this train, 2 undercover Azean SBI agents were tasked with finding and capturing an infranationalist data courier smuggling highly-classified state secrets into enemy territory. Running out of time,
+
+
+        History:
+        58 years ago, a long series of grueling territorial conflicts known as the Overlap wars drew to a close with the armistice agreement of 938 SC. The two remaining superpowers -- the Federated States of Azea and the Ursine Sovereign Territories --
+
+
 
     FACTIONS:
-        Federated States of Aezea -- "FSA", "Aezea",  (macronational affiliation)
-            An expansionist federalized democratic monarchy centered around a verdant peninsula roughly the size of western Europe, Aezea is a massive cultural and economic superpower comprised of a large number of semiautonomous states. Central to Aezean society is symbiotic fungus known in common speech as Ithrasa, and scientifically as reticogitans aurumacula. Almost all living things within the territory of Aezea host an Ithrasa colony, unobtrusively dispersed throughout the body of the host organism. Ithrasa colonies are tied together through the Ether, and serve as a psychic relay to a distributed network of centralized colonies tended by quasireligious civil servants. 
+        Superpowers:
+            The political landscape has come to be dominated by two nations, each commanding a bloc of client states and protectorates. The Northern Bloc, headed by Azea, occupies the Azean Peninsula and the surrounding islands and subcontinents, exerting control over the vast majority of ocean territory. The Southern Bloc, headed by Ursa, occupies the Southern Mainland 
 
-        United Republic of Sovereign Ascendents -- "URSA" (macronational affiliation)
-            A fluid alliance of libertarian-authoritarian technocratic nations, the URSA is near the end of a transition from republic to 
+            Federated States of Azea -- "FSA", "Azea",  (macronational affiliation)
+                An expansionist federalized democratic monarchy centered around a verdant peninsula roughly the size of western Europe, Azea is a massive cultural and economic superpower comprised of a large number of semiautonomous states. Central to Azean society is symbiotic fungus known in common speech as Ithrasa, and scientifically as reticogitans aurumacula. Almost all living things within the territory of Azea host an Ithrasa colony, unobtrusively dispersed throughout the body of the host organism. Ithrasa colonies are tied together through the Ether, and serve as a psychic relay to a distributed neural network linked to a number of central colonies tended by quasireligious civil servants in the Azean interior.
 
-        Micronationals/Outlanders
+                While Azea is officially a monarchy, power is delegated to a democratically elected 
 
+                Capital:
+                    Traja
+                States:
+                    Gaia (Gaian)
+                    Banth (Banthic)
+                    Yndu (Ynduan)
+                    Vonesia (Vonesian)
+                    Randeen (Randese)
+                    Polance (Polic)
+                    Uttain (Uttish)
+                    Candalay (Candalayan)
+
+                Territories (Azean Outlands):
+                    Atwa (Atwan)
+                    Bahartha (Baharthan)
+                    Gant (Gantish)
+                    Ulbanica (Ulbanican)
+                    Ogland (Oggish)
+                    Tullain (Tullanian)
+
+
+
+
+            Ursa -- "Ursine Sovereign Territories", "UST" (macronational affiliation)
+                Previously known as the "U.R.S.A." (United Republic of Sovereign Ascendents), now officially simplified to phonetic pronounciation of the word "Ursa". A fluid alliance of libertarian-authoritarian technocratic nations locked in a constant thumbwrestle for political primacy, the URSA is near the end of a transition from republic to a late-capitalist oligarchy. As economic power became increasingly centralized, a sort of de-facto caste system became institutionalized. A small number of the most powerful individuals, known as Sovereigns, 
+                
+                The members and ideological composition of the ruling body, the Sovereign Council, is continually responding and adapting to the ebb and flow of power between affiliate nations.
+
+                Member states:
+                    Many Knives (Knifish)
+                    Zero-Two (Zeroer)
+                    Glassland (Glassish)
+            
+
+
+        Micronations:
+            An assorted mix of smaller societies, the sovereignty of micronations is generally not recognized by either Ursa or Azea. Most micronations claim a small territory around a handful of allied cities, though the influence they can exert to maintain their borders is sometimes minimal. Few micronations possess a trained standing army, and are often defended by loosely-organized militias, military contractors, or simply their own obscurity. 
+        Outlanders
         Stateless
         Antinationalists
         Infranationalists
-        Marauders
+        Marauders/Sterilizers/Liquidators
 
     NPCs:
-        Named Protagonist (narrator) -- undercover Aezean agent posing as a waiter, embedded for 8 years, possesses implanted cranial device for memory encryption
+        Named Protagonist (narrator) -- undercover Azean agent posing as a waiter, embedded for 8 years, possesses implanted cranial device for memory encryption
         Gerard Redfield* -- URSA expatriot, wealthy antinationalist war profiteer, longtime wayfarer, and power-hungry ghoulish cynic
             Allies: Alesius
             Enemies: Tana
-        Felise Staneca -- stateless sprawl disaster refugee, citizenship application rejected by Aezea, employed by Gerard harboring spies and fugitives until recently
+        Felise Staneca -- stateless sprawl disaster refugee, citizenship application rejected by Azea, employed by Gerard harboring spies and fugitives until recently
             Allies: Named Protagonist, Alphonse, Caprice
             Enemies: Gerard
         Tana "Shortcut" Roberts -- Infranationalist data mule, Outland micronational, passionate revolutionary, persistent survivalist
@@ -41,16 +99,17 @@ OVERARCHING PLOT PLANS:
         Alesius Mora -- Becloaked paranoid esotiricist, supernaturalist on retainer to Gerard, currently holed up in the kitchen binge drinking after your botched wayfaring ritual
             Allies: Gerard, Olya(?)
             Enemies: Alphonse
-        Alphonse Quenta -- musclegrafted train conductor, aging ex-champion boxer in the Aezean Outlands, hardcore stateless antinationalist, train enthusiast, infranationalist ally
+        Alphonse Quenta -- musclegrafted train conductor, aging ex-champion boxer in the Azean Outlands, hardcore stateless antinationalist, train enthusiast, infranationalist ally
             Allies: Everyone but Alesius
             Enemies: Alesius
-        Kieran Verdano -- undercover bioenhanced Aezean spy posing as the train's onboard cook, Named Protagonist's parter, coldhearted motherfucker
+        Kieran Verdano -- undercover bioenhanced Azean spy posing as the train's onboard cook, Named Protagonist's parter, coldhearted motherfucker
             Allies: Named Protagonist
             Enemies: Player
         Caprice -- Subversive underground electronic artist, Antinationalist propagandist, Uncountable warrants for accessory to murder, sickest beats in the IQZ, stateless sprawlee
             Allies: Tana, Felise, Alphonse
             Enemies: Kieran, Gerard
-        Reticogitans Aurumacula (AKA R. Aurumacula, Aurum, Ithrasa)-- Psychic symbiotic fungus infecting both Named Protagonist and Kieran Verdano, sacrement of the Aezean Ecclesiarchy
+        Jito Aktapakack-Vonilio -- Avish escort and bioecological consultant,  
+        Reticogitans Aurumacula (AKA R. Aurumacula, Aurum, Ithrasa)-- Psychic symbiotic fungus infecting both Named Protagonist and Kieran Verdano, sacrement of the Azean Ecclesiarchy
 
 
 
@@ -93,21 +152,19 @@ Dialogue actions:
     Question
         probe (ask basic questions to gain curiosity)
         press (spend curiosity to gain info based on trust level. Pressing questions will be unlocked by gathering related clues)
+    Read (obtain information by observing the dialogue partner without interacting)
     Chat (short, semi-randomized dialogue with unknown emotional consequences)
     Extort (spend anger and a clue to gain crucial intel)
 
 
-    The player is solely driven to uncover information and solve mysteries, and dialogue with other characters is only a means to this end.
-    Dialogue may 
-    The player is disinterested in violence,
-
-
 DIALOGUE STRUCTURE:
-    There are 2 stats associated with every NPC -- trust and status.
+    There are 3 stats associated with every NPC -- trust, status, and intel.
     Trust:
-        Trust is a 0 to 10 measure of how much an NPC trusts you to act in a manner beneficial to them and their goals.
+        Trust is a 0 to 10 measure of how much an NPC trusts you to act in a manner beneficial to them and their goals. 
     Status:
-        Status is a -5 to +5 measure of how power is distributed in your relationship with an NPC. A score of +5 indicates that you hold all the cards in a relationship and can exert undue influence over an NPC. Conversely, a score of -5 indicates that the opposite is true, and it is the NPC that hold the power. A score of 0 shows that a relationship is mutually beneficial and power is evenly distributed.
+        Status is a -5 to +5 measure of how power is distributed in your relationship with an NPC. A score of +5 indicates that you hold all the cards in a relationship and can exert undue influence over an NPC. Conversely, a score of -5 indicates that the opposite is true, and it is the NPC that holds the power. A score of 0 shows that a relationship is mutually beneficial and power is evenly distributed.
+    Intel:
+        Intel is derived 
         
 
 FIRST DIALOGUE: Gerard Redfield
