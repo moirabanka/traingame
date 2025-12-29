@@ -22,22 +22,70 @@ OVERARCHING PLOT PLANS:
         
         A later revision of the treaty also allows for the deployment of unarmed surveillance drones in the IQZ, which are used to detect incursions and distribute kill orders to all nearby marauders. This has created a kind of competitive surveillance war, as both nations frequently send isolated operatives to cross the IQZ to infiltrate enemy territory in the hopes of gaining actionable intelligence. Neither nation is inclined to issue a bounty on a group they have operatives planted in until it is at risk of imminent detection by the enemy, though sometimes a nation is forced to issue a kill order on a transport with a loyal operative in order to preserve their cover in death. However, both nations also bend the rules of the treaty, covertly deploying counter-surveillance drones in the IQZ to protect their assets in the field and undermine the intelligence-gathering capabilities of their rival. The treaty also bans the retrieval of salvage from the IQZ, but this is sometimes performed illegally by covert swarms of salvage drones or commissioned marauder squads.
 
-        A lone centipedal passenger train gallops perastaltically, gliding across the slip face of one of the IQZ's many barren dunes. The fine blackened dust around it sizzles and hisses from the last gamma bombardment as the train cuts through the metallic fog of aerosolized strontium-90. On this train, 2 undercover Azean SBI agents were tasked with finding and capturing an infranationalist data courier smuggling highly-classified state secrets into enemy territory. Running out of time,
+        A lone centipedal passenger train gallops perastaltically, gliding across the slip face of one of the IQZ's many barren dunes. The fine blackened dust around it sizzles and hisses from the last gamma bombardment as the train cuts through the metallic silver fog of aerosolized strontium-90. On this train, 2 undercover Azean SBI agents were tasked with finding and capturing an infranationalist data courier smuggling highly-classified state secrets into enemy territory.
 
 
         History:
-        58 years ago, a long series of grueling territorial conflicts known as the Overlap wars drew to a close with the armistice agreement of 938 SC. The two remaining superpowers -- the Federated States of Azea and the Ursine Sovereign Territories --
+        The current year is 694 PR (Post Reformation). 
+        58 years ago, a long series of grueling territorial conflicts known as the Overlap wars drew to a close with the armistice agreement of 668 PR. The two remaining superpowers -- the Federated States of Azea and the Ursine Sovereign Territories --
 
 
 
     FACTIONS:
         Superpowers:
-            The political landscape has come to be dominated by two nations, each commanding a bloc of client states and protectorates. The Northern Bloc, headed by Azea, occupies the Azean Peninsula and the surrounding islands and subcontinents, exerting control over the vast majority of ocean territory. The Southern Bloc, headed by Ursa, occupies the Southern Mainland 
+            The political landscape has come to be dominated by two nations, each commanding a bloc of client states and protectorates. The Northern Bloc, headed by Azea, occupies the Azean Peninsula and the surrounding islands and subcontinents, exerting control over the vast majority of ocean territory. The Southern Bloc, headed by Ursa, occupies the southern mainland, Urgonia.
 
             Federated States of Azea -- "FSA", "Azea",  (macronational affiliation)
-                An expansionist federalized democratic monarchy centered around a verdant peninsula roughly the size of western Europe, Azea is a massive cultural and economic superpower comprised of a large number of semiautonomous states. Central to Azean society is symbiotic fungus known in common speech as Ithrasa, and scientifically as reticogitans aurumacula. Almost all living things within the territory of Azea host an Ithrasa colony, unobtrusively dispersed throughout the body of the host organism. Ithrasa colonies are tied together through the Ether, and serve as a psychic relay to a distributed neural network linked to a number of central colonies tended by quasireligious civil servants in the Azean interior.
+                An expansionist federalized democratic monarchy centered around a verdant peninsula roughly the size of western Europe, Azea is a massive cultural and economic superpower comprised of a large number of semiautonomous states.
+                
+                Ithrasa:
+                    Central to Azean society is a genus of designer symbiotic fungi known in common speech as Ithrasa, and scientifically as "Aurumaculum Reticogitans" (A. Reticogitans). Almost all living things within the territory of Azea host an Ithrasa colony, unobtrusively dispersed throughout the body of the host organism. All Ithrasa colonies are networked together through the Ether, allowing the host to transfer information across the Ithrasa network on both conscious and unconsious levels.
+                    
+                    While inoculation by previous, more virulent strains developed along a faster schedule, modern strains of Ithrasa mycosis develop slowly, proceeding through a number of discreet stages. 
+                    
+                        Inoculation:
+                            Vegetative A. Reticogitans spores are introduced to the body. In the modern day, this is typically done though the insertion of mitospores into the dermis using a needle, though in traditional inoculation ceremonies loose mitospores are packed into an open wound in a process similar to some scarification tattooing methods practiced in post-collapse Gaia, circa 700 years ago. No less than 12 milligrams of spores must enter the body and successfully embed themselves in the dermis 
 
-                While Azea is officially a monarchy, power is delegated to a democratically elected 
+                            Inoculation may also be performed using a mycelial fragment instead of vegetative spores in a similar procedure to an allogeneic skin graft, where epidermal and dermal layers containing an A. Reticogitans mycelial fragment from a same-species donor in the superficial stage of aurumaculosis is transplanted to the recipient. This is a much riskier procedure than inoculation using mitospores, both due to the invasiveness of a full-thickness skin graft and the potential for the recipient to reject the graft. As a result, fragmentary inoculation is only authorized when deemed medically necessary or when the need for a rapid inoculation outwieghs the potential risks.
+
+                            Previous fast-spreader strains of A. Reticogitans were capable of inoculating individuals through the respiration of minute amounts of airborne mitospores. While modern strains can still colonize host organisms through the respiratory tract, they require a far greater saturation of spores to successfully take hold.
+                            
+                            As a provision of the Respect for Biological Autonomy Act (RBAA) of 579 PR, any individual -- regardless of citizenship status -- may request a sample of up to 1 gram of mitospores from the current strain approved for inoculations by the Azean Bureau for Responsible Self-Augmentation (BRSA). This sample may be used at the individual's discretion for any purpose not explicitly banned under the Communicable Organisms Usage Code (COUC), but typically it is provided so that a prospective host may verify the sample's genome using an independent bioconsulting firm, and ensure that it matches the current BRSA-approved strain. The inoculation may then be carried out using a portion of the remaining verified sample.
+
+                        Incubation:
+                            An intermediate stage lasting hours to weeks, depending on the route of administration and degree of exposure to A. Reticogitans mitospores.
+                            
+                            In modern medicalized inoculation procedures standardized by the Azean Medical Society (AMS), an incubation period of 24 hours is targeted. However, with the traditional wound-packing method, incubation times may vary significantly depending on depth of cut, size of the surface area exposed to spores, and coagulation rate. Using this method, the incubation period may range from roughly 12 hours to 3 days.
+                            
+                            In that time, hyphae begin to grow through the inoculated dermis, creating a localized subdermal network of mycelium. During this process, the host will show signs of fatigue both as a result of their body supporting the colony's metabolism and the body's immune response to aurumaculosis. As incubation advances, a light, golden discoloration can be seen around the inoculation site.
+
+                            In cases of inoculation via a mycelial fragment, incubation times decrease rapidly, often lasting only a few hours. This is very hard on the immune system of the graft recipient and the tissues surrounding the graft, as the implanted colony requires a significant amount of energy to rapidly adjust to its new environment. This necessitates a nutrient-delivery system to support the colony's integration with the surrounding tissue, immunosuppressants to curb rejection by the host, and chemical treatments to stimulate the colony's growth into the nearby tissues. Once hyphae begin colonizing host tissues, immunosuppressant administration should no longer be necessary.
+
+                        Superficial:
+                            The first stage of a healthy, stable colony. A superficial Ithrasa colony is able to fulfill all of its most basic functions. However, at this stage the colony is still localized to a particular spot on the host's body and is isolated to the dermal layer, and not yet integrated into the body's bloodstream or nervous system.
+
+                            The colony's size depends on the initial inoculation dosage of A. Reticogitans mitospore, but a modern medicalized inoculation should result in a colony with a roughly circular shape and an verage radius of about 3 centimeters. Designer inoculations are also administered by medically accredited professionals able to print a colony in any shape or design of the host's choosing. A covert colony is also available at most public inoculation clinics, and appears only as a small, golden mole placed in a location of the owner's choosing.
+
+                            At this stage, the A. Reticogitans colony serves a number of valuable functions. Primarily, it is able to enhance the body's immune system to the point that a host is highly resilient to most conventional forms of disease, including viral, fungal, or bacterial infections. This is performed through the administration of locally manufactured designer vaccines downloaded via the psycelial network. Additionally, a superficial colony is also capable of manufacturing a variety of chemically simple drugs, administered directly to the host's muscle tissue. This can be used to increase the host's resilience to pain, prevent fatigue during high-risk situations, counteract allergic reactions, and treat other minor medical conditions.
+                            
+                            As part of the Azean government's ongoing Ecological Integrity Monitoring Program (EIMP), basic biotelemetry data is gathered from the host and relayed to the psycelial network. While data collected from sentient beings as part of the EIMP is fully anonymized by the Azean government under the Biological and Health Data Anonymization Act (BHDAA) before storage in highly secure data centers. While the colony is not capable of measuring the host's precise location, a rough estimate can be gleaned from the colony's exposure to organic and inorganic airborne debris.
+
+                            Without further ingestion of A. Reticogitans mitospores, a superficial colony of the modern strain will not grow, spread, or otherwise become any more integrated with the body's systems. However, atmospheric spore density in the Azean Interior is frequently high enough that unprotected exposure could be pushed past the growth threshhold within 1.2 to 28 hours, depending on the season and current weather. Oral administration of spores to stimulate colony growth should be no less than 1 gram of mitospore powder per 15 kilograms of body weight.
+
+                        Subcutaneous:
+
+                        Systemic:
+
+
+                    After an initial inoculation of Ithrasa spores, incubation times vary between an hour to a week, depending on the degree of exposure and route of administration to the body -- the fastest route being injection. During incubation, a small patch of mycelium is developed around the inoculation site, appearing as a golden discoloration of the skin. In the subdermal stage, the colony has not yet become integrated into the body's systems, and is still easily reversible through physical disruption of the mycelium and cessation of further exposure to airborne Ithrasa spores. At this stage, a subdermal Ithrasa colony serves two primary functions: to relay simple biotelemetry to the psycelial network, and to manufacture designer antibodies that protect against a wide variety of toxins and diseases. If exposure to Ithrasa spores continues, especially via the repiratory system, other colonies will begin to form within the host's body and become linked to the primary colony 
+                
+                This network is centralized around a number of central colonies tended by quasireligious civil servants in the Azean interior, each linked to a vast array of highly-secured biocomputing data centers. Here, highly-detailed biometric information gathered from every networked organism is organized and stored in a central database, forming a monitoring system capable of assessing the health of 
+
+                While Azea is officially a monarchy, power is devolved to a democratically elected parliamentary system. The monarchy is mostly symbolic, as the immortalized form of Jin -- founding mother and eternal queen of the FSA -- is no longer capable of any direct influence on the governance of the Azean people. Her still-living body is the original source for all living Ithrasa colonies, growing from her now-obscured form beneath many layers of gold-yellow filament.
+                
+                264 years ago, in Traja -- now the capital city of the FSA (then part of Gaia, an isolationist micronation) -- Jin collapsed on what is now known as the Golden Stair. Ithrasa filaments spilled forth from her body and attached themselves to all nearby living things, rapidly integrating and symbiotizing with the biological systems they found. Protected by her fanatical inner circle, the colonies growing from Jin's body quickly grew fruiting bodies and scattered their spores to the wind. This initial strain of Ithrasa was engineered for maximum virality, and proliferated through the local ecology long before any official response could be organized by the existing governmental apparatus. Soon, the infection spread beyond Gaia's borders, colonizing the neighboring ecologies of Banth, Yndu, and Vonesia.
+                
+                At the time, there were two perspectives on this event, with some seeing it as bioterrorism and others as a miracle that could unite the disparate nations of Azea. To many, Jin became a messianic figure. 
 
                 Capital:
                     Traja
@@ -68,10 +116,15 @@ OVERARCHING PLOT PLANS:
                 The members and ideological composition of the ruling body, the Sovereign Council, is continually responding and adapting to the ebb and flow of power between affiliate nations.
 
                 Member states:
-                    Many Knives (Knifish)
-                    Zero-Two (Zeroer)
+                    The Cuts (Cuttish)
+                    Zero-One (Zeroer)
                     Glassland (Glassish)
-            
+                    Varaldine (Veraldic)
+                    The Greyweld (Greywelder)
+                    Athgrade (Athgradian)
+                    
+
+
 
 
         Micronations:
@@ -109,7 +162,7 @@ OVERARCHING PLOT PLANS:
             Allies: Tana, Felise, Alphonse
             Enemies: Kieran, Gerard
         Jito Aktapakack-Vonilio -- Avish escort and bioecological consultant,  
-        Reticogitans Aurumacula (AKA R. Aurumacula, Aurum, Ithrasa)-- Psychic symbiotic fungus infecting both Named Protagonist and Kieran Verdano, sacrement of the Azean Ecclesiarchy
+        Aurumaculum Reticogitans (AKA A. Reticogitans, Aurum, Ithrasa)-- Psychic symbiotic fungus infecting both Named Protagonist and Kieran Verdano, sacrement of the Azean Ecclesiarchy
 
 
 
