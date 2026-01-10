@@ -47,10 +47,12 @@ OVERARCHING PLOT PLANS:
                             Vegetative A. Reticogitans spores are introduced to the body. In the modern day, this is typically done though the insertion of mitospores into the dermis using a needle, though in traditional inoculation ceremonies loose mitospores are packed into an open wound in a process similar to some scarification tattooing methods practiced in post-collapse Gaia, circa 700 years ago. No less than 12 milligrams of spores must enter the body and successfully embed themselves in the dermis 
 
                             Inoculation may also be performed using a mycelial fragment instead of vegetative spores in a similar procedure to an allogeneic skin graft, where epidermal and dermal layers containing an A. Reticogitans mycelial fragment from a same-species donor in the superficial stage of aurumaculosis is transplanted to the recipient. This is a much riskier procedure than inoculation using mitospores, both due to the invasiveness of a full-thickness skin graft and the potential for the recipient to reject the graft. As a result, fragmentary inoculation is only authorized when deemed medically necessary or when the need for a rapid inoculation outwieghs the potential risks.
+                            
+                            As a provision of the Respect for Biological Autonomy Act (RBAA) of 579 PR, any individual -- regardless of citizenship status -- may request a sample of up to 1 gram of mitospores from the current strain approved for inoculations by the Azean Bureau for Responsible Self-Augmentation (BRSA). This sample may be used at the individual's discretion for any purpose not explicitly banned under the Communicable Organisms Usage Code (COUC), but typically it is provided so that a prospective host may verify the sample's genome using an independent bioconsulting firm, and ensure that it matches the current BRSA-approved strain. The inoculation may then be carried out using a portion of the remaining verified sample.
 
                             Previous fast-spreader strains of A. Reticogitans were capable of inoculating individuals through the respiration of minute amounts of airborne mitospores. While modern strains can still colonize host organisms through the respiratory tract, they require a far greater saturation of spores to successfully take hold.
                             
-                            As a provision of the Respect for Biological Autonomy Act (RBAA) of 579 PR, any individual -- regardless of citizenship status -- may request a sample of up to 1 gram of mitospores from the current strain approved for inoculations by the Azean Bureau for Responsible Self-Augmentation (BRSA). This sample may be used at the individual's discretion for any purpose not explicitly banned under the Communicable Organisms Usage Code (COUC), but typically it is provided so that a prospective host may verify the sample's genome using an independent bioconsulting firm, and ensure that it matches the current BRSA-approved strain. The inoculation may then be carried out using a portion of the remaining verified sample.
+                            Neither ingestion or inhalation is medically recommended as a method of inoculation, as a large enough dose will result in aurumaculosis slowly developing directly to the mature systematic stage. While this method is still used in some religious ceremonies, it is highly regulated under the RBAA because of the intense strain the host undergoes, which can in some rare cases be fatal. As such, the RBAA provisions require informed consent and a signed letter from a BRSA-approved physician. Additionally, travellers entering the Azean Interior must be stopped at the border checkpoints 
 
                         Incubation:
                             An intermediate stage lasting hours to weeks, depending on the route of administration and degree of exposure to A. Reticogitans mitospores.
@@ -72,13 +74,14 @@ OVERARCHING PLOT PLANS:
                             
                             A full enumeration of the biodata collected from hosts at each stage of aurumalulosis may be requested online or at any licensed inoculation provider. Data collected from sentient beings as part of the EIMP is fully anonymized by the Azean government under the Biological and Health Data Anonymization Act (BHDAA); however, that provision does not prevent law-enforcement agencies from requisitioning the EIMP database under a court-order to find a match for biodata collected from an identified suspect.
 
-                            Without further ingestion of A. Reticogitans mitospores, a superficial colony of the current BRSA-approved strain will not grow, spread, or otherwise become any more integrated with the body's systems. However, atmospheric spore density in the Azean Interior is frequently high enough that unprotected exposure could be pushed past the growth threshhold within 1.2 to 28 hours, depending on the season and current weather. Oral administration of spores to stimulate colony growth should be no less than 1 gram of mitospore powder per 15 kilograms of body weight.
+                            Without further ingestion of A. Reticogitans mitospores, a superficial colony of the current BRSA-approved strain will not grow, spread, or otherwise become any more integrated with the body's systems. However, atmospheric spore density in the Azean Interior is frequently high enough that unprotected exposure could be pushed past the growth threshhold within 1.2 to 28 hours, depending on the season and current weather. However, neither inhalation or ingestion of mitospores is recommended at this stage as a means of 
 
                             If an individual is reconsidering their choice to be a host to an A. Reticogitans colony, it is advised that they remove the colony here in the superficial stage. As the colony is isolated to the dermal layer, it can be physically removed with a process only slightly more invasive than most modern methods of tattoo removal. An alternative, pain-free method is also available at all public inoculation clinics in the form of a topical salve that signals the colony to regress and disappear over the course of a few days. At later stages of growth, it becomes more challenging or even impossible to remove the colony without killing the host. 
 
                         Subcutaneous:
                             At the subcutaneous stage, the A. Reticogitans colony has spread through the entirety of the host's integumentary system, creating a dense network of mature hyphae beneath the skin. While the subcutaneous colony is not fully integrated with the host's circulatory system, mycelial structures form around the body's blood vessels and allow the colony access to the host's bloodstream.
 
+                            After the host ingests a sufficient quantity of spores to exceed the growth threshhold, 
 
 
                         Systemic:
@@ -119,26 +122,41 @@ OVERARCHING PLOT PLANS:
 
 
 
-            Ursa -- "Ursine Sovereign Territories", "UST" (macronational affiliation)
+            Ursa -- "Urgonian Sovereign Territories", "UST" (macronational affiliation)
                 Previously known as the "U.R.S.A." (United Republic of Sovereign Ascendents), now officially simplified to phonetic pronounciation of the word "Ursa". A fluid alliance of libertarian-authoritarian technocratic nations locked in a constant thumbwrestle for political primacy, the URSA is near the end of a transition from republic to a late-capitalist oligarchy. As economic power became increasingly centralized, a sort of de-facto caste system became institutionalized. A small number of the most powerful individuals, known as Sovereigns, 
                 
                 The members and ideological composition of the ruling body, the Sovereign Council, is continually responding and adapting to the ebb and flow of power between affiliate nations.
 
+                The main governing force behind the URSA is the Master Biocomputer, a runaway strategic computer ostensibly holding all of URSA society hostage under a credible threat of mutually assured destruction. In practice, however, society has adjusted to its governance and even found a mutually beneficial partnership with it.  As long as member states make regular tribute of military assets and refrain from transgressing upon its directives and strategic goals, they are afforded with almost-complete autonomy within their own borders. Member states may also petition the Master Biocomputer and engage in sanctioned negotiations with each other 
+
                 Member states:
                     The Cuts (Cuttish)
+                        A blasted wasteland
                     Zero-One (Zeroer)
+                        A would-be colonialist slave state
                     Glassland (Glassish)
                         An isolationist society under strict quarantine from the outside world. Inworlders only experience the world outside Glassland by controlling disposable bioprinted clones known as outworlders. Located in the desertified ___ mountains, where much of the silicate matter was fused into glass during the Forn incursion. An expertly bioengineered ecosystem thrives here, within a megastructure that encases most of the mountain range. One of the few megastructures of post-reformation origin, 
                     Varaldine (Veraldic)
+                        information economy, rich people, celebrities
                     The Greyweld (Greywelder)
+                        bioindustrial swampland. Very foggy. Manufacturing and agricultural center.
                     Athgrade (Athgradian)
+                    Sangajha (Sangish)
+
+
+
+
+
                     
 
 
 
 
         Micronations:
-            An assorted mix of smaller societies, the sovereignty of micronations is generally not recognized by either Ursa or Azea. Most micronations claim a small territory around a handful of allied cities, though the influence they can exert to maintain their borders is sometimes minimal. Few micronations possess a trained standing army, and are often defended by loosely-organized militias, military contractors, or simply their own obscurity. 
+            An assorted mix of smaller societies, the sovereignty of micronations is generally not recognized by either Ursa or Azea. Most micronations claim a small territory around a handful of allied cities, though the influence they can exert to maintain their borders is sometimes minimal. Few micronations possess a trained standing army, and are often defended by loosely-organized militias, military contractors, or simply their own obscurity.
+
+            Lehoia (Lehoian)
+
         Outlanders
         Stateless
         Antinationalists
